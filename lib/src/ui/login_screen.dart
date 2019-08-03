@@ -1,130 +1,78 @@
 import 'package:flutter/material.dart';
-import 'package:validate/validate.dart';
+import 'package:lets_walk/src/models/user.dart';
+import 'package:lets_walk/src/services/firebase_auth_service.dart';
+import 'package:provider/provider.dart';
 
-class LoginScreen extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() => _LoginScreenState();
-}
+class LoginScreen extends StatelessWidget {
 
-class _LoginData {
-  String email = '';
-  String password = '';
-}
+  FirebaseAuthService firebaseAuthService = FirebaseAuthService();
 
-class _LoginScreenState extends State<LoginScreen> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  _LoginData _data = _LoginData();
-  // Initially password is obscure
-  bool _obscureText = true;
-
-  // Toggles the password show status
-  void _toggle() {
-    setState(() {
-      _obscureText = !_obscureText;
-    });
-  }
-
-  String _validateEmail(String value) {
-    try {
-      Validate.isEmail(value);
-    } catch (e) {
-      return 'The E-mail Address must be a valid email address.';
-    }
-
-    return null;
-  }
-
-  String _validatePassword(String value) {
-    if (value.length < 8) {
-      return 'The Password must be at least 8 characters.';
-    }
-
-    return null;
-  }
-
-  void submit() {
-    // First validate form.
-    if (this._formKey.currentState.validate()) {
-      _formKey.currentState.save(); // Save our form now.
-
-      print('Printing the login data.');
-      print('Email: ${_data.email}');
-      print('Password: ${_data.password}');
-    }
-  }
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    final Size screenSize = MediaQuery.of(context).size;
+
+    final userInfo = Provider.of<User>(context);
+
     return Scaffold(
-      backgroundColor: Colors.blue[200],
       body: Center(
-        child: Container(
-          child: Form(
-            key: this._formKey,
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: EdgeInsets.all(20.0),
-                child: Column(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Text(
-                        "Log in to your account",
-                        style: TextStyle(fontSize: 20),
-                      ),
-                    ),
-                    TextFormField(
-                        keyboardType: TextInputType.emailAddress, // Use email input type for emails.
-                        decoration: InputDecoration(
-                          hintText: 'you@example.com',
-                          labelText: 'E-mail Address'),
-                        validator: this._validateEmail,
-                        onSaved: (String value) {
-                          this._data.email = value;
-                        }),
-                    Stack(
-                      alignment: Alignment.center,
-                      children: <Widget>[
-                        TextFormField(
-                          decoration: InputDecoration(
-                            hintText: 'Account password',
-                            labelText: 'Password',
-                          ),
-                          validator: this._validatePassword,
-                          onSaved: (String value) {
-                            this._data.password = value;
-                          },
-                          obscureText: _obscureText,
-                        ),
-                        Container(
-                            alignment: Alignment.bottomRight,
-                            child: IconButton(
-                                icon: _obscureText
-                                    ? Icon(Icons.visibility)
-                                    : Icon(Icons.visibility_off),
-                                onPressed: _toggle)),
-                      ],
-                    ),
-                    Container(
-                      width: screenSize.width,
-                      child: RaisedButton(
-                        child: Text(
-                          'Login',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        onPressed: this.submit,
-                        color: Theme.of(context).primaryColor,
-                      ),
-                      margin: EdgeInsets.only(top: 20.0),
-                    )
-                  ],
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Text(
+                  'Inicia sesión en tu cuenta',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 20),
                 ),
               ),
-            ),
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: TextField(
+                  controller: _emailController,
+                  decoration: InputDecoration(
+                    hintText: 'tú@ejemplo.com',
+                    labelText: 'Correo electrónico'
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: TextField(
+                  controller: _passwordController,
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    hintText: 'Contraseña de la cuenta',
+                    labelText: 'Contraseña',
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(20),
+                child: RaisedButton(
+                  child: Text('Inicia sesión', style: TextStyle(color: Colors.white),),
+                  color: Colors.blue,
+                  onPressed: (){
+                    firebaseAuthService.signInWithEmailAndPassword(_emailController.text, _passwordController.text)
+                      .then((onValue){
+                        debugPrint('onValue: ${onValue.email}');
+                        userInfo.email = onValue.email;
+                        userInfo.uid = onValue.uid;
+                        Navigator.pushNamed(context, '/MainScreen');
+                      })
+                      .catchError((onError){
+                        debugPrint('Error: $onError');
+                      });
+                  },
+                ),
+              )
+            ],
           ),
         ),
-      )
+      ),
     );
   }
 }
