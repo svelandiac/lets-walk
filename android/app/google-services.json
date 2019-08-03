@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "401777918850",
+    "firebase_url": "https://lets-walk-svelandiac.firebaseio.com",
+    "project_id": "lets-walk-svelandiac",
+    "storage_bucket": "lets-walk-svelandiac.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:401777918850:android:2ea2f544da941313",
+        "android_client_info": {
+          "package_name": "com.svelandiac.lets_walk"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "401777918850-hhdrt8uq7om7fm5velv4r64etick09s0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB45B-k0T52_XsuUXkf0tBA20X2MDfO4WU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "401777918850-hhdrt8uq7om7fm5velv4r64etick09s0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
