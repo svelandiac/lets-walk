@@ -1,6 +1,4 @@
-import 'package:flutter/widgets.dart';
-
-class User with ChangeNotifier {
+class User {
 
   String _uid;
   String _email;
@@ -16,11 +14,9 @@ class User with ChangeNotifier {
 
   set uid(String value){
     this._uid = value;
-    notifyListeners();
   }  
 
   set email(String value){
     this._email = value;
-    notifyListeners();
   }
 }
