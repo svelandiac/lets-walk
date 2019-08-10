@@ -10,7 +10,7 @@ class LoginScreen extends StatelessWidget {
   Widget _loadingPrompt(bool value){
     if(value)
       return Center(
-        child: CircularProgressIndicator(),
+        child: CircularProgressIndicator(backgroundColor: Colors.black,),
       );
     else
       return Container();
@@ -22,6 +22,7 @@ class LoginScreen extends StatelessWidget {
     final firebaseInfo = Provider.of<FirebaseAuthService>(context);
 
     return Scaffold(
+      backgroundColor: Colors.grey[500],
       body: Center(
         child: Stack(
           alignment: Alignment.center,
@@ -64,7 +65,7 @@ class LoginScreen extends StatelessWidget {
                     padding: const EdgeInsets.all(20),
                     child: RaisedButton(
                       child: Text('Inicia sesión', style: TextStyle(color: Colors.white),),
-                      color: Colors.blue,
+                      color: Theme.of(context).primaryColor,
                       onPressed: (){
                         firebaseInfo.loading = true;
                         firebaseInfo.signInWithEmailAndPassword(_emailController.text, _passwordController.text)

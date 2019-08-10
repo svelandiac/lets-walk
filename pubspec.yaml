@@ -26,6 +26,13 @@ dependencies:
   firebase_auth: ^0.14.0
   validate: ^1.7.0
   provider: ^3.0.0+1
+  google_maps_flutter: ^0.5.20+2
+  geoflutterfire: ^2.0.3+5
+  rxdart: ^0.22.1+1
+  location: ^2.3.5
+  firebase_core: ^0.4.0+8
+  cloud_firestore: ^0.12.9
+
 
 dev_dependencies:
   flutter_test:
