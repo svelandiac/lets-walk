@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:lets_walk/src/services/saved_markers_service.dart';
 import 'package:location/location.dart';
+import 'package:provider/provider.dart';
 
 class NewEstateScreen extends StatelessWidget{
  
@@ -25,31 +27,37 @@ class FireMap extends StatefulWidget {
 
 class FireMapState extends State<FireMap> {
 
+  SavedMarkersService markersService;
   GoogleMapController mapController;
   Location location = Location();
 
   build(context) {
-    _animateToUser();
+
+    markersService = Provider.of<SavedMarkersService>(context);
+
     return Stack(
       children: [
         GoogleMap(
           initialCameraPosition: CameraPosition(target: LatLng(4.703970, -74.042797), zoom: 7),
           onMapCreated: _onMapCreated,
           myLocationEnabled: true, // Add little blue dot for device location, requires permission from user
-          myLocationButtonEnabled: false,
+          myLocationButtonEnabled: true,
           mapType: MapType.normal, 
           rotateGesturesEnabled: true,
           scrollGesturesEnabled: true,
           tiltGesturesEnabled: true,
           zoomGesturesEnabled: true,
+          mapToolbarEnabled: false,          
+          markers: markersService.markers,
         ),
         Positioned(
           bottom: 20,
           right: 20,
           child: FloatingActionButton(
-            child: Icon(Icons.pin_drop),
-            onPressed: (){_animateToUser();},
-            backgroundColor: Colors.black,
+            heroTag: 'addNewMarkerButton',
+            child: Icon(Icons.add_location),
+            onPressed: (){markersService.addGeoPoint('My home');},
+            backgroundColor: Colors.red,
           ),
         ),
       ]
@@ -58,11 +66,13 @@ class FireMapState extends State<FireMap> {
 
   void _onMapCreated(GoogleMapController controller) {
     setState(() {
+      markersService.startQuery();
       mapController = controller;
+      _animateToUser();
     });
   }
 
-  void _animateToUser() async {
+  Future<void> _animateToUser() async {
     var pos = await location.getLocation();
     mapController.animateCamera(CameraUpdate.newCameraPosition(
       CameraPosition(
@@ -71,4 +81,6 @@ class FireMapState extends State<FireMap> {
       )
     ));
   }
+
+
 }

@@ -22,7 +22,7 @@ class LoginScreen extends StatelessWidget {
     final firebaseInfo = Provider.of<FirebaseAuthService>(context);
 
     return Scaffold(
-      backgroundColor: Colors.grey[500],
+      backgroundColor: Colors.white,
       body: Center(
         child: Stack(
           alignment: Alignment.center,
@@ -62,23 +62,23 @@ class LoginScreen extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(20),
+                    padding: const EdgeInsets.all(20),    
                     child: RaisedButton(
                       child: Text('Inicia sesión', style: TextStyle(color: Colors.white),),
                       color: Theme.of(context).primaryColor,
                       onPressed: (){
                         firebaseInfo.loading = true;
                         firebaseInfo.signInWithEmailAndPassword(_emailController.text, _passwordController.text)
-                          .then((onValue){
-                            debugPrint('onValue: ${onValue.email}');
-                            firebaseInfo.stateMessage = 'Inicia sesión en tu cuenta';
-                            firebaseInfo.loading = false;
-                          })
-                          .catchError((onError){
-                            debugPrint('Error: $onError');
-                            firebaseInfo.stateMessage = 'Usuario o contraseña incorrectos\nIntenta de nuevo';
-                            firebaseInfo.loading = false;
-                          });
+                        .then((onValue){
+                          debugPrint('onValue: ${onValue.email}');
+                          firebaseInfo.stateMessage = 'Inicia sesión en tu cuenta';
+                          firebaseInfo.loading = false;
+                        })
+                        .catchError((onError){
+                          debugPrint('Error: $onError');
+                          firebaseInfo.stateMessage = 'Usuario o contraseña incorrectos\nIntenta de nuevo';
+                          firebaseInfo.loading = false;
+                        });
                       },
                     ),
                   )
