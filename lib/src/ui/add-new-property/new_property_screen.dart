@@ -4,7 +4,7 @@ import 'package:lets_walk/src/services/saved_markers_service.dart';
 import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 
-class NewEstateScreen extends StatelessWidget{
+class NewPropertyScreen extends StatelessWidget{
  
   @override
   Widget build(BuildContext context) {
@@ -13,19 +13,19 @@ class NewEstateScreen extends StatelessWidget{
         title: Text('Añadir un nuevo inmueble'),
         centerTitle: true,
       ),
-      body: FireMap(),
+      body: Map(),
     );
   }
 
 }
 
-class FireMap extends StatefulWidget {
+class Map extends StatefulWidget {
   @override
-  State createState() => FireMapState();
+  State createState() => MapState();
 }
 
 
-class FireMapState extends State<FireMap> {
+class MapState extends State<Map> {
 
   SavedMarkersService markersService;
   GoogleMapController mapController;
@@ -56,7 +56,10 @@ class FireMapState extends State<FireMap> {
           child: FloatingActionButton(
             heroTag: 'addNewMarkerButton',
             child: Icon(Icons.add_location),
-            onPressed: (){markersService.addGeoPoint('My home');},
+            onPressed: (){
+              //markersService.addGeoPoint('My home');
+              Navigator.pushNamed(context, '/PropertyDetailsScreen');
+            },
             backgroundColor: Colors.red,
           ),
         ),
