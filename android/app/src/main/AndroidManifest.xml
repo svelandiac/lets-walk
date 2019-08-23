@@ -12,8 +12,8 @@
 
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="lets_walk"
-        android:icon="@mipmap/ic_launcher">
+        android:label="Let's Walk!"
+        android:icon="@drawable/icon">
         <meta-data 
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyB45B-k0T52_XsuUXkf0tBA20X2MDfO4WU"/>

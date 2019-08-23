@@ -43,7 +43,7 @@ class MainScreen extends StatelessWidget{
                 borderSide: BorderSide(color: Colors.black, style: BorderStyle.solid),
                 highlightedBorderColor: Colors.black,
                 onPressed: (){
-                  Navigator.pushNamed(context, '/NewEstateScreen');
+                  Navigator.pushNamed(context, '/NewPropertyScreen');
                 },
               ),
             ),

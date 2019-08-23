@@ -33,7 +33,7 @@ class LetsWalkApp extends StatelessWidget{
           // Default TextTheme.
           textTheme: TextTheme(
             headline: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
-            title: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
+            title: TextStyle(fontSize: 25.0, fontStyle: FontStyle.normal),
             body1: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
           ),
         ),
