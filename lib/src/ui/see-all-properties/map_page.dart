@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:lets_walk/src/models/locations.dart';
 import 'package:lets_walk/src/services/saved_markers_service.dart';
 import 'package:location/location.dart';
 import 'package:provider/provider.dart';
@@ -15,11 +16,13 @@ class MapState extends State<Map> with AutomaticKeepAliveClientMixin<Map>{
   SavedMarkersService markersService;
   GoogleMapController mapController;
   Location location = Location();
+  Locations locations;
 
   build(context) {
     super.build(context);
-
-    markersService = Provider.of<SavedMarkersService>(context);
+    
+    markersService  = SavedMarkersService(context);
+    locations = Provider.of<Locations>(context);
 
     return Stack(
       children: [
@@ -33,8 +36,8 @@ class MapState extends State<Map> with AutomaticKeepAliveClientMixin<Map>{
           scrollGesturesEnabled: true,
           tiltGesturesEnabled: true,
           zoomGesturesEnabled: true,
-          mapToolbarEnabled: true,          
-          markers: markersService.markers,
+          mapToolbarEnabled: true,        
+          markers: locations.markers,  
         ),
       ]
     );
@@ -60,6 +63,5 @@ class MapState extends State<Map> with AutomaticKeepAliveClientMixin<Map>{
 
   @override
   bool get wantKeepAlive => true;
-
 
 }

@@ -4,23 +4,24 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:lets_walk/src/models/locations.dart';
 import 'package:lets_walk/src/models/property.dart';
 import 'package:location/location.dart';
 import 'package:path/path.dart';
+import 'package:provider/provider.dart';
 
-class SavedMarkersService with ChangeNotifier{
+class SavedMarkersService {
 
-  Set<Marker> _markers;
   Firestore _firestore = Firestore.instance;
   Location _location = Location();
   Geoflutterfire _geo = Geoflutterfire();
   FirebaseStorage _storage = FirebaseStorage.instance;
 
+  Locations locations;
 
-  Future<List<String>> uploadPic(List<File> files) async {
+  Future<List<String>> uploadPic(List<dynamic> files) async {
 
     var userID = await FirebaseAuth.instance.currentUser();
 
@@ -43,43 +44,63 @@ class SavedMarkersService with ChangeNotifier{
     return uploadedUrls;
    }
 
+  SavedMarkersService(BuildContext context){
 
-
-
-  SavedMarkersService(){
-    _markers = Set();
-  }
-
-  void _addNewMarker(Marker marker){
-    _markers.add(marker);
-  }
-
-  void _clearMarkers() {
-    _markers.clear();
+    locations = Provider.of<Locations>(context);
+    
   }
 
   void _updateMarkers() {
     
-    var userQuery = _firestore.collection('locations');
+    var userQuery = _firestore.collection('locations').orderBy("details.address");
     
     userQuery.snapshots().listen((data){
       var documentList = data.documents;
-      _clearMarkers();
+      locations.clearProperties();
       documentList.forEach((DocumentSnapshot document) {
         if(document.data['position']!=null){
-          GeoPoint pos = document.data['position']['geopoint'];
-          var marker = Marker(
-            position: LatLng(pos.latitude, pos.longitude),
-            icon: BitmapDescriptor.defaultMarker,
-            infoWindow: InfoWindow(title: document.data['details']['address']),
-            markerId: MarkerId(document.documentID)
-          );
-          _addNewMarker(marker);
+          Property newProperty = Property();
+
+          //Document ID
+          if(document.documentID!=null)
+            newProperty.documentID = document.documentID;
+
+          //document.details
+          if(document.data['details']['address']!=null)
+            newProperty.address = document.data['details']['address'];
+          if(document.data['details']['description']!=null)
+            newProperty.description = document.data['details']['description'];
+          if(document.data['details']['contactNumber']!=null)
+            newProperty.contactNumber = document.data['details']['contactNumber'];
+          
+          //document.pictures
+          if(document.data['pictures']['0']!=null){
+            List<String> images = List();
+            Map<String, dynamic> picturesMap = Map<String, dynamic>.from(document.data['pictures']);
+            for(var imageURL in picturesMap.entries){
+              images.add(imageURL.value);
+            }
+            newProperty.photos = images;
+          }
+
+          //document.position
+          GeoPoint position = document.data['position']['geopoint'];
+          newProperty.location = position;
+
+          //document.state
+          if(document.data['isContacted'] == null)
+            newProperty.isContacted = 'noContacted';
+          else
+            newProperty.isContacted = document.data['isContacted'];
+
+          if(document.data['contacting']!=null){
+            newProperty.date = document.data['contacting']['date'];
+            newProperty.observations = document.data['contacting']['observations'];
+          }
+
+          locations.addNewProperty(newProperty);
         }
       });
-
-      notifyListeners();
-
     });
   }
 
@@ -102,16 +123,13 @@ class SavedMarkersService with ChangeNotifier{
 
     return _firestore.collection('locations').add({ 
       'position': point.data,
-      'details': property.data,
+      'details': property.details,
       'pictures': _mapFromAList(uploadedPictures)
     });
   }
-
 
   startQuery() async {
      _updateMarkers();
   }
   
-  Set<Marker> get markers => _markers;
-
 }

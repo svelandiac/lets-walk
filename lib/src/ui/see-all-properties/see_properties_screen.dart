@@ -1,4 +1,3 @@
-import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:lets_walk/src/ui/see-all-properties/list_page.dart';
 import 'map_page.dart';
@@ -20,7 +19,7 @@ class _SeePropertiesScreenState extends State<SeePropertiesScreen> {
 
   List<Widget> _widgetOptions = <Widget>[
     mapWidget,
-    listWidget
+    listWidget,
   ];
 
   @override
@@ -33,11 +32,11 @@ class _SeePropertiesScreenState extends State<SeePropertiesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Añadir un nuevo inmueble'),
+        title: Text('Ver los inmuebles añadidos'),
         centerTitle: true,
       ),
       body: PageView(
-        physics:new NeverScrollableScrollPhysics(),
+        physics: NeverScrollableScrollPhysics(),
         controller: _pageController,
         children: _widgetOptions,
       ),
@@ -50,7 +49,7 @@ class _SeePropertiesScreenState extends State<SeePropertiesScreen> {
           BottomNavigationBarItem(
             icon: Icon(Icons.list),
             title: Text('Ver en lista'),
-          )
+          ),
         ],
         currentIndex: _selectedIndex,
         onTap: (index){

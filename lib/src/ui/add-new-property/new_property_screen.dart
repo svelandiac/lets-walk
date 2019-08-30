@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lets_walk/src/models/property.dart';
 import 'package:lets_walk/src/services/saved_markers_service.dart';
-import 'package:provider/provider.dart';
 
 class NewPropertyScreen extends StatefulWidget {
   @override
@@ -63,7 +62,6 @@ class _NewPropertyScreenState extends State<NewPropertyScreen> {
       newProperty.contactNumber = _contactNumberController.text;
       newProperty.description = _descriptionController.text;
 
-      print('New property details:\nAddress: ${newProperty.address}\nContact number: ${newProperty.contactNumber}\nDescription: ${newProperty.description}');
       markersService.addGeoPoint(newProperty).then((onValue){
         setState(() {
           this._isButtonEnabled = true;
@@ -92,7 +90,7 @@ class _NewPropertyScreenState extends State<NewPropertyScreen> {
   @override
   Widget build(BuildContext context) {
 
-    markersService = Provider.of<SavedMarkersService>(context);
+    markersService = SavedMarkersService(context);
 
     void _showCameraOptions(){
       showDialog(
