@@ -290,7 +290,7 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
               width: 200,
               padding: EdgeInsets.only(top: 30.0),
               child: OutlineButton(
-                child: Text('Agregar el inmueble'),
+                child: Text('Actualizar el inmueble'),
                 shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
                 borderSide: BorderSide(color: Colors.black, style: BorderStyle.solid),
                 highlightedBorderColor: Colors.black,

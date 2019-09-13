@@ -54,10 +54,13 @@ class SavedMarkersService {
     
     var userQuery = _firestore.collection('locations').orderBy("details.address");
     
+    var documentsNumber = 0;
     userQuery.snapshots().listen((data){
       var documentList = data.documents;
       locations.clearProperties();
       documentList.forEach((DocumentSnapshot document) {
+        documentsNumber++;
+
         if(document.data['position']!=null){
           Property newProperty = Property();
 
@@ -98,9 +101,13 @@ class SavedMarkersService {
             newProperty.observations = document.data['contacting']['observations'];
           }
 
+          //document.geohash
+          newProperty.geohash = document.data['position']['geohash'];
+
           locations.addNewProperty(newProperty);
         }
       });
+      print('Documents found: $documentsNumber');
     });
   }
 

@@ -10,12 +10,14 @@ class Property{
   String _description;
 
   GeoPoint _location;
+  String _geohash;
 
   String _isContacted;
   String _observations;
   String _date;
 
-  Property ({String address, List photos, String description, String contactNumber, String documentID, GeoPoint location}) {
+
+  Property ({String address, List photos, String description, String contactNumber, String documentID, GeoPoint location, String geohash}) {
     if(photos==null)
       this._photos = List();
     else
@@ -29,6 +31,11 @@ class Property{
     this._isContacted = 'noContacted';
     this._observations = '';
     this._date = '';
+    
+    if(geohash == null)
+      this._geohash = "";
+    else 
+      this._geohash = geohash;
   }
 
   String get documentID => this._documentID;
@@ -40,6 +47,7 @@ class Property{
   String get isContacted => this._isContacted;
   String get observations => this._observations;
   String get date => this._date;
+  String get geohash => this._geohash;
 
   set documentID(String value){
     this._documentID = value;
@@ -77,6 +85,10 @@ class Property{
     this._date = value;
   }
 
+  set geohash(String value){
+    this._geohash = value;
+  }
+
   get details {
     return {'address': this._address, 'description': this._description, 'contactNumber': this._contactNumber};
   }
@@ -84,4 +96,5 @@ class Property{
   get contacting {
     return {'observations': this._observations, 'date': this._date};
   }
+
 }
