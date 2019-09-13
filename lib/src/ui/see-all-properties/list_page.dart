@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lets_walk/src/models/locations.dart';
+import 'package:lets_walk/src/models/property.dart';
 import 'package:lets_walk/src/services/modify_properties_service.dart';
 import 'package:provider/provider.dart';
 
@@ -21,6 +22,12 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin<
 
   static String sortBy = 'Ordenar por';
   static String filterBy= 'Filtrar por';
+
+  bool showAllProperties;
+
+  List<Property> propertiesFiltered;
+
+  bool _loadingSearchProperties;
 
   List<String> menuOptions = <String>[
     sortBy,
@@ -48,8 +55,13 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin<
       locations.sortBy(SortOption.position);
   }
 
-  void choiceFilterOption(){
-    
+  void choiceFilterOption(String choice){
+    if(choice == state){
+      print('Filter by state');
+    }
+    if(choice == position){
+      print('Filter by position');
+    }
   }
   
   Widget _build() {
@@ -139,7 +151,7 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin<
               'Filtrar por',
             ),
             content: Container(
-              height: 168,
+              height: 150,
               child: Column(
                 children: <Widget>[
                   Text('¿Cómo deseas filtrar los inmuebles?'),
@@ -152,6 +164,7 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin<
                       borderSide: BorderSide(color: Colors.black, style: BorderStyle.solid),
                       highlightedBorderColor: Colors.black,
                       onPressed: (){
+                        choiceFilterOption(state);
                         Navigator.of(context).pop();
                       },
                     ),
@@ -164,6 +177,7 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin<
                       borderSide: BorderSide(color: Colors.black, style: BorderStyle.solid),
                       highlightedBorderColor: Colors.black,
                       onPressed: (){
+                        choiceFilterOption(position);
                         Navigator.of(context).pop();
                       },
                     ),
@@ -183,6 +197,26 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin<
         _showFilterOptions();
     }
 
+    Future searchProperty(String searchText) async {
+
+      propertiesFiltered.clear();
+
+      setState(() {
+        if(searchText.length > 0){
+          showAllProperties = false;
+          locations.properties.forEach((Property propertyFound){
+            if(propertyFound.address.toLowerCase().trim().startsWith(searchText.toLowerCase().trim())){
+              propertiesFiltered.add(propertyFound);
+            }
+          });
+        }
+        else
+          showAllProperties = true; 
+      });
+
+      print(searchText);
+    }
+
     return Column(
       children: <Widget>[
         Padding(
@@ -195,6 +229,16 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin<
                   decoration: InputDecoration(
                     hintText: 'Busca una propiedad'
                   ),
+                  onChanged: (text){
+                    setState(() {
+                      _loadingSearchProperties = true; 
+                    });
+                    searchProperty(text).then((onValue){
+                      setState(() {
+                        _loadingSearchProperties = false;
+                      });
+                    });
+                  },
                 ),
               ),
               PopupMenuButton<String> (
@@ -214,13 +258,32 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin<
             ],
           ),
         ),
+        showAllProperties ?
         Expanded(
           child: ListView.builder(
             itemCount: locations.properties.length,
-            itemBuilder: (context, index) => _buildItem(context, index)),
+            itemBuilder: (context, index) => _buildItem(context, index, locations.properties)),
+        ) :
+        Expanded(
+          child: _loadingSearchProperties ?
+            Center(
+              child: CircularProgressIndicator(),
+            ) :
+            ListView.builder(
+              itemCount: propertiesFiltered.length,
+              itemBuilder: (context, index) => _buildItem(context, index, propertiesFiltered)
+            ),
         )
       ],
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    showAllProperties = true;
+    propertiesFiltered = List();
+    _loadingSearchProperties = false;
   }
 
   @override
@@ -231,8 +294,8 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin<
     return _build();
   }
 
-  Widget _buildItem(context, index) {
-    var item = locations.properties.elementAt(index);
+  Widget _buildItem(context, index, List<Property> propertiesList) {
+    var item = propertiesList.elementAt(index);
 
     Widget isContacted() {
       Widget result;
