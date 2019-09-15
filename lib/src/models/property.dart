@@ -16,8 +16,10 @@ class Property{
   String _observations;
   String _date;
 
+  bool _show;
 
-  Property ({String address, List photos, String description, String contactNumber, String documentID, GeoPoint location, String geohash}) {
+
+  Property ({String address, List photos, String description, String contactNumber, String documentID, GeoPoint location, String geohash, bool show = true}) {
     if(photos==null)
       this._photos = List();
     else
@@ -36,6 +38,8 @@ class Property{
       this._geohash = "";
     else 
       this._geohash = geohash;
+
+    this._show = show;
   }
 
   String get documentID => this._documentID;
@@ -48,6 +52,7 @@ class Property{
   String get observations => this._observations;
   String get date => this._date;
   String get geohash => this._geohash;
+  bool get show => this._show;
 
   set documentID(String value){
     this._documentID = value;
@@ -87,6 +92,10 @@ class Property{
 
   set geohash(String value){
     this._geohash = value;
+  }
+
+  set show(bool value){
+    this._show = value;
   }
 
   get details {

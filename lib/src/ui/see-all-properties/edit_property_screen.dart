@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lets_walk/src/models/property.dart';
 import 'package:lets_walk/src/services/modify_properties_service.dart';
+import 'package:lets_walk/src/ui/common-widgets/rounded_outlined_button.dart';
 import 'package:provider/provider.dart';
 
 class EditPropertyScreen extends StatefulWidget {
@@ -286,14 +287,11 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
                 ],
               ),
             ),
-            Container(
-              width: 200,
-              padding: EdgeInsets.only(top: 30.0),
-              child: OutlineButton(
-                child: Text('Actualizar el inmueble'),
-                shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
-                borderSide: BorderSide(color: Colors.black, style: BorderStyle.solid),
-                highlightedBorderColor: Colors.black,
+            Padding(
+              padding: const EdgeInsets.only(top: 30.0),
+              child: RoundedOutlinedButton(
+                text: 'Actualizar el inmueble',
+                width: 200,
                 onPressed: _isButtonEnabled ? _submit : null,
               ),
             ),

@@ -104,6 +104,9 @@ class SavedMarkersService {
           //document.geohash
           newProperty.geohash = document.data['position']['geohash'];
 
+          //Show property
+          newProperty.show = true;
+
           locations.addNewProperty(newProperty);
         }
       });
@@ -134,6 +137,8 @@ class SavedMarkersService {
       'pictures': _mapFromAList(uploadedPictures)
     });
   }
+
+  
 
   startQuery() async {
      _updateMarkers();

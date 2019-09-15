@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lets_walk/src/models/property.dart';
 import 'package:lets_walk/src/services/saved_markers_service.dart';
+import 'package:lets_walk/src/ui/common-widgets/rounded_outlined_button.dart';
 
 class NewPropertyScreen extends StatefulWidget {
   @override
@@ -177,14 +178,11 @@ class _NewPropertyScreenState extends State<NewPropertyScreen> {
                   ),
                 ),
               ),
-              Container(
-                width: 200,
-                padding: EdgeInsets.only(top: 30.0),
-                child: OutlineButton(
-                  child: Text('Agregar el inmueble'),
-                  shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
-                  borderSide: BorderSide(color: Colors.black, style: BorderStyle.solid),
-                  highlightedBorderColor: Colors.black,
+              Padding(
+                padding: const EdgeInsets.only(top: 30.0),
+                child: RoundedOutlinedButton(
+                  text: 'Agregar el inmueble',
+                  width: 200,
                   onPressed: _isButtonEnabled ? _submit : null,
                 ),
               ),

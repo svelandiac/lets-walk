@@ -43,68 +43,68 @@ class Locations with ChangeNotifier {
     notifyListeners();
   }
 
-  void sortBy(SortOption option){
+  // void sortBy(SortOption option){
 
-      switch (option) {
-        case SortOption.address:
-          _sortByAddress();
-          break;
+  //     switch (option) {
+  //       case SortOption.address:
+  //         _sortByAddress();
+  //         break;
 
-        case SortOption.state:
-          _sortByState();
-          break;
+  //       case SortOption.state:
+  //         _sortByState();
+  //         break;
 
-        case SortOption.description:
-          _sortByDescription();
-          break;
+  //       case SortOption.description:
+  //         _sortByDescription();
+  //         break;
 
-        case  SortOption.position:
-          _sortByPosition();
-          break;
+  //       case  SortOption.position:
+  //         _sortByPosition();
+  //         break;
 
-        default:
+  //       default:
 
-          break;
-      }
-  }
+  //         break;
+  //     }
+  // }
 
-  void _sortByAddress(){
-    print('Sort by address');
-    this._properties.sort(
-      (a, b){
-        return a.address.toLowerCase().trim().compareTo(b.address.toLowerCase().trim());
-      }
-    );
-    notifyListeners();
-  }
+  // void _sortByAddress(){
+  //   print('Sort by address');
+  //   this._properties.sort(
+  //     (a, b){
+  //       return a.address.toLowerCase().trim().compareTo(b.address.toLowerCase().trim());
+  //     }
+  //   );
+  //   notifyListeners();
+  // }
 
-  void _sortByState(){
-    print('Sort by current state');
-    this._properties.sort(
-      (a, b){
-        return a.isContacted.compareTo(b.isContacted);
-      }
-    );
-    notifyListeners();
-  }
+  // void _sortByState(){
+  //   print('Sort by current state');
+  //   this._properties.sort(
+  //     (a, b){
+  //       return a.isContacted.compareTo(b.isContacted);
+  //     }
+  //   );
+  //   notifyListeners();
+  // }
 
-  void _sortByDescription(){
-    print('Sort by description');
-    this._properties.sort(
-      (a, b){
-        return a.description.toLowerCase().trim().compareTo(b.description.toLowerCase().trim());
-      }
-    );
-    notifyListeners();
-  }
+  // void _sortByDescription(){
+  //   print('Sort by description');
+  //   this._properties.sort(
+  //     (a, b){
+  //       return a.description.toLowerCase().trim().compareTo(b.description.toLowerCase().trim());
+  //     }
+  //   );
+  //   notifyListeners();
+  // }
 
-  void _sortByPosition(){
-    print('Sort by position');
-    this._properties.sort(
-      (a, b){
-        return a.geohash.compareTo(b.geohash);
-      }
-    );
-    notifyListeners();
-  }
+  // void _sortByPosition(){
+  //   print('Sort by position');
+  //   this._properties.sort(
+  //     (a, b){
+  //       return a.geohash.compareTo(b.geohash);
+  //     }
+  //   );
+  //   notifyListeners();
+  // }
 }

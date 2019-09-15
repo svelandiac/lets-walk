@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lets_walk/src/services/firebase_auth_service.dart';
+import 'package:lets_walk/src/ui/common-widgets/rounded_outlined_button.dart';
 import 'package:provider/provider.dart';
 
 class MainScreen extends StatelessWidget{
@@ -11,11 +12,7 @@ class MainScreen extends StatelessWidget{
         textColor: Colors.white,
         child: Icon(Icons.power_settings_new),
         onPressed: (){
-          firebaseInfo.signOut().then((onValue){
-            print(onValue);
-          }).catchError((onError){
-            print(onError);
-          });
+          firebaseInfo.signOut();
         },
       )
     );
@@ -33,32 +30,20 @@ class MainScreen extends StatelessWidget{
             ),
             SizedBox(
               height: 50,
-              width: 252,
+              width: 251,
             ),
-            Container(
-              width: 250,
-              child: OutlineButton(
-                child: Text('Agregar un nuevo inmueble'),
-                shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
-                borderSide: BorderSide(color: Colors.black, style: BorderStyle.solid),
-                highlightedBorderColor: Colors.black,
-                onPressed: (){
-                  Navigator.pushNamed(context, '/NewPropertyScreen');
-                },
-              ),
+            RoundedOutlinedButton(
+              text: 'Agregar un nuevo inmueble',
+              onPressed: (){
+                Navigator.pushNamed(context, '/NewPropertyScreen');
+              },
             ),
-            Container(
-              width: 250,
-              child: OutlineButton(
-                child: Text('Ver todos los inmuebles'),
-                shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
-                borderSide: BorderSide(color: Colors.black, style: BorderStyle.solid),
-                highlightedBorderColor: Colors.black,
-                onPressed: (){
-                  Navigator.pushNamed(context, '/SeePropertiesScreen');                  
-                },
-              ),
-            ),
+            RoundedOutlinedButton(
+              text: 'Ver todos los inmuebles',
+              onPressed: (){
+                Navigator.pushNamed(context, '/SeePropertiesScreen');                  
+              },
+            )
           ],
         ),
       ),
