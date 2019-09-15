@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:lets_walk/src/ui/callbacks/callback_container.dart';
 import 'package:lets_walk/src/ui/see-all-properties/list_page.dart';
 import 'map_page.dart';
 
@@ -10,26 +12,42 @@ class SeePropertiesScreen extends StatefulWidget{
 
 class _SeePropertiesScreenState extends State<SeePropertiesScreen> {
 
-  int _selectedIndex = 0;
+  static int _selectedIndex = 0;
 
-  PageController _pageController;
+  static PageController _pageController;
+  static CallbackContainer callbackContainer = CallbackContainer();
 
-  static Map mapWidget = Map();
-  static ListPage listWidget = ListPage();
+  static Map mapWidget = Map(callbackContainer: callbackContainer,);
+  static ListPage listWidget;
 
-  List<Widget> _widgetOptions = <Widget>[
-    mapWidget,
-    listWidget,
-  ];
+  List<Widget> _widgetOptions;
+
+  void animateToSpecificPointInMap(GeoPoint point){
+
+    setState(() {
+      _selectedIndex = 0;
+      _pageController.animateToPage(0,
+      duration: Duration(milliseconds: 300), curve: Curves.ease);
+      callbackContainer.callbackObject.callBackFunction(point);
+
+    });
+  }
 
   @override
   void initState() {
     super.initState();
     _pageController = PageController();
+    listWidget = ListPage(this.animateToSpecificPointInMap);
+    _widgetOptions = <Widget>[
+      mapWidget,
+      listWidget,
+    ];
   }
-  
+
   @override
   Widget build(BuildContext context) {
+
+    
     return Scaffold(
       appBar: AppBar(
         title: Text('Ver los inmuebles añadidos'),

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:lets_walk/src/models/locations.dart';
 import 'package:lets_walk/src/models/property.dart';
@@ -7,6 +8,11 @@ import 'package:lets_walk/src/ui/common-widgets/rounded_outlined_button.dart';
 import 'package:provider/provider.dart';
 
 class ListPage extends StatefulWidget {
+
+  final Function(GeoPoint) animateToSpecificPoint;
+
+  ListPage(this.animateToSpecificPoint);
+
   @override
   _ListPageState createState() => _ListPageState();
 }
@@ -61,6 +67,38 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin<
   ];
 
   //Show dialogs
+
+  void _showFilterByPosition(){
+    showDialog(
+      context: context,
+      builder: (BuildContext context){
+        return AlertDialog(
+          title: Text(
+            'Filtrar por posición'
+          ),
+          content: Container(
+            height: 220.0,
+            child: Column(
+              children: <Widget>[
+                Text(
+                  'Siga los siguiente pasos:\n\n1. Seleccione un inmueble.\n2. Presione el botón "Ver en mapa"\n3. Ajuste el radio de búsqueda.\n 4. Vuelva a la lista.\n\nYa verá los inmuebles dentro de ese círculo.'
+                ),
+                Center(
+                  child: RoundedOutlinedButton(
+                    text: 'Entendido',
+                    width: 200,
+                    onPressed: (){
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                )
+              ],
+            ),
+          ),
+        );
+      }
+    );
+  }
 
   void _showFilterByStateOptions(){
 
@@ -228,8 +266,8 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin<
                   text: 'Por $position',
                   width: 200,
                   onPressed: (){
-                    choiceFilterOption(position);
                     Navigator.of(context).pop();
+                    choiceFilterOption(position);
                   },
                 ),
               ],
@@ -287,7 +325,7 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin<
       _showFilterByStateOptions();
     }
     if(choice == position){
-      print('Filter by position');
+      _showFilterByPosition();
     }
   }
 
@@ -302,56 +340,62 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin<
 
   Future filterProperties() async {
 
-    propertiesToShow.clear();
+    setState(() {
+      propertiesToShow.forEach((Property _property){
 
-    // setState(() {
+        _property.show = false;
 
-    //   locations.properties.forEach((Property propertyFound){
-    //     if(_filterByStateOptions[ContactOptions.contacted]){
-    //       if(propertyFound.isContacted == 'contacted')
-    //         propertiesToShow.add(propertyFound);
-    //     }
-        
-    //     if(_filterByStateOptions[ContactOptions.noContacted]){
-    //       if(propertyFound.isContacted == 'noContacted')
-    //         propertiesToShow.add(propertyFound);
-    //     }
-          
-    //     if(_filterByStateOptions[ContactOptions.busy]){
-    //       if(propertyFound.isContacted == 'busy')
-    //         propertiesToShow.add(propertyFound);
-    //     }
-           
-    //     if(_filterByStateOptions[ContactOptions.available]){
-    //       if(propertyFound.isContacted == 'available')
-    //         propertiesToShow.add(propertyFound);
-    //     }
-              
-    //     if(_filterByStateOptions[ContactOptions.lost]){
-    //       if(propertyFound.isContacted == 'lost')
-    //         propertiesToShow.add(propertyFound);
-    //     }          
-        
-    //   });
-    // });
+        if(_filterByStateOptions[ContactOptions.contacted]){
+          if(_property.isContacted == 'contacted')
+            _property.show = true;          
+        }
+
+        if(_filterByStateOptions[ContactOptions.noContacted]){
+          if(_property.isContacted == 'noContacted')
+            _property.show = true;          
+        }
+
+        if(_filterByStateOptions[ContactOptions.busy]){
+          if(_property.isContacted == 'busy')
+            _property.show = true;          
+        }
+
+        if(_filterByStateOptions[ContactOptions.available]){
+          if(_property.isContacted == 'available')
+            _property.show = true;          
+        }
+
+        if(_filterByStateOptions[ContactOptions.lost]){
+          if(_property.isContacted == 'lost')
+            _property.show = true;          
+        }
+       });
+    });
+  }
+
+  void updateList(){
+
+    propertiesToShow.forEach((Property _property){
+      _property.show = true;
+    });
   }
 
   Future searchProperty(String searchText) async {
 
     setState(() {
+
+      updateList();
+
       if(searchText.length > 0){
         propertiesToShow.forEach((Property _property){
-          if(_property.address.toLowerCase().trim().startsWith(searchText.toLowerCase().trim())){
-            _property.show = true;
+          if(_property.show){
+            if(_property.address.toLowerCase().trim().startsWith(searchText.toLowerCase().trim())){
+              _property.show = true;
+            }
+            else{
+              _property.show = false;
+            }
           }
-          else{
-            _property.show = false;
-          }
-        });
-      }
-      else{
-        propertiesToShow.forEach((Property _property){
-          _property.show = true;
         });
       }
     });
@@ -570,7 +614,10 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin<
                   RoundedOutlinedButton(
                     text: 'Ver en mapa',
                     width: 140,
-                    onPressed: null,
+                    onPressed: (){
+                      GeoPoint point = item.location;
+                      this.widget.animateToSpecificPoint(point);
+                    },
                   ),
                   RoundedOutlinedButton(
                     text: 'Editar detalles',
