@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:lets_walk/src/models/locations.dart';
+import 'package:lets_walk/src/services/saved_markers_service.dart';
 import 'package:lets_walk/src/ui/callbacks/callback_container.dart';
 import 'package:lets_walk/src/ui/see-all-properties/list_page.dart';
+import 'package:provider/provider.dart';
 import 'map_page.dart';
 
 class SeePropertiesScreen extends StatefulWidget{
@@ -17,36 +20,56 @@ class _SeePropertiesScreenState extends State<SeePropertiesScreen> {
   static PageController _pageController;
   static CallbackContainer callbackContainer = CallbackContainer();
 
+  SavedMarkersService markersService;
+
   static Map mapWidget = Map(callbackContainer: callbackContainer,);
   static ListPage listWidget;
 
   List<Widget> _widgetOptions;
+  Locations locations;
 
   void animateToSpecificPointInMap(GeoPoint point){
 
     setState(() {
-      _selectedIndex = 0;
-      _pageController.animateToPage(0,
+      _selectedIndex = 1;
+      _pageController.animateToPage(1,
       duration: Duration(milliseconds: 300), curve: Curves.ease);
       callbackContainer.callbackObject.callBackFunction(point);
 
     });
   }
 
+  Future<void> changeToList() async {
+    setState(() {
+      _selectedIndex = 0;
+      _pageController.animateToPage(0,
+      duration: Duration(milliseconds: 300), curve: Curves.ease);
+    });
+  }
+
   @override
   void initState() {
     super.initState();
-    _pageController = PageController();
+    _selectedIndex = 0;
+    _pageController = PageController(initialPage: 0);
     listWidget = ListPage(this.animateToSpecificPointInMap);
     _widgetOptions = <Widget>[
-      mapWidget,
       listWidget,
+      mapWidget,
     ];
   }
 
   @override
   Widget build(BuildContext context) {
 
+    print(_selectedIndex);
+
+    if(locations == null && markersService == null){
+      locations = Provider.of<Locations>(context);
+      locations.changeToList = changeToList;
+      markersService = SavedMarkersService(context);
+      markersService.startQuery();
+    }
     
     return Scaffold(
       appBar: AppBar(
@@ -59,14 +82,15 @@ class _SeePropertiesScreenState extends State<SeePropertiesScreen> {
         children: _widgetOptions,
       ),
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.black,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.map),
-            title: Text('Ver en mapa'),
+            icon: Icon(Icons.list, color: Colors.white,),
+            title: Text('Ver en lista', style: TextStyle(color: Colors.white),),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.list),
-            title: Text('Ver en lista'),
+            icon: Icon(Icons.map, color: Colors.white,),
+            title: Text('Ver en mapa', style: TextStyle(color: Colors.white),),
           ),
         ],
         currentIndex: _selectedIndex,
@@ -79,6 +103,11 @@ class _SeePropertiesScreenState extends State<SeePropertiesScreen> {
         },
       )
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 }
 

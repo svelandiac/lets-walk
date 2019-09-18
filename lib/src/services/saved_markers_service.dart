@@ -141,7 +141,7 @@ class SavedMarkersService {
   
 
   startQuery() async {
-     _updateMarkers();
+    _updateMarkers();
   }
   
 }

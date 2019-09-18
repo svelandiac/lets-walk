@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:lets_walk/src/models/property.dart';
+import 'package:lets_walk/src/ui/callbacks/callback_container.dart';
 
 enum SortOption {
   address,
@@ -13,10 +14,14 @@ class Locations with ChangeNotifier {
 
   List<Property> _properties;
   Set<Marker> _markers; 
+  CallbackContainer callbackContainer;
+
+  Function changeToList;
 
   Locations(){
     this._properties = List();
     this._markers = Set();
+    this.callbackContainer = CallbackContainer();
   }
 
   List<Property> get properties => this._properties;
@@ -29,7 +34,11 @@ class Locations with ChangeNotifier {
       icon: BitmapDescriptor.defaultMarker,
       infoWindow: InfoWindow(
         title: property.address,
-        snippet: 'Contacto: ${property.contactNumber}'
+        snippet: 'Contacto: ${property.contactNumber}',
+        onTap: () {
+          changeToList();
+          callbackContainer.callbackObject.callBackFunction(property.address);
+        }
       ),
       position: LatLng(property.location.latitude, property.location.longitude),
     );  
@@ -43,68 +52,5 @@ class Locations with ChangeNotifier {
     notifyListeners();
   }
 
-  // void sortBy(SortOption option){
 
-  //     switch (option) {
-  //       case SortOption.address:
-  //         _sortByAddress();
-  //         break;
-
-  //       case SortOption.state:
-  //         _sortByState();
-  //         break;
-
-  //       case SortOption.description:
-  //         _sortByDescription();
-  //         break;
-
-  //       case  SortOption.position:
-  //         _sortByPosition();
-  //         break;
-
-  //       default:
-
-  //         break;
-  //     }
-  // }
-
-  // void _sortByAddress(){
-  //   print('Sort by address');
-  //   this._properties.sort(
-  //     (a, b){
-  //       return a.address.toLowerCase().trim().compareTo(b.address.toLowerCase().trim());
-  //     }
-  //   );
-  //   notifyListeners();
-  // }
-
-  // void _sortByState(){
-  //   print('Sort by current state');
-  //   this._properties.sort(
-  //     (a, b){
-  //       return a.isContacted.compareTo(b.isContacted);
-  //     }
-  //   );
-  //   notifyListeners();
-  // }
-
-  // void _sortByDescription(){
-  //   print('Sort by description');
-  //   this._properties.sort(
-  //     (a, b){
-  //       return a.description.toLowerCase().trim().compareTo(b.description.toLowerCase().trim());
-  //     }
-  //   );
-  //   notifyListeners();
-  // }
-
-  // void _sortByPosition(){
-  //   print('Sort by position');
-  //   this._properties.sort(
-  //     (a, b){
-  //       return a.geohash.compareTo(b.geohash);
-  //     }
-  //   );
-  //   notifyListeners();
-  // }
 }

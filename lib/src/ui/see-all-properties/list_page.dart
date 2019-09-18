@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:lets_walk/src/models/locations.dart';
 import 'package:lets_walk/src/models/property.dart';
 import 'package:lets_walk/src/services/modify_properties_service.dart';
+import 'package:lets_walk/src/ui/callbacks/callback_object.dart';
 import 'package:lets_walk/src/ui/common-widgets/color_rounded_button.dart';
 import 'package:lets_walk/src/ui/common-widgets/rounded_outlined_button.dart';
 import 'package:provider/provider.dart';
@@ -34,13 +35,16 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin<
 
   TextEditingController _searchController = TextEditingController();
 
+  CallbackObject callbackObject;
+
   static String address = 'Dirección';
   static String state = 'Estado';
   static String description = 'Descripción';
   static String position = 'Posición';
 
   static String sortBy = 'Ordenar por';
-  static String filterBy= 'Filtrar por';
+  static String filterBy = 'Filtrar por';
+  static String deleteFilters = 'Eliminar filtros';
 
   Map<ContactOptions, bool> _filterByStateOptions = {
     ContactOptions.available : false,
@@ -56,7 +60,8 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin<
 
   List<String> menuOptions = <String>[
     sortBy,
-    filterBy
+    filterBy,
+    deleteFilters
   ];
   
   List<String> sortOptions = <String>[
@@ -76,24 +81,22 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin<
           title: Text(
             'Filtrar por posición'
           ),
-          content: Container(
-            height: 220.0,
-            child: Column(
-              children: <Widget>[
-                Text(
-                  'Siga los siguiente pasos:\n\n1. Seleccione un inmueble.\n2. Presione el botón "Ver en mapa"\n3. Ajuste el radio de búsqueda.\n 4. Vuelva a la lista.\n\nYa verá los inmuebles dentro de ese círculo.'
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Text(
+                'Siga los siguiente pasos:\n\n1. Seleccione un inmueble.\n2. Presione el botón "Ver en mapa"\n3. Ajuste el radio de búsqueda.\n4. Vuelva a la lista.\n\nYa verá los inmuebles dentro de ese círculo.'
+              ),
+              Center(
+                child: RoundedOutlinedButton(
+                  text: 'Entendido',
+                  width: 200,
+                  onPressed: (){
+                    Navigator.of(context).pop();
+                  },
                 ),
-                Center(
-                  child: RoundedOutlinedButton(
-                    text: 'Entendido',
-                    width: 200,
-                    onPressed: (){
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                )
-              ],
-            ),
+              )
+            ],
           ),
         );
       }
@@ -111,71 +114,69 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin<
               title: Text(
                 'Filtrar por estado'
               ),
-              content: Container(
-                  height: 355,
-                  child: Column(
-                    children: <Widget>[
-                      Text(
-                        '¿Qué estados te gustaría seleccionar?'
-                      ),
-                      SizedBox(height: 15.0,),
-                      ColorRoundedButton(
-                        color: (_filterByStateOptions[ContactOptions.contacted]) ? Colors.green[200] : Colors.grey[100],
-                        text: 'Contactado',
-                        onPressed: () {
-                          setState(() {
-                            _filterByStateOptions[ContactOptions.contacted] = !_filterByStateOptions[ContactOptions.contacted]; 
-                          });
-                        },
-                      ),
-                      ColorRoundedButton(
-                        color: (_filterByStateOptions[ContactOptions.noContacted]) ? Colors.red[200] : Colors.grey[100],
-                        text: 'No contactado',
-                        onPressed: () {
-                          setState(() {
-                            _filterByStateOptions[ContactOptions.noContacted] = !_filterByStateOptions[ContactOptions.noContacted]; 
-                          });
-                        },
-                      ),
-                      ColorRoundedButton(
-                        color: (_filterByStateOptions[ContactOptions.busy]) ? Colors.yellow[200] : Colors.grey[100],
-                        text: 'Ocupado',
-                        onPressed: () {
-                          setState(() {
-                            _filterByStateOptions[ContactOptions.busy] = !_filterByStateOptions[ContactOptions.busy]; 
-                          });
-                        },
-                      ),
-                      ColorRoundedButton(
-                        color: (_filterByStateOptions[ContactOptions.available]) ? Colors.blue[200] : Colors.grey[100],
-                        text: 'Disponible',
-                        onPressed: () {
-                          setState(() {
-                            _filterByStateOptions[ContactOptions.available] = !_filterByStateOptions[ContactOptions.available]; 
-                          });
-                        },
-                      ),
-                      ColorRoundedButton(
-                        color: (_filterByStateOptions[ContactOptions.lost]) ? Colors.black26 : Colors.grey[100],
-                        text: 'Perdido',
-                        onPressed: () {
-                          setState(() {
-                            _filterByStateOptions[ContactOptions.lost] = !_filterByStateOptions[ContactOptions.lost]; 
-                          });
-                        },
-                      ),
-                      SizedBox(height: 15.0,),
-                      RoundedOutlinedButton(
-                        text: 'Filtrar',
-                        width: 200,
-                        onPressed: (){
-                          filterProperties();
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                    ],
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Text(
+                    '¿Qué estados te gustaría seleccionar?'
                   ),
-                ),
+                  SizedBox(height: 15.0,),
+                  ColorRoundedButton(
+                    color: (_filterByStateOptions[ContactOptions.contacted]) ? Colors.green[200] : Colors.grey[100],
+                    text: 'Contactado',
+                    onPressed: () {
+                      setState(() {
+                        _filterByStateOptions[ContactOptions.contacted] = !_filterByStateOptions[ContactOptions.contacted]; 
+                      });
+                    },
+                  ),
+                  ColorRoundedButton(
+                    color: (_filterByStateOptions[ContactOptions.noContacted]) ? Colors.red[200] : Colors.grey[100],
+                    text: 'No contactado',
+                    onPressed: () {
+                      setState(() {
+                        _filterByStateOptions[ContactOptions.noContacted] = !_filterByStateOptions[ContactOptions.noContacted]; 
+                      });
+                    },
+                  ),
+                  ColorRoundedButton(
+                    color: (_filterByStateOptions[ContactOptions.busy]) ? Colors.yellow[200] : Colors.grey[100],
+                    text: 'Ocupado',
+                    onPressed: () {
+                      setState(() {
+                        _filterByStateOptions[ContactOptions.busy] = !_filterByStateOptions[ContactOptions.busy]; 
+                      });
+                    },
+                  ),
+                  ColorRoundedButton(
+                    color: (_filterByStateOptions[ContactOptions.available]) ? Colors.blue[200] : Colors.grey[100],
+                    text: 'Disponible',
+                    onPressed: () {
+                      setState(() {
+                        _filterByStateOptions[ContactOptions.available] = !_filterByStateOptions[ContactOptions.available]; 
+                      });
+                    },
+                  ),
+                  ColorRoundedButton(
+                    color: (_filterByStateOptions[ContactOptions.lost]) ? Colors.black26 : Colors.grey[100],
+                    text: 'Perdido',
+                    onPressed: () {
+                      setState(() {
+                        _filterByStateOptions[ContactOptions.lost] = !_filterByStateOptions[ContactOptions.lost]; 
+                      });
+                    },
+                  ),
+                  SizedBox(height: 15.0,),
+                  RoundedOutlinedButton(
+                    text: 'Filtrar',
+                    width: 200,
+                    onPressed: (){
+                      filterProperties();
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              ),
             );
           },
         );
@@ -192,48 +193,46 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin<
           title: Text(
             'Ordenar por'
           ),
-          content: Container(
-            height: 245,
-            child: Column(
-              children: <Widget>[
-                Text(
-                  '¿Cómo deseas ordenar los inmuebles?'
-                ),
-                SizedBox(height: 30.0,),
-                RoundedOutlinedButton(
-                  text: 'Por $address',
-                  width: 200,
-                  onPressed: (){
-                    choiceSortAction(address);
-                    Navigator.of(context).pop();
-                  },
-                ),
-                RoundedOutlinedButton(
-                  text: 'Por $state',
-                  width: 200,
-                  onPressed: (){
-                    choiceSortAction(state);                        
-                    Navigator.of(context).pop();
-                  },
-                ),
-                RoundedOutlinedButton(
-                  text: 'Por $description',
-                  width: 200,
-                  onPressed: (){
-                    choiceSortAction(description);                       
-                    Navigator.of(context).pop();
-                  },
-                ),
-                RoundedOutlinedButton(
-                  text: 'Por $position',
-                  width: 200,
-                  onPressed: (){
-                    choiceSortAction(position);                        
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
-            ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Text(
+                '¿Cómo deseas ordenar los inmuebles?'
+              ),
+              SizedBox(height: 30.0,),
+              RoundedOutlinedButton(
+                text: 'Por $address',
+                width: 200,
+                onPressed: (){
+                  choiceSortAction(address);
+                  Navigator.of(context).pop();
+                },
+              ),
+              RoundedOutlinedButton(
+                text: 'Por $state',
+                width: 200,
+                onPressed: (){
+                  choiceSortAction(state);                        
+                  Navigator.of(context).pop();
+                },
+              ),
+              RoundedOutlinedButton(
+                text: 'Por $description',
+                width: 200,
+                onPressed: (){
+                  choiceSortAction(description);                       
+                  Navigator.of(context).pop();
+                },
+              ),
+              RoundedOutlinedButton(
+                text: 'Por $position',
+                width: 200,
+                onPressed: (){
+                  choiceSortAction(position);                        
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
           ),
         );
       }
@@ -248,30 +247,28 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin<
           title: Text(
             'Filtrar por',
           ),
-          content: Container(
-            height: 150,
-            child: Column(
-              children: <Widget>[
-                Text('¿Cómo deseas filtrar los inmuebles?'),
-                SizedBox(height: 30.0,),
-                RoundedOutlinedButton(
-                  text: 'Por $state',
-                  width: 200,
-                  onPressed: (){
-                    Navigator.of(context).pop();
-                    choiceFilterOption(state);
-                  },
-                ),
-                RoundedOutlinedButton(
-                  text: 'Por $position',
-                  width: 200,
-                  onPressed: (){
-                    Navigator.of(context).pop();
-                    choiceFilterOption(position);
-                  },
-                ),
-              ],
-            ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Text('¿Cómo deseas filtrar los inmuebles?'),
+              SizedBox(height: 30.0,),
+              RoundedOutlinedButton(
+                text: 'Por $state',
+                width: 200,
+                onPressed: (){
+                  Navigator.of(context).pop();
+                  choiceFilterOption(state);
+                },
+              ),
+              RoundedOutlinedButton(
+                text: 'Por $position',
+                width: 200,
+                onPressed: (){
+                  Navigator.of(context).pop();
+                  choiceFilterOption(position);
+                },
+              ),
+            ],
           ),
         );
       }
@@ -334,6 +331,18 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin<
       _showSortOptions();
     if(choice == filterBy)
       _showFilterOptions();
+    if(choice == deleteFilters) {
+      _searchController.text = '';
+      updateList();
+      _filterByStateOptions = {
+        ContactOptions.available : false,
+        ContactOptions.busy : false,
+        ContactOptions.contacted : false,
+        ContactOptions.lost : false,
+        ContactOptions.noContacted : false
+      };
+
+    }
   }
 
   //Methods that modify propertiesToShow list
@@ -374,9 +383,10 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin<
   }
 
   void updateList(){
-
-    propertiesToShow.forEach((Property _property){
-      _property.show = true;
+    setState(() {
+      propertiesToShow.forEach((Property _property){
+        _property.show = true;
+      });
     });
   }
 
@@ -384,9 +394,9 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin<
 
     setState(() {
 
-      updateList();
-
       if(searchText.length > 0){
+
+        updateList();
         propertiesToShow.forEach((Property _property){
           if(_property.show){
             if(_property.address.toLowerCase().trim().startsWith(searchText.toLowerCase().trim())){
@@ -398,8 +408,16 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin<
           }
         });
       }
+      else{
+        updateList();
+      }
     });
 
+  }
+
+  void searchASpecificProperty(String text) {
+    _searchController.text = text;
+    searchProperty(text);
   }
 
   int getItemCount(List<Property> _list){
@@ -703,11 +721,21 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin<
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    modifyPropertiesService = Provider.of<ModifyPropertiesService>(context);
-    locations = Provider.of<Locations>(context);
+
+    if(locations == null && modifyPropertiesService == null && callbackObject == null) {
+      locations = Provider.of<Locations>(context);
+      callbackObject = CallbackObject(callBackFunction: this.searchASpecificProperty);
+      modifyPropertiesService = Provider.of<ModifyPropertiesService>(context);
+      locations.callbackContainer.callbackObject = callbackObject;
+    }
 
     if(propertiesToShow == null)
       propertiesToShow = locations.properties;
+
+    if(propertiesToShow.length == 0)
+      _loadingSearchProperties = true;
+    else
+      _loadingSearchProperties = false;
     return _build();
   }
 

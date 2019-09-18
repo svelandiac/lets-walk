@@ -33,7 +33,7 @@ class MapState extends State<Map> with AutomaticKeepAliveClientMixin<Map>{
   build(context) {
     super.build(context);
 
-    markersService  = SavedMarkersService(context);
+    markersService = SavedMarkersService(context);
     locations = Provider.of<Locations>(context);
 
     CallbackObject callbackObject = CallbackObject(
@@ -65,7 +65,6 @@ class MapState extends State<Map> with AutomaticKeepAliveClientMixin<Map>{
 
   void _onMapCreated(GoogleMapController controller) {
     setState(() {
-      markersService.startQuery();
       mapController = controller;
       _animateToUser();
     });
@@ -82,7 +81,6 @@ class MapState extends State<Map> with AutomaticKeepAliveClientMixin<Map>{
   }
 
   Future<void> animateToGeopoint(GeoPoint point) async {
-    print('The point is:\nLatitude = ${point.latitude}\nLongitude = ${point.longitude}');
     mapController.animateCamera(CameraUpdate.newCameraPosition(
       CameraPosition(
         target: LatLng(point.latitude, point.longitude),
