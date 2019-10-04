@@ -14,6 +14,7 @@ class _NewPropertyScreenState extends State<NewPropertyScreen> {
   TextEditingController _addressController = TextEditingController();
   TextEditingController _contactNumberController = TextEditingController();
   TextEditingController _descriptionController = TextEditingController();
+  TextEditingController _neighborhoodController = TextEditingController();
 
   SavedMarkersService  markersService;
 
@@ -41,7 +42,7 @@ class _NewPropertyScreenState extends State<NewPropertyScreen> {
   }
 
   Future getImage(ImageSource source) async {
-    var image = await ImagePicker.pickImage(source: source);
+    var image = await ImagePicker.pickImage(source: source, imageQuality: 35);
 
     setState(() {
       if(image!=null)
@@ -62,6 +63,7 @@ class _NewPropertyScreenState extends State<NewPropertyScreen> {
       newProperty.address = _addressController.text;
       newProperty.contactNumber = _contactNumberController.text;
       newProperty.description = _descriptionController.text;
+      newProperty.neighborhood = _neighborhoodController.text;
 
       markersService.addGeoPoint(newProperty).then((onValue){
         setState(() {
@@ -175,6 +177,16 @@ class _NewPropertyScreenState extends State<NewPropertyScreen> {
                   decoration: InputDecoration(
                     hintText: 'Descripción del inmueble',
                     labelText: 'Descripción [Opcional]'
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(right: 25.0, left: 25.0, top: 10.0),
+                child: TextField(
+                  controller: _neighborhoodController,
+                  decoration: InputDecoration(
+                    hintText: 'Barrio',
+                    labelText: 'Barrio [Opcional]'
                   ),
                 ),
               ),

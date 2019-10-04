@@ -68,7 +68,6 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin<
     address,
     state,
     description,
-    position
   ];
 
   //Show dialogs
@@ -224,14 +223,6 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin<
                   Navigator.of(context).pop();
                 },
               ),
-              RoundedOutlinedButton(
-                text: 'Por $position',
-                width: 200,
-                onPressed: (){
-                  choiceSortAction(position);                        
-                  Navigator.of(context).pop();
-                },
-              ),
             ],
           ),
         );
@@ -304,15 +295,6 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin<
           }
         );
       }
-
-      if(choice == position){
-        propertiesToShow.sort(
-          (a, b){
-            return a.geohash.compareTo(b.geohash);
-          }
-        );
-      }
-
     });
     
   }
@@ -529,15 +511,24 @@ class _ListPageState extends State<ListPage> with AutomaticKeepAliveClientMixin<
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    'Descripción: ',
+                    'Barrio: ',
                     style: TextStyle(
                         fontWeight: FontWeight.bold, fontSize: 18.0),
                   ),
                   Flexible(
-                    child: Text(
-                      item.description,
-                      style: TextStyle(fontSize: 16.0),
-                    ),
+                    child: (item.neighborhood == null || item.neighborhood.length == 0) ?
+                      Text(
+                        'Sin registrar',
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          color: Colors.red,
+                          fontWeight: FontWeight.bold
+                        ),
+                      ) :
+                      Text(
+                        item.neighborhood,
+                        style: TextStyle(fontSize: 16.0),
+                      ),
                   )
                 ],
               ),

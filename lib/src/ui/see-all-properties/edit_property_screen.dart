@@ -21,6 +21,7 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
   TextEditingController _descriptionController = TextEditingController();
   TextEditingController _observationsController = TextEditingController();
   TextEditingController _dateController = TextEditingController();
+  TextEditingController _neighborhoodController = TextEditingController();
 
   var _scaffoldKey = new GlobalKey<ScaffoldState>();
 
@@ -97,6 +98,28 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
                   Expanded(
                     child: TextField(
                       controller: _contactNumberController,      
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 30.0,),
+            Padding(
+              padding: const EdgeInsets.only(left: 18.0, right: 18.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    'Barrio:',
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold
+                    ),
+                  ),
+                  SizedBox(width: 15.0,),
+                  Expanded(
+                    child: TextField(
+                      controller: _neighborhoodController,      
                     ),
                   ),
                 ],
@@ -314,6 +337,7 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
     property.description = _descriptionController.text;
     property.observations = _observationsController.text;
     property.date = _dateController.text;
+    property.neighborhood = _neighborhoodController.text;
 
     modifyPropertiesService.property = property;
     modifyPropertiesService.editProperty().then((onValue){
@@ -344,6 +368,7 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
       _descriptionController.text = property.description;
       _dateController.text = property.date;
       _observationsController.text = property.observations;
+      _neighborhoodController.text = property.neighborhood;
     }
   
    return Scaffold(

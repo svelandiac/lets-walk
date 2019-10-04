@@ -107,6 +107,9 @@ class SavedMarkersService {
           //Show property
           newProperty.show = true;
 
+          //Neighborhood
+          newProperty.neighborhood = document.data['neighborhood'];
+
           locations.addNewProperty(newProperty);
         }
       });
@@ -134,7 +137,8 @@ class SavedMarkersService {
     return _firestore.collection('locations').add({ 
       'position': point.data,
       'details': property.details,
-      'pictures': _mapFromAList(uploadedPictures)
+      'pictures': _mapFromAList(uploadedPictures),
+      'neighborhood': property.neighborhood
     });
   }
 

@@ -8,6 +8,7 @@ class Property{
   String _contactNumber;
   List<dynamic> _photos;
   String _description;
+  String _neighborhood;
 
   GeoPoint _location;
   String _geohash;
@@ -19,7 +20,7 @@ class Property{
   bool _show;
 
 
-  Property ({String address, List photos, String description, String contactNumber, String documentID, GeoPoint location, String geohash, bool show = true}) {
+  Property ({String address, List photos, String description, String contactNumber, String documentID, GeoPoint location, String geohash, bool show = true, String neighborhood}) {
     if(photos==null)
       this._photos = List();
     else
@@ -40,6 +41,7 @@ class Property{
       this._geohash = geohash;
 
     this._show = show;
+    this._neighborhood = neighborhood;
   }
 
   String get documentID => this._documentID;
@@ -53,6 +55,7 @@ class Property{
   String get date => this._date;
   String get geohash => this._geohash;
   bool get show => this._show;
+  String get neighborhood => this._neighborhood;
 
   set documentID(String value){
     this._documentID = value;
@@ -96,6 +99,10 @@ class Property{
 
   set show(bool value){
     this._show = value;
+  }
+
+  set neighborhood(String value){
+    this._neighborhood = value;
   }
 
   get details {

@@ -21,7 +21,8 @@ class ModifyPropertiesService with ChangeNotifier {
     return propertyReference.setData({
       'details': _propertyToModify.details,
       'contacting': _propertyToModify.contacting,
-      'isContacted': _propertyToModify.isContacted
+      'isContacted': _propertyToModify.isContacted,
+      'neighborhood': _propertyToModify.neighborhood
     }, merge: true);
   } 
 }
