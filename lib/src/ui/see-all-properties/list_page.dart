@@ -405,6 +405,7 @@ class _ListPageState extends State<ListPage>
 
   void searchASpecificProperty(String text) {
     _searchController.text = text;
+    _searchByAddress = true;
     searchProperty(text);
   }
 
