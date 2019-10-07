@@ -1,0 +1,5 @@
+1. Arreglar sorting por posición (debería ordenarlo bien). // No se pudo completar.
+2. Añadir field: Barrio. // Completada :)
+3. Mejorar la subida de las fotos: Bajar la resolución para subirlas. // Completado :)
+4. Añadir búsqueda por barrio.
+5. Añadir filtro: Buscar inmuebles cercanos a cierta distancia.
