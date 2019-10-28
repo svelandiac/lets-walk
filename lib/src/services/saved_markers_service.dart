@@ -54,12 +54,10 @@ class SavedMarkersService {
     
     var userQuery = _firestore.collection('locations').orderBy("details.address");
     
-    var documentsNumber = 0;
     userQuery.snapshots().listen((data){
       var documentList = data.documents;
       locations.clearProperties();
       documentList.forEach((DocumentSnapshot document) {
-        documentsNumber++;
 
         if(document.data['position']!=null){
           Property newProperty = Property();
@@ -113,7 +111,6 @@ class SavedMarkersService {
           locations.addNewProperty(newProperty);
         }
       });
-      print('Documents found: $documentsNumber');
     });
   }
 

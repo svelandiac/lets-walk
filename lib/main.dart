@@ -22,7 +22,7 @@ class LetsWalkApp extends StatelessWidget{
 
       ],
       child: MaterialApp(
-        title: "Let's Walk!",
+        title: "Platz Admin",
         home: _handleWindowDisplay(),
         routes: routes,
         theme: ThemeData(

@@ -62,8 +62,6 @@ class _SeePropertiesScreenState extends State<SeePropertiesScreen> {
   @override
   Widget build(BuildContext context) {
 
-    print(_selectedIndex);
-
     if(locations == null && markersService == null){
       locations = Provider.of<Locations>(context);
       locations.changeToList = changeToList;

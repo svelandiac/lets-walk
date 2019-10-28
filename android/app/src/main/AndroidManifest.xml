@@ -12,7 +12,7 @@
 
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="Let's Walk!"
+        android:label="Platz Admin"
         android:icon="@drawable/icon">
         <meta-data 
             android:name="com.google.android.geo.API_KEY"

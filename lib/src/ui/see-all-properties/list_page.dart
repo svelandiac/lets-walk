@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:lets_walk/src/models/locations.dart';
 import 'package:lets_walk/src/models/property.dart';
 import 'package:lets_walk/src/services/modify_properties_service.dart';
@@ -26,7 +27,10 @@ class _ListPageState extends State<ListPage>
   Locations locations;
   ModifyPropertiesService modifyPropertiesService;
 
+  Geoflutterfire geo = Geoflutterfire();
+
   TextEditingController _searchController = TextEditingController();
+  TextEditingController _distanceNearbyPropertiesController = TextEditingController();
 
   CallbackObject callbackObject;
 
@@ -60,7 +64,64 @@ class _ListPageState extends State<ListPage>
     description,
   ];
 
+  bool _inputError = false;
+  int _distance = 500;
+
   //Show dialogs
+
+  void _showNearbyPropertiesOptions(Property _propertyToCompare){
+    showDialog(
+      context: context,
+      builder: (BuildContext context){
+        return StatefulBuilder(
+          builder: (context, setState){
+            return AlertDialog(
+              title: Text('Buscar inmuebles cercanos'),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Text('A continuación indique la distancia (en metros) a la que quiere encontrar inmuebles a la redonda:'),
+                  SizedBox(height: 15.0,),
+                  (_inputError) ? 
+                  Text(
+                    'Por favor, digite sólo el número de metros a la redonda',
+                    style: TextStyle(
+                      color: Colors.red
+                    ),
+                  ) : Container(),
+                  TextField(
+                    controller: _distanceNearbyPropertiesController,
+                    decoration: InputDecoration(hintText: '500'),
+                  ),
+                  SizedBox(height: 15.0,),
+                  Center(
+                    child: RoundedOutlinedButton(
+                      text: 'Buscar',
+                      onPressed: () {
+                        setState(() {
+                          try{
+                            _inputError = false;
+                            if(_distanceNearbyPropertiesController.text.length > 0){
+                              _distance = int.parse(_distanceNearbyPropertiesController.text);
+                            }
+                            print('Looking for properties $_distance meters nearby');
+                            filterByNearbyProperties(_propertyToCompare);
+                            Navigator.of(context).pop();
+                          } catch (e) {
+                            _inputError = true;
+                          }
+                        });
+                      },
+                    ),
+                  )
+                ],
+              ),
+            );
+          },
+        );
+      }
+    );
+  }
 
   void _showFilterByPosition() {
     showDialog(
@@ -345,6 +406,33 @@ class _ListPageState extends State<ListPage>
           if (_property.isContacted == 'lost') _property.show = true;
         }
       });
+    });
+  }
+
+  Future filterByNearbyProperties(Property _centerProperty) async {
+    setState(() {
+
+      updateList();
+
+      var maximum = 0.0;
+
+      propertiesToShow.forEach((Property _property) {
+        _property.show = false;
+
+        var firstPoint = geo.point(latitude: _centerProperty.location.latitude, longitude: _centerProperty.location.longitude);
+        var secondPoint = geo.point(latitude: _property.location.latitude, longitude: _property.location.longitude);
+
+        var distance = firstPoint.distance(lat: secondPoint.coords.latitude, lng: secondPoint.coords.longitude);
+
+        if(distance > maximum)
+          maximum = distance;
+
+        print(distance.toString() + ' / ' + (_distance/1000).toString());
+
+        if(distance < (_distance/1000)) {
+          _property.show = true;
+        }
+      }); 
     });
   }
 
@@ -639,7 +727,17 @@ class _ListPageState extends State<ListPage>
                     ),
                   ],
                 ),
-              )
+              ),
+              Center(
+                child: RoundedOutlinedButton(
+                  text: 'Encontrar inmuebles cercanos',
+                  width: 260,
+                  onPressed: () {
+                    _showNearbyPropertiesOptions(item);
+                  },
+                ),
+              ),
+              SizedBox(height: 10.0,)
             ],
           ));
     }

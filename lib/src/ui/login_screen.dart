@@ -70,12 +70,10 @@ class LoginScreen extends StatelessWidget {
                         firebaseInfo.loading = true;
                         firebaseInfo.signInWithEmailAndPassword(_emailController.text, _passwordController.text)
                         .then((onValue){
-                          debugPrint('onValue: ${onValue.email}');
                           firebaseInfo.stateMessage = 'Inicia sesión en tu cuenta';
                           firebaseInfo.loading = false;
                         })
                         .catchError((onError){
-                          debugPrint('Error: $onError');
                           firebaseInfo.stateMessage = 'Usuario o contraseña incorrectos\nIntenta de nuevo';
                           firebaseInfo.loading = false;
                         });
