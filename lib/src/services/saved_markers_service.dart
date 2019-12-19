@@ -94,19 +94,11 @@ class SavedMarkersService {
           else
             newProperty.isContacted = document.data['isContacted'];
 
-          if(document.data['contacting']!=null){
-            newProperty.date = document.data['contacting']['date'];
-            newProperty.observations = document.data['contacting']['observations'];
-          }
-
           //document.geohash
           newProperty.geohash = document.data['position']['geohash'];
 
           //Show property
           newProperty.show = true;
-
-          //Neighborhood
-          newProperty.neighborhood = document.data['neighborhood'];
 
           locations.addNewProperty(newProperty);
         }
@@ -135,7 +127,6 @@ class SavedMarkersService {
       'position': point.data,
       'details': property.details,
       'pictures': _mapFromAList(uploadedPictures),
-      'neighborhood': property.neighborhood
     });
   }
 

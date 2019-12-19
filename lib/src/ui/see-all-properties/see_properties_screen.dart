@@ -71,7 +71,7 @@ class _SeePropertiesScreenState extends State<SeePropertiesScreen> {
     
     return Scaffold(
       appBar: AppBar(
-        title: Text('Ver los inmuebles añadidos'),
+        title: Text('Editar los inmuebles añadidos'),
         centerTitle: true,
       ),
       body: PageView(

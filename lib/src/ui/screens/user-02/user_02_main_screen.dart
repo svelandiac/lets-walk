@@ -1,9 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:lets_walk/src/models/type_of_user.dart';
 import 'package:lets_walk/src/services/firebase_auth_service.dart';
 import 'package:lets_walk/src/ui/common-widgets/rounded_outlined_button.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class MainScreen extends StatelessWidget{
+class User02MainScreen extends StatefulWidget{
+
+  @override
+  _User02MainScreenState createState() => _User02MainScreenState();
+}
+
+class _User02MainScreenState extends State<User02MainScreen> {
+
+  TypeOfUser typeOfUser;
+
+  Future<void> changeUser(int value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setInt('user', value);
+    typeOfUser.value = value;
+    return;
+  }
 
   Widget _buildLogOutButton(){
     return Consumer<FirebaseAuthService>(
@@ -12,7 +29,7 @@ class MainScreen extends StatelessWidget{
         textColor: Colors.white,
         child: Icon(Icons.power_settings_new),
         onPressed: (){
-          firebaseInfo.signOut();
+          changeUser(null);
         },
       )
     );
@@ -35,11 +52,11 @@ class MainScreen extends StatelessWidget{
             RoundedOutlinedButton(
               text: 'Agregar un nuevo inmueble',
               onPressed: (){
-                Navigator.pushNamed(context, '/NewPropertyScreen');
+                Navigator.pushNamed(context, '/AddPropertyUser02Screen');
               },
             ),
             RoundedOutlinedButton(
-              text: 'Ver todos los inmuebles',
+              text: 'Editar los inmuebles añadidos',
               onPressed: (){
                 Navigator.pushNamed(context, '/SeePropertiesScreen');                  
               },
@@ -52,6 +69,9 @@ class MainScreen extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
+
+    typeOfUser = Provider.of<TypeOfUser>(context);
+
     return new Scaffold(
       appBar: AppBar(
         title: Text('Menú principal'),

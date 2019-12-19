@@ -19,12 +19,36 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
   TextEditingController _addressController = TextEditingController();
   TextEditingController _contactNumberController = TextEditingController();
   TextEditingController _descriptionController = TextEditingController();
-  TextEditingController _observationsController = TextEditingController();
-  TextEditingController _dateController = TextEditingController();
-  TextEditingController _neighborhoodController = TextEditingController();
+  TextEditingController _kindOfPropertyController = TextEditingController();
+  TextEditingController _numberOfBathsController = TextEditingController();
+  TextEditingController _numberOfRoomsController = TextEditingController();
+  TextEditingController _sizeController = TextEditingController();
+  TextEditingController _yearsOldController = TextEditingController();
+  TextEditingController _numberOfParkingController = TextEditingController();
+  TextEditingController _stratumController = TextEditingController();
+
+  TextEditingController _acabadosController = TextEditingController();
+  TextEditingController _ruidoController = TextEditingController();
+  TextEditingController _iluminacionController = TextEditingController();
+  TextEditingController _ventilacionController = TextEditingController();
+  TextEditingController _fallasController = TextEditingController();
+
+  TextEditingController _nombrePropietarioController = TextEditingController();
+  TextEditingController _numeroController = TextEditingController();
+  TextEditingController _precioArriendoController = TextEditingController();
+  TextEditingController _costoAdministracionController = TextEditingController();
+  
+  bool _arriendoAmoblado;
+  bool _abiertoContratoMandato;
+  
+  String _available;
+
+  bool _visited;
 
   var _scaffoldKey = new GlobalKey<ScaffoldState>();
 
+  bool _petsController;
+  bool _remakedController;
 
   final uploadingSnackBar = SnackBar(
     content: Text('Editando el inmueble...'),
@@ -110,29 +134,7 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    'Barrio:',
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.bold
-                    ),
-                  ),
-                  SizedBox(width: 15.0,),
-                  Expanded(
-                    child: TextField(
-                      controller: _neighborhoodController,      
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 30.0,),
-            Padding(
-              padding: const EdgeInsets.only(left: 18.0, right: 18.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    'Descripción:',
+                    'Comentario:',
                     style: TextStyle(
                       fontSize: 16.0,
                       fontWeight: FontWeight.bold
@@ -147,12 +149,216 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
                 ],
               ),
             ),
+            SizedBox(height: 30.0,),
+            Padding(
+              padding: const EdgeInsets.only(left: 18.0, right: 18.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    'Tipo de propiedad:',
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold
+                    ),
+                  ),
+                  SizedBox(width: 15.0,),
+                  Expanded(
+                    child: TextField(
+                      controller: _kindOfPropertyController,      
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 18.0, right: 18.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    'Número de habitaciones:',
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold
+                    ),
+                  ),
+                  SizedBox(width: 15.0,),
+                  Expanded(
+                    child: TextField(
+                      controller: _numberOfRoomsController,      
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 18.0, right: 18.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    'Número de baños:',
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold
+                    ),
+                  ),
+                  SizedBox(width: 15.0,),
+                  Expanded(
+                    child: TextField(
+                      controller: _numberOfBathsController,      
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 18.0, right: 18.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    'Metros cuadrados:',
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold
+                    ),
+                  ),
+                  SizedBox(width: 15.0,),
+                  Expanded(
+                    child: TextField(
+                      controller: _sizeController,      
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 18.0, right: 18.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    'Antigüedad (años):',
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold
+                    ),
+                  ),
+                  SizedBox(width: 15.0,),
+                  Expanded(
+                    child: TextField(
+                      controller: _yearsOldController,      
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 18.0, right: 18.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    'Cantidad de parqueaderos:',
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold
+                    ),
+                  ),
+                  SizedBox(width: 15.0,),
+                  Expanded(
+                    child: TextField(
+                      controller: _numberOfParkingController,      
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 18.0, right: 18.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    'Estrato:',
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold
+                    ),
+                  ),
+                  SizedBox(width: 15.0,),
+                  Expanded(
+                    child: TextField(
+                      controller: _stratumController,      
+                    ),
+                  ),
+                ],
+              ),
+            ),  
+            Padding(
+              padding: const EdgeInsets.only(left: 18.0, right: 18.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    '¿Se permiten mascotas?:',
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold
+                    ),
+                  ),
+                  Spacer(),
+                  Switch(
+                    value: (this._petsController),
+                    onChanged: (newValue){
+                      setState(() {
+                        _petsController = newValue;
+                      });
+                    },
+                    activeColor: Colors.black,
+                  ),
+                  SizedBox(
+                    width: 40,
+                  )
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 18.0, right: 18.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    '¿Propiedad remodelada?:',
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold
+                    ),
+                  ),
+                  Spacer(),
+                  Switch(
+                    value: (this._remakedController),
+                    onChanged: (newValue){
+                      setState(() {
+                        _remakedController = newValue;
+                      });
+                    },
+                    activeColor: Colors.black,
+                  ),
+                  SizedBox(
+                    width: 40,
+                  )
+                ],
+              ),
+            ),
             Container(
               alignment: Alignment.centerLeft,
               child: Padding(
                 padding: EdgeInsets.only(left: 18.0, right: 18.0, top: 40.0),
                 child: Text(
-                  'Estado:',
+                  'Estado de la propiedad:',
                   style: TextStyle(
                     fontSize: 16.0,
                     fontWeight: FontWeight.bold
@@ -161,155 +367,342 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 60.0, right: 60.0, top: 20.0),
+              padding: const EdgeInsets.only(left: 60.0, right: 100.0, top: 20.0),
               child: Row(
                 children: <Widget>[
                   Text(
-                    'No contactado'
+                    'Acabados:'
                   ),
-                  Spacer(),
-                  Switch(
-                    value: (property.isContacted=='noContacted'),
-                    onChanged: (newValue){
-                      setState(() {
-                        property.isContacted = 'noContacted';
-                      });
-                    },
-                    activeColor: Colors.red,
+                  SizedBox(
+                    width: 30,
+                  ),
+                  Container(
+                    width: 40,
+                    child: TextField(
+                      controller: _acabadosController,
+                    ),
                   )
                 ],
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 60.0, right: 60.0, top: 5.0),
+              padding: const EdgeInsets.only(left: 60.0, right: 100.0, top: 20.0),
               child: Row(
                 children: <Widget>[
                   Text(
-                    'Contactado'
+                    'Ruido:'
                   ),
-                  Spacer(),
-                  Switch(
-                    value: (property.isContacted=='contacted'),
-                    onChanged: (newValue){
-                      setState(() {
-                        property.isContacted = 'contacted';
-                      });
-                    },
-                    activeColor: Colors.green,
+                  SizedBox(
+                    width: 30,
+                  ),
+                  Container(
+                    width: 40,
+                    child: TextField(
+                      controller: _ruidoController,
+                    ),
                   )
                 ],
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 60.0, right: 60.0, top: 5.0),
+              padding: const EdgeInsets.only(left: 60.0, right: 100.0, top: 20.0),
               child: Row(
                 children: <Widget>[
                   Text(
-                    'Ocupada'
+                    'Iluminación:'
                   ),
-                  Spacer(),
-                  Switch(
-                    value: (property.isContacted=='busy'),
-                    onChanged: (newValue){
-                      setState(() {
-                        property.isContacted = 'busy';
-                      });
-                    },
-                    activeColor: Colors.yellow,
+                  SizedBox(
+                    width: 30,
+                  ),
+                  Container(
+                    width: 40,
+                    child: TextField(
+                      controller: _iluminacionController,
+                    ),
                   )
                 ],
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 60.0, right: 60.0, top: 5.0),
+              padding: const EdgeInsets.only(left: 60.0, right: 100.0, top: 20.0),
               child: Row(
                 children: <Widget>[
                   Text(
-                    'Disponible'
+                    'Ventilación:'
                   ),
-                  Spacer(),
-                  Switch(
-                    value: (property.isContacted=='available'),
-                    onChanged: (newValue){
-                      setState(() {
-                        property.isContacted = 'available';
-                      });
-                    },
-                    activeColor: Colors.blue,
+                  SizedBox(
+                    width: 30,
+                  ),
+                  Container(
+                    width: 40,
+                    child: TextField(
+                      controller: _ventilacionController,
+                    ),
                   )
                 ],
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 60.0, right: 60.0, top: 5.0),
+              padding: const EdgeInsets.only(left: 60.0, right: 40.0, top: 20.0),
               child: Row(
                 children: <Widget>[
                   Text(
-                    'Perdida'
+                    'Fallas, fisuras, etc:'
+                  ),
+                  SizedBox(
+                    width: 30,
+                  ),
+                  Expanded(
+                    child: TextField(
+                      controller: _fallasController,
+                    ),
+                  )
+                ],
+              ),
+            ),
+            Container(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: EdgeInsets.only(left: 18.0, right: 18.0, top: 40.0),
+                child: Text(
+                  'Datos del propietario:',
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.bold
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 60.0, right: 40.0, top: 20.0),
+              child: Row(
+                children: <Widget>[
+                  Text(
+                    'Nombre:'
+                  ),
+                  SizedBox(
+                    width: 30,
+                  ),
+                  Expanded(
+                    child: TextField(
+                      controller: _nombrePropietarioController,
+                    ),
+                  )
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 60.0, right: 40.0, top: 20.0),
+              child: Row(
+                children: <Widget>[
+                  Text(
+                    'Número:'
+                  ),
+                  SizedBox(
+                    width: 30,
+                  ),
+                  Expanded(
+                    child: TextField(
+                      controller: _numeroController,
+                    ),
+                  )
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 60.0, right: 40.0, top: 20.0),
+              child: Row(
+                children: <Widget>[
+                  Text(
+                    'Precio de arriendo esperado:'
+                  ),
+                  SizedBox(
+                    width: 30,
+                  ),
+                  Expanded(
+                    child: TextField(
+                      controller: _precioArriendoController,
+                    ),
+                  )
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 60.0, right: 40.0, top: 20.0),
+              child: Row(
+                children: <Widget>[
+                  Text(
+                    '¿Arriendo amoblado?:'
                   ),
                   Spacer(),
                   Switch(
-                    value: (property.isContacted=='lost'),
+                    value: (this._arriendoAmoblado),
                     onChanged: (newValue){
                       setState(() {
-                        property.isContacted = 'lost';
+                        _arriendoAmoblado = newValue;
                       });
                     },
                     activeColor: Colors.black,
+                  ),
+                  SizedBox(
+                    width: 40,
                   )
                 ],
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 18.0, right: 18.0),
+              padding: const EdgeInsets.only(left: 60.0, right: 40.0, top: 20.0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    'Observaciones:',
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.bold
-                    ),
+                    'Costo de administración:'
                   ),
-                  SizedBox(width: 15.0,),
+                  SizedBox(
+                    width: 30,
+                  ),
                   Expanded(
                     child: TextField(
-                      controller: _observationsController,   
-                      decoration: InputDecoration(
-                        labelText: 'Observaciones'
-                      ),   
+                      controller: _costoAdministracionController,
                     ),
-                  ),
+                  )
                 ],
+              ),
+            ),   
+            Padding(
+              padding: const EdgeInsets.only(left: 60.0, right: 0.0, top: 20.0),
+              child: Row(
+                children: <Widget>[
+                  Text(
+                    '¿Abierto a contrato de mandato?:'
+                  ),
+                  Spacer(),
+                  Switch(
+                    value: (this._abiertoContratoMandato),
+                    onChanged: (newValue){
+                      setState(() {
+                        _abiertoContratoMandato = newValue;
+                      });
+                    },
+                    activeColor: Colors.black,
+                  ),
+                  SizedBox(
+                    width: 40,
+                  )
+                ],
+              ),
+            ),         
+            Container(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: EdgeInsets.only(left: 18.0, right: 18.0, top: 40.0),
+                child: Text(
+                  'Estado actual:',
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.bold
+                  ),
+                ),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 18.0, right: 18.0),
+              padding: const EdgeInsets.only(left: 60.0, right: 0.0, top: 20.0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.end,
                 children: <Widget>[
                   Text(
-                    'Fecha vencimiento\ndel contrato:',
+                    'Disponible:'
+                  ),
+                  Spacer(),
+                  Switch(
+                    value: (_available == 'disponible'),
+                    onChanged: (newValue){
+                      setState(() {
+                        if(newValue)
+                          _available = 'disponible';
+                      });
+                    },
+                    activeColor: Colors.black,
+                  ),
+                  SizedBox(
+                    width: 40,
+                  )
+                ],
+              ),
+            ),     
+            Padding(
+              padding: const EdgeInsets.only(left: 60.0, right: 0.0, top: 20.0),
+              child: Row(
+                children: <Widget>[
+                  Text(
+                    'Ocupado:'
+                  ),
+                  Spacer(),
+                  Switch(
+                    value: (_available == 'ocupado'),
+                    onChanged: (newValue){
+                      setState(() {
+                        if(newValue)
+                          _available = 'ocupado';
+                      });
+                    },
+                    activeColor: Colors.black,
+                  ),
+                  SizedBox(
+                    width: 40,
+                  )
+                ],
+              ),
+            ),     
+            Padding(
+              padding: const EdgeInsets.only(left: 60.0, right: 0.0, top: 20.0),
+              child: Row(
+                children: <Widget>[
+                  Text(
+                    'No sabemos:'
+                  ),
+                  Spacer(),
+                  Switch(
+                    value: (_available == 'noSabemos'),
+                    onChanged: (newValue){
+                      setState(() {
+                        if(newValue)
+                          _available = 'noSabemos';
+                      });
+                    },
+                    activeColor: Colors.black,
+                  ),
+                  SizedBox(
+                    width: 40,
+                  )
+                ],
+              ),
+            ), 
+            Padding(
+              padding: const EdgeInsets.only(left: 18.0, right: 0.0, top: 20.0),
+              child: Row(
+                children: <Widget>[
+                  Text(
+                    'Visitado:',
                     style: TextStyle(
                       fontSize: 16.0,
                       fontWeight: FontWeight.bold
                     ),
                   ),
-                  SizedBox(width: 15.0,),
-                  Expanded(
-                    child: TextField(
-                      controller: _dateController,   
-                      decoration: InputDecoration(
-                        hintText: 'dd/mm/aa',
-                        labelText: 'Fecha de vencimiento'
-                      ),   
-                    ),
+                  SizedBox(width: 40,),
+                  Switch(
+                    value: (this._visited),
+                    onChanged: (newValue){
+                      setState(() {
+                        _visited = newValue;
+                      });
+                    },
+                    activeColor: Colors.black,
                   ),
+                  SizedBox(
+                    width: 40,
+                  )
                 ],
               ),
-            ),
+            ), 
             Padding(
               padding: const EdgeInsets.only(top: 30.0),
               child: RoundedOutlinedButton(
@@ -335,9 +728,32 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
     property.address = _addressController.text;
     property.contactNumber = _contactNumberController.text;
     property.description = _descriptionController.text;
-    property.observations = _observationsController.text;
-    property.date = _dateController.text;
-    property.neighborhood = _neighborhoodController.text;
+
+    property.kindOfProperty = _kindOfPropertyController.text;
+    property.numberOfBaths = int.parse(_numberOfBathsController.text);
+    property.numberOfRooms = int.parse(_numberOfRoomsController.text);
+    property.size = double.parse(_sizeController.text);
+    property.yearsOld = int.parse(_yearsOldController.text);
+    property.numberOfParking = int.parse(_numberOfParkingController.text);
+    property.pets = _petsController;
+    property.remaked = _remakedController;
+    property.stratum = int.parse(_stratumController.text);
+    
+    property.acabados = int.parse(_acabadosController.text);
+    property.ruido = int.parse(_ruidoController.text);
+    property.iluminacion = int.parse(_iluminacionController.text);
+    property.ventilacion = int.parse(_ventilacionController.text);
+    property.fallas = _fallasController.text;
+
+    property.currentState = _available;
+    property.abiertoContratoMandato = _abiertoContratoMandato;
+    property.arriendoAmoblado = _arriendoAmoblado;
+    property.costoAdministracion = _costoAdministracionController.text;
+    property.nombrePropietario = _nombrePropietarioController.text;
+    property.numeroPropietario = _numeroController.text;
+    property.precioArriendoEsperado = _precioArriendoController.text;
+
+    property.visited = _visited;
 
     modifyPropertiesService.property = property;
     modifyPropertiesService.editProperty().then((onValue){
@@ -366,15 +782,21 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
       _addressController.text = property.address; 
       _contactNumberController.text = property.contactNumber;
       _descriptionController.text = property.description;
-      _dateController.text = property.date;
-      _observationsController.text = property.observations;
-      _neighborhoodController.text = property.neighborhood;
+
+      _petsController = false;
+      _remakedController = false;
+      _arriendoAmoblado = false;
+      _abiertoContratoMandato = false;
+
+      _available = 'disponible';
+      _visited = false;
+
     }
   
    return Scaffold(
      key: _scaffoldKey,
       appBar: AppBar(
-        title: Text('Ver los inmuebles añadidos'),
+        title: Text('Editar los inmuebles añadidos'),
         centerTitle: true,
       ),
       body: _buildBody(),

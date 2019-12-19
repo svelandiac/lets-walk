@@ -467,28 +467,7 @@ class _ListPageState extends State<ListPage>
   }
 
   Future searchNeighborhood(String neighborhood) async {
-    setState(() {
-      if(neighborhood.length > 0) {
-        updateList();
-        propertiesToShow.forEach((Property _property){
-          if(_property.show) {
-            if(_property.neighborhood != null){
-              if(_property.neighborhood.toLowerCase().trim().startsWith(neighborhood.toLowerCase().trim())){
-                _property.show = true;
-              }
-              else{
-                _property.show = false;
-              }
-            }
-            else{
-              _property.show = false;
-            }
-          }
-        });
-      } else {
-        updateList();
-      }
-    });
+    
   }
 
   void searchASpecificProperty(String text) {
@@ -595,34 +574,6 @@ class _ListPageState extends State<ListPage>
               if (expanded) modifyPropertiesService.property = item;
             },
             children: <Widget>[
-              Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      'Barrio: ',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 18.0),
-                    ),
-                    Flexible(
-                      child: (item.neighborhood == null ||
-                              item.neighborhood.length == 0)
-                          ? Text(
-                              'Sin registrar',
-                              style: TextStyle(
-                                  fontSize: 16.0,
-                                  color: Colors.red,
-                                  fontWeight: FontWeight.bold),
-                            )
-                          : Text(
-                              item.neighborhood,
-                              style: TextStyle(fontSize: 16.0),
-                            ),
-                    )
-                  ],
-                ),
-              ),
               Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Row(
@@ -789,34 +740,7 @@ class _ListPageState extends State<ListPage>
           ),
         ),
         SizedBox(height: 10.0,),
-        Center(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              (_searchByAddress) ?
-                Text('Estás buscando por dirección') 
-                :
-                Text('Estás buscando por barrio'),
-              SizedBox(width: 15.0,),
-              GestureDetector(
-                child: Text(
-                  'Cambiar',
-                  style: TextStyle(
-                    color: Colors.blue,
-                    fontWeight: FontWeight.bold
-                  ),
-                ),
-                onTap: (){
-                  setState(() {
-                    _searchByAddress = !_searchByAddress; 
-                    _searchController.clear();
-                    updateList();
-                  });
-                },
-              )
-            ],
-          ),
-        ),
+        
         SizedBox(
           height: 10.0,
         ),

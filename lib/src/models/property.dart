@@ -8,19 +8,43 @@ class Property{
   String _contactNumber;
   List<dynamic> _photos;
   String _description;
-  String _neighborhood;
 
   GeoPoint _location;
   String _geohash;
 
   String _isContacted;
-  String _observations;
-  String _date;
 
   bool _show;
 
+  String _kindOfProperty;
+  int _numberOfBaths;
+  int _numberOfRooms;
+  double _size;
+  int _yearsOld;
+  int _numberOfParking;
 
-  Property ({String address, List photos, String description, String contactNumber, String documentID, GeoPoint location, String geohash, bool show = true, String neighborhood}) {
+  bool _pets;
+  bool _remaked;
+  int _stratum;
+
+  int acabados;
+  int ruido;
+  int iluminacion;
+  int ventilacion;
+  String fallas;
+
+  String nombrePropietario;
+  String numeroPropietario;
+  String precioArriendoEsperado;
+  bool arriendoAmoblado;
+  String costoAdministracion;
+  bool abiertoContratoMandato;
+
+  String currentState;
+
+  bool visited;
+
+  Property ({String address, List photos, String description, String contactNumber, String documentID, GeoPoint location, String geohash, bool show = true, String neighborhood, String kindOfProperty, int numberOfBaths, int numberOfRooms, double size, int yearsOld, int numberOfParking,}) {
     if(photos==null)
       this._photos = List();
     else
@@ -32,8 +56,13 @@ class Property{
     this._documentID = documentID;
     this._location = location;
     this._isContacted = 'noContacted';
-    this._observations = '';
-    this._date = '';
+
+    this._kindOfProperty = kindOfProperty;
+    this._numberOfBaths = numberOfBaths;
+    this._numberOfRooms = numberOfRooms;
+    this._size = size;
+    this._yearsOld = yearsOld;
+    this._numberOfParking = numberOfParking;
     
     if(geohash == null)
       this._geohash = "";
@@ -41,7 +70,6 @@ class Property{
       this._geohash = geohash;
 
     this._show = show;
-    this._neighborhood = neighborhood;
   }
 
   String get documentID => this._documentID;
@@ -51,11 +79,18 @@ class Property{
   String get contactNumber => this._contactNumber;
   GeoPoint get location => this._location;
   String get isContacted => this._isContacted;
-  String get observations => this._observations;
-  String get date => this._date;
   String get geohash => this._geohash;
   bool get show => this._show;
-  String get neighborhood => this._neighborhood;
+
+  String get kindOfProperty => this._kindOfProperty;
+  int get numberOfBaths => this._numberOfBaths;
+  int get numberOfRooms => this._numberOfRooms;
+  double get size => this._size;
+  int get yearsOld => this._yearsOld;
+  int get nummberOfParking => this._numberOfParking;
+  bool get pets => this._pets;
+  bool get remaked => this._remaked;
+  int get stratum => this._stratum;
 
   set documentID(String value){
     this._documentID = value;
@@ -85,14 +120,6 @@ class Property{
     this._isContacted = value;
   } 
 
-  set observations(String value){
-    this._observations = value;
-  }
-  
-  set date(String value){
-    this._date = value;
-  }
-
   set geohash(String value){
     this._geohash = value;
   }
@@ -101,16 +128,79 @@ class Property{
     this._show = value;
   }
 
-  set neighborhood(String value){
-    this._neighborhood = value;
+  set kindOfProperty(String value){
+    this._kindOfProperty = value;
+  }
+
+  set numberOfBaths(int value){
+    this._numberOfBaths = value;
+  }
+
+  set numberOfRooms(int value){
+    this._numberOfRooms = value;
+  }
+
+  set size(double value){
+    this._size = value;
+  }
+
+  set yearsOld(int value){
+    this._yearsOld = value;
+  }
+
+  set numberOfParking(int value){
+    this._numberOfParking = value;
+  }
+
+  set pets(bool value){
+    this._pets = value;
+  }
+
+  set remaked(bool value){
+    this._remaked = value;
+  }
+
+  set stratum(int value){
+    this._stratum = value;
   }
 
   get details {
     return {'address': this._address, 'description': this._description, 'contactNumber': this._contactNumber};
   }
 
-  get contacting {
-    return {'observations': this._observations, 'date': this._date};
+  get modifications {
+    return {
+      'kindOfProperty' : this._kindOfProperty,
+      'numberOfBaths' : this._numberOfBaths,
+      'numberOfRooms' : this._numberOfRooms,
+      'size' : this._size,
+      'yearsOld' : this._yearsOld,
+      'numberOfParking' : this._numberOfParking,
+      'pets' : this._pets,
+      'remaked' : this._remaked,
+      'stratum' : this._stratum
+    };
+  }
+
+  get propertyStatus {
+    return {
+      'acabados': acabados,
+      'iluminacion': iluminacion,
+      'ruido' : ruido,
+      'ventilacion' : ventilacion,
+      'fallas' : fallas
+    };
+  }
+
+  get ownerInfo {
+    return {
+      'nombre': nombrePropietario,
+      'numero': numeroPropietario,
+      'precio': precioArriendoEsperado,
+      'amoblado': arriendoAmoblado,
+      'costoAdministracion': costoAdministracion,
+      'abiertoContratoMandato': abiertoContratoMandato
+    };
   }
 
 }
