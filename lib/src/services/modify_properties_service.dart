@@ -20,7 +20,6 @@ class ModifyPropertiesService with ChangeNotifier {
 
     return propertyReference.setData({
       'details': _propertyToModify.details,
-      'isContacted': _propertyToModify.isContacted,
       'modifications' : _propertyToModify.modifications,
       'propertyStatus' : _propertyToModify.propertyStatus,
       'ownerInfo' : _propertyToModify.ownerInfo,

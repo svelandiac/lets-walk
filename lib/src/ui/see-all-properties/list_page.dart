@@ -348,7 +348,6 @@ class _ListPageState extends State<ListPage>
 
       if (choice == state) {
         propertiesToShow.sort((a, b) {
-          return a.isContacted.compareTo(b.isContacted);
         });
       }
     });
@@ -387,23 +386,23 @@ class _ListPageState extends State<ListPage>
         _property.show = false;
 
         if (_filterByStateOptions[ContactOptions.contacted]) {
-          if (_property.isContacted == 'contacted') _property.show = true;
+          // if (_property.isContacted == 'contacted') _property.show = true;
         }
 
         if (_filterByStateOptions[ContactOptions.noContacted]) {
-          if (_property.isContacted == 'noContacted') _property.show = true;
+          // if (_property.isContacted == 'noContacted') _property.show = true;
         }
 
         if (_filterByStateOptions[ContactOptions.busy]) {
-          if (_property.isContacted == 'busy') _property.show = true;
+          // if (_property.isContacted == 'busy') _property.show = true;
         }
 
         if (_filterByStateOptions[ContactOptions.available]) {
-          if (_property.isContacted == 'available') _property.show = true;
+          // if (_property.isContacted == 'available') _property.show = true;
         }
 
         if (_filterByStateOptions[ContactOptions.lost]) {
-          if (_property.isContacted == 'lost') _property.show = true;
+          // if (_property.isContacted == 'lost') _property.show = true;
         }
       });
     });
@@ -506,7 +505,7 @@ class _ListPageState extends State<ListPage>
       Widget isContacted() {
         Widget result;
 
-        switch (item.isContacted) {
+        switch (item.currentState) {
           case 'noContacted':
             result = Container(
               width: 15.0,
@@ -604,7 +603,7 @@ class _ListPageState extends State<ListPage>
                           fontWeight: FontWeight.bold, fontSize: 18.0),
                     ),
                     Flexible(
-                      child: (item.isContacted == 'noContacted')
+                      child: (item.currentState == 'noContacted')
                           ? Text(
                               'No contactado',
                               style: TextStyle(
@@ -723,7 +722,8 @@ class _ListPageState extends State<ListPage>
                   },
                 ),
               ),
-              PopupMenuButton<String>(
+              SizedBox(width: 40,)
+              /* PopupMenuButton<String>(
                 onSelected: (choice) {
                   choiceMenuAction(choice);
                 },
@@ -735,7 +735,7 @@ class _ListPageState extends State<ListPage>
                     );
                   }).toList();
                 },
-              )
+              ) */
             ],
           ),
         ),

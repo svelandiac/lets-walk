@@ -23,14 +23,12 @@ class SavedMarkersService {
 
   Future<List<String>> uploadPic(List<dynamic> files) async {
 
-    var userID = await FirebaseAuth.instance.currentUser();
-
     List<String> uploadedUrls = List();
 
     for(File file in files){
 
       //Create a reference to the location you want to upload to in firebase  
-      StorageReference reference = _storage.ref().child('images/' + userID.email.toString() + '/' + basename(file.path) + Random().nextInt(1000).toString());
+      StorageReference reference = _storage.ref().child('images/' + basename(file.path) + Random().nextInt(100000).toString());
 
       //Upload the file to firebase 
       StorageUploadTask uploadTask = reference.putFile(file);
@@ -73,6 +71,8 @@ class SavedMarkersService {
             newProperty.description = document.data['details']['description'];
           if(document.data['details']['contactNumber']!=null)
             newProperty.contactNumber = document.data['details']['contactNumber'];
+          if(document.data['details']['zone']!=null)
+            newProperty.zone = document.data['details']['zone'];
           
           //document.pictures
           if(document.data['pictures']['0']!=null){
@@ -88,17 +88,55 @@ class SavedMarkersService {
           GeoPoint position = document.data['position']['geopoint'];
           newProperty.location = position;
 
-          //document.state
-          if(document.data['isContacted'] == null)
-            newProperty.isContacted = 'noContacted';
-          else
-            newProperty.isContacted = document.data['isContacted'];
-
           //document.geohash
           newProperty.geohash = document.data['position']['geohash'];
 
           //Show property
           newProperty.show = true;
+
+          //document.currentState
+          if(document.data['currentState'] == null)
+            newProperty.currentState = 'disponible';
+          else 
+            newProperty.currentState = document.data['currentState'];
+
+          //document.modifications
+          if(document.data['modifications'] != null){
+            newProperty.kindOfProperty = document.data['modifications']['kindOfProperty'];
+            newProperty.numberOfBaths = document.data['modifications']['numberOfBaths'];
+            newProperty.numberOfParking = document.data['modifications']['numberOfParking'];
+            newProperty.numberOfRooms = document.data['modifications']['numberOfRooms'];
+            newProperty.pets = document.data['modifications']['pets'];
+            newProperty.remaked = document.data['modifications']['remaked'];
+            newProperty.size = document.data['modifications']['size'];
+            newProperty.stratum = document.data['modifications']['stratum'];
+            newProperty.yearsOld = document.data['modifications']['yearsOld'];
+          }
+
+          //document.ownerInfo
+          if(document.data['ownerInfo'] != null) {
+            newProperty.abiertoContratoMandato = document.data['ownerInfo']['abiertoContratoMandato'];
+            newProperty.arriendoAmoblado = document.data['ownerInfo']['amoblado'];
+            newProperty.costoAdministracion = document.data['ownerInfo']['costoAdministracion'];
+            newProperty.nombrePropietario = document.data['ownerInfo']['nombre'];
+            newProperty.numeroPropietario = document.data['ownerInfo']['numero'];
+            newProperty.precioArriendoEsperado = document.data['ownerInfo']['precio'];
+          }
+          
+
+          //document.status
+          if(document.data['propertyStatus'] != null) {
+            newProperty.acabados = document.data['propertyStatus']['acabados'];
+            newProperty.fallas = document.data['propertyStatus']['fallas'];
+            newProperty.iluminacion = document.data['propertyStatus']['iluminacion'];
+            newProperty.ruido = document.data['propertyStatus']['ruido'];
+            newProperty.ventilacion = document.data['propertyStatus']['ventilacion'];
+          }
+          
+
+          //document.visited
+          if(document.data['visited'] != null)
+            newProperty.visited = document.data['visited'];
 
           locations.addNewProperty(newProperty);
         }
@@ -129,8 +167,6 @@ class SavedMarkersService {
       'pictures': _mapFromAList(uploadedPictures),
     });
   }
-
-  
 
   startQuery() async {
     _updateMarkers();

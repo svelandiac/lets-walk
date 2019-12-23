@@ -765,6 +765,14 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
     });
   }
 
+  String avoidNullValue(value) {
+
+    if(value == null)
+      return '';
+    else
+      return value.toString();
+  }
+
   @override
   void initState() {
     super.initState();
@@ -777,20 +785,53 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
 
     if(modifyPropertiesService==null){
 
+      
+      _petsController = false;
+      _remakedController = false;
+      _arriendoAmoblado = false;
+      _abiertoContratoMandato = false;
+      _available = 'disponible';
+      _visited = false;
+
       modifyPropertiesService  = Provider.of<ModifyPropertiesService>(context);
       property = modifyPropertiesService.property;
       _addressController.text = property.address; 
       _contactNumberController.text = property.contactNumber;
       _descriptionController.text = property.description;
 
-      _petsController = false;
-      _remakedController = false;
-      _arriendoAmoblado = false;
-      _abiertoContratoMandato = false;
+      _kindOfPropertyController.text = avoidNullValue(property.kindOfProperty);
+      _numberOfBathsController.text = avoidNullValue(property.numberOfBaths);
+      _numberOfRoomsController.text = avoidNullValue(property.numberOfRooms);
+      _sizeController.text = avoidNullValue(property.size);
+      _yearsOldController.text = avoidNullValue(property.yearsOld);
+      _numberOfParkingController.text = avoidNullValue(property.numberOfParking);
+      _stratumController.text = avoidNullValue(property.stratum);
 
-      _available = 'disponible';
-      _visited = false;
+      if(property.pets != null)
+        _petsController = property.pets;
+      if(property.remaked != null)
+      _remakedController = property.remaked;
 
+      _acabadosController.text = avoidNullValue(property.acabados);
+      _ruidoController.text = avoidNullValue(property.ruido);
+      _iluminacionController.text = avoidNullValue(property.iluminacion);
+      _ventilacionController.text = avoidNullValue(property.ventilacion);
+      _fallasController.text = avoidNullValue(property.fallas);
+      
+      _nombrePropietarioController.text = avoidNullValue(property.nombrePropietario);
+      _numeroController.text = avoidNullValue(property.numeroPropietario);
+      _precioArriendoController.text = avoidNullValue(property.precioArriendoEsperado);
+      if(property.arriendoAmoblado != null)
+        _arriendoAmoblado = property.arriendoAmoblado;
+      _costoAdministracionController.text = avoidNullValue(property.costoAdministracion);
+
+      if(property.abiertoContratoMandato != null)
+        _abiertoContratoMandato = property.abiertoContratoMandato;
+
+      _available = avoidNullValue(property.currentState);
+
+      if(property.visited != null)
+        _visited = property.visited;
     }
   
    return Scaffold(

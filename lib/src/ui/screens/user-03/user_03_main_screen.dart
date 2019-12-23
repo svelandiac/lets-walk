@@ -1,19 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:lets_walk/src/models/locations.dart';
+import 'package:lets_walk/src/models/type_of_user.dart';
 import 'package:lets_walk/src/services/saved_markers_service.dart';
 import 'package:lets_walk/src/ui/callbacks/callback_container.dart';
 import 'package:lets_walk/src/ui/see-all-properties/list_page.dart';
 import 'package:provider/provider.dart';
-import 'map_page.dart';
+import 'package:lets_walk/src/ui/see-all-properties/map_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class SeePropertiesScreen extends StatefulWidget{
+class User03MainScreen extends StatefulWidget{
  
   @override
-  _SeePropertiesScreenState createState() => _SeePropertiesScreenState();
+  _User03MainScreenState createState() => _User03MainScreenState();
 }
 
-class _SeePropertiesScreenState extends State<SeePropertiesScreen> {
+class _User03MainScreenState extends State<User03MainScreen> {
 
   static int _selectedIndex = 0;
 
@@ -22,11 +24,20 @@ class _SeePropertiesScreenState extends State<SeePropertiesScreen> {
 
   SavedMarkersService markersService;
 
+  TypeOfUser typeOfUser;
+
   static Map mapWidget = Map(callbackContainer: callbackContainer,);
   static ListPage listWidget;
 
   List<Widget> _widgetOptions;
   Locations locations;
+
+  Future<void> changeUser(int value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setInt('user', value);
+    typeOfUser.value = value;
+    return;
+  }
 
   void animateToSpecificPointInMap(GeoPoint point){
 
@@ -62,6 +73,8 @@ class _SeePropertiesScreenState extends State<SeePropertiesScreen> {
   @override
   Widget build(BuildContext context) {
 
+    typeOfUser = Provider.of<TypeOfUser>(context);
+
     if(locations == null && markersService == null){
       locations = Provider.of<Locations>(context);
       locations.changeToList = changeToList;
@@ -71,8 +84,19 @@ class _SeePropertiesScreenState extends State<SeePropertiesScreen> {
     
     return Scaffold(
       appBar: AppBar(
-        title: Text('Editar los inmuebles '),
+        title: Text('Editar los inmuebles'),
         centerTitle: true,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.power_settings_new,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              changeUser(null);
+            },
+          )
+        ],
       ),
       body: PageView(
         physics: NeverScrollableScrollPhysics(),

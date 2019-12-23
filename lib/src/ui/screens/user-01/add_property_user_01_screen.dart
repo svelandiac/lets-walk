@@ -16,6 +16,8 @@ class _AddPropertyUser01ScreenState extends State<AddPropertyUser01Screen> {
   TextEditingController _addressController = TextEditingController();
   TextEditingController _contactNumberController = TextEditingController();
   TextEditingController _descriptionController = TextEditingController();
+  TextEditingController _zoneController = TextEditingController();
+
 
   SavedMarkersService markersService;
 
@@ -64,7 +66,9 @@ class _AddPropertyUser01ScreenState extends State<AddPropertyUser01Screen> {
   }
 
   void _submit() {
+
     if (newProperty.photos.isNotEmpty) {
+
       _scaffoldKey.currentState.showSnackBar(uploadingSnackBar);
 
       setState(() {
@@ -74,6 +78,7 @@ class _AddPropertyUser01ScreenState extends State<AddPropertyUser01Screen> {
       newProperty.address = _addressController.text;
       newProperty.contactNumber = _contactNumberController.text;
       newProperty.description = _descriptionController.text;
+      newProperty.zone = _zoneController.text;
 
       markersService.addGeoPoint(newProperty).then((onValue) {
         setState(() {
@@ -209,6 +214,16 @@ class _AddPropertyUser01ScreenState extends State<AddPropertyUser01Screen> {
                     decoration: InputDecoration(
                         hintText: 'Comentarios adicionales',
                         labelText: 'Comentarios'),
+                  ),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.only(right: 25.0, left: 25.0, top: 10.0),
+                  child: TextField(
+                    controller: _zoneController,
+                    decoration: InputDecoration(
+                        hintText: 'Chapinero, Bosa, etc.',
+                        labelText: 'Zona'),
                   ),
                 ),
                 Padding(

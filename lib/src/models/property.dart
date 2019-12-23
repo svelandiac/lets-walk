@@ -12,8 +12,6 @@ class Property{
   GeoPoint _location;
   String _geohash;
 
-  String _isContacted;
-
   bool _show;
 
   String _kindOfProperty;
@@ -44,6 +42,8 @@ class Property{
 
   bool visited;
 
+  String zone;
+
   Property ({String address, List photos, String description, String contactNumber, String documentID, GeoPoint location, String geohash, bool show = true, String neighborhood, String kindOfProperty, int numberOfBaths, int numberOfRooms, double size, int yearsOld, int numberOfParking,}) {
     if(photos==null)
       this._photos = List();
@@ -55,7 +55,6 @@ class Property{
     this._contactNumber = contactNumber;
     this._documentID = documentID;
     this._location = location;
-    this._isContacted = 'noContacted';
 
     this._kindOfProperty = kindOfProperty;
     this._numberOfBaths = numberOfBaths;
@@ -78,7 +77,6 @@ class Property{
   String get description => this._description;
   String get contactNumber => this._contactNumber;
   GeoPoint get location => this._location;
-  String get isContacted => this._isContacted;
   String get geohash => this._geohash;
   bool get show => this._show;
 
@@ -87,7 +85,7 @@ class Property{
   int get numberOfRooms => this._numberOfRooms;
   double get size => this._size;
   int get yearsOld => this._yearsOld;
-  int get nummberOfParking => this._numberOfParking;
+  int get numberOfParking => this._numberOfParking;
   bool get pets => this._pets;
   bool get remaked => this._remaked;
   int get stratum => this._stratum;
@@ -115,10 +113,6 @@ class Property{
   set location(GeoPoint value){
     this._location = value;
   }
-
-  set isContacted(String value){
-    this._isContacted = value;
-  } 
 
   set geohash(String value){
     this._geohash = value;
@@ -165,7 +159,12 @@ class Property{
   }
 
   get details {
-    return {'address': this._address, 'description': this._description, 'contactNumber': this._contactNumber};
+    return {
+      'address': this._address, 
+      'description': this._description, 
+      'contactNumber': this._contactNumber,
+      'zone' : zone
+    };
   }
 
   get modifications {

@@ -7,6 +7,7 @@ import 'package:lets_walk/src/services/modify_properties_service.dart';
 import 'package:lets_walk/src/ui/screens/select_user_screen.dart';
 import 'package:lets_walk/src/ui/screens/user-01/add_property_user_01_screen.dart';
 import 'package:lets_walk/src/ui/screens/user-02/user_02_main_screen.dart';
+import 'package:lets_walk/src/ui/screens/user-03/user_03_main_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -61,7 +62,7 @@ class HandleDisplayWindow extends StatefulWidget {
 }
 
 class _HandleDisplayWindowState extends State<HandleDisplayWindow> {
-  
+
   TypeOfUser typeOfUser;
 
   Future<int> checkUser() async {
@@ -82,7 +83,7 @@ class _HandleDisplayWindowState extends State<HandleDisplayWindow> {
       return User02MainScreen();
 
     if(typeOfUser.value == 3)
-      return User02MainScreen();
+      return User03MainScreen();
 
     return SelectUserScreen();
   }
