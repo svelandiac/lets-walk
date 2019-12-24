@@ -123,6 +123,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.5.20+2"
+  gzx_dropdown_menu:
+    dependency: "direct main"
+    description:
+      name: gzx_dropdown_menu
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.3"
   image:
     dependency: transitive
     description:

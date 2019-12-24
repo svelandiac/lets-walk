@@ -304,3 +304,48 @@ class _AddPropertyUser01ScreenState extends State<AddPropertyUser01Screen> {
     );
   }
 }
+
+
+/* 0CJSNasad77asSAH: {
+  "currentState": "ocupado",
+  "details": {
+    "address": "calle 160#64-04",
+    "contactNumber": "3005161121",
+    "description": "apartamento",
+  },
+  "isContacted" : "noContacted",
+  "modifications": {
+    "kinOfProperty": "apartamento1",
+    "numberOfBaths": 2,
+    "numberOfParking": 2,
+    "numberOfRooms": 3,
+    "pets": true,
+    "remaked": false,
+    "size": 70,
+    "stratum": 4
+    "yearsOld": 20
+  },
+  "ownerInfo": {
+    "abiertoContratoMandato": true,
+    "amoblado": true,
+    "costoAdministracion": "12000"
+    "nombre": "Javier",
+    "numero": "21451512",
+    "precio": "1200000"
+  },
+  "pictures": {
+    "0": "https://firebasestorage.googleapis.com/v0/b/lets-walk-svelandiac.appspot.com/o/images%2Fsvelandiacasas%40gmail.com%2Fscaled_20190828_125554.jpg259?alt=media&token=08e8b4f0-6ea4-44ff-8a96-fd71afa378fb"
+  },
+  "position": {
+    "geohash": "d2uabsda",
+    "geopoint": [4.7484848° N, 74.2156145 W]
+  },
+  "propertyStatus": {
+    "acabados": 5,
+    "fallas": "Nada",
+    "iluminacion": 5,
+    "ruido": 5,
+    "ventilacion": 5
+  },
+  "visited": true
+} */

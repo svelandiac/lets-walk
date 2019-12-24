@@ -36,6 +36,7 @@ dependencies:
   firebase_storage: ^3.0.5
   bottom_navy_bar: ^3.0.0
   shared_preferences: ^0.5.4+5
+  gzx_dropdown_menu : ^1.0.1
 
 dev_dependencies:
   flutter_test:

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gzx_dropdown_menu/gzx_dropdown_menu.dart';
 import 'package:lets_walk/src/models/property.dart';
 import 'package:lets_walk/src/services/modify_properties_service.dart';
 import 'package:lets_walk/src/ui/common-widgets/rounded_outlined_button.dart';
@@ -14,6 +15,8 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
 
   ModifyPropertiesService modifyPropertiesService;
   Property property;
+
+  GZXDropdownMenuController _dropdownMenuController = GZXDropdownMenuController();
 
   //TextFields controllers
   TextEditingController _addressController = TextEditingController();
@@ -50,6 +53,14 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
   bool _petsController;
   bool _remakedController;
 
+
+  List<String> _kindOfPropertyTypes;
+  List<String> _oneToFiveTypes;
+  List<DropdownMenuItem<String>> _dropdownMenuItems;
+  List<DropdownMenuItem<String>> _oneToFiveMenuItems;
+  String _selectedKindOfProperty;
+  String _selectedOneToFive;
+
   final uploadingSnackBar = SnackBar(
     content: Text('Editando el inmueble...'),
     duration: Duration(days: 2),
@@ -59,6 +70,18 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
     content: Text('Inmueble editado satisfactoriamente'),
     backgroundColor: Colors.green,
   );
+
+  _onChangeKindOfPropertyMenu(String value) {
+    setState(() {
+      _selectedKindOfProperty = value;
+    });
+  }
+
+  _onChangeOneToFive(String value) {
+    setState(() {
+      _selectedOneToFive = value;
+    });
+  }
 
   bool _isButtonEnabled;
 
@@ -153,7 +176,7 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
             Padding(
               padding: const EdgeInsets.only(left: 18.0, right: 18.0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   Text(
                     'Tipo de propiedad:',
@@ -163,11 +186,33 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
                     ),
                   ),
                   SizedBox(width: 15.0,),
-                  Expanded(
-                    child: TextField(
-                      controller: _kindOfPropertyController,      
+                  DropdownButton(
+                    value: _selectedKindOfProperty,
+                    items: _dropdownMenuItems,
+                    onChanged: _onChangeKindOfPropertyMenu,
+                  )
+                ],
+              ),
+            ),
+            SizedBox(height: 30,),
+            Padding(
+              padding: const EdgeInsets.only(left: 18.0, right: 18.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    'Número de habitaciones:',
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold
                     ),
                   ),
+                  SizedBox(width: 15.0,),
+                  DropdownButton(
+                    value: _selectedOneToFive,
+                    items: _oneToFiveMenuItems,
+                    onChanged: _onChangeOneToFive,
+                  )
                 ],
               ),
             ),
@@ -177,7 +222,7 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    'Número de habitaciones:',
+                    'Comentarios:',
                     style: TextStyle(
                       fontSize: 16.0,
                       fontWeight: FontWeight.bold
@@ -192,10 +237,11 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
                 ],
               ),
             ),
+            SizedBox(height: 30,),
             Padding(
               padding: const EdgeInsets.only(left: 18.0, right: 18.0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   Text(
                     'Número de baños:',
@@ -205,14 +251,36 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
                     ),
                   ),
                   SizedBox(width: 15.0,),
+                  DropdownButton(
+                    value: _selectedOneToFive,
+                    items: _oneToFiveMenuItems,
+                    onChanged: _onChangeOneToFive,
+                  )
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 18.0, right: 18.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    'Comentarios:',
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold
+                    ),
+                  ),
+                  SizedBox(width: 15.0,),
                   Expanded(
                     child: TextField(
-                      controller: _numberOfBathsController,      
+                      controller: _numberOfRoomsController,      
                     ),
                   ),
                 ],
               ),
             ),
+            SizedBox(height: 30,),
             Padding(
               padding: const EdgeInsets.only(left: 18.0, right: 18.0),
               child: Row(
@@ -255,24 +323,25 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
                 ],
               ),
             ),
+            SizedBox(height: 30,),
             Padding(
               padding: const EdgeInsets.only(left: 18.0, right: 18.0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    'Cantidad de parqueaderos:',
+                    'Garajes:',
                     style: TextStyle(
                       fontSize: 16.0,
                       fontWeight: FontWeight.bold
                     ),
                   ),
                   SizedBox(width: 15.0,),
-                  Expanded(
-                    child: TextField(
-                      controller: _numberOfParkingController,      
-                    ),
-                  ),
+                  DropdownButton(
+                    value: _selectedOneToFive,
+                    items: _oneToFiveMenuItems,
+                    onChanged: _onChangeOneToFive,
+                  )
                 ],
               ),
             ),
@@ -282,7 +351,7 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    'Estrato:',
+                    'Comentarios:',
                     style: TextStyle(
                       fontSize: 16.0,
                       fontWeight: FontWeight.bold
@@ -291,9 +360,31 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
                   SizedBox(width: 15.0,),
                   Expanded(
                     child: TextField(
-                      controller: _stratumController,      
+                      controller: _numberOfRoomsController,      
                     ),
                   ),
+                ],
+              ),
+            ),
+            SizedBox(height: 30,),
+            Padding(
+              padding: const EdgeInsets.only(left: 18.0, right: 18.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    'Estrato:',
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold
+                    ),
+                  ),
+                  SizedBox(width: 15.0,),
+                  DropdownButton(
+                    value: _selectedOneToFive,
+                    items: _oneToFiveMenuItems,
+                    onChanged: _onChangeOneToFive,
+                  )
                 ],
               ),
             ),  
@@ -376,11 +467,10 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
                   SizedBox(
                     width: 30,
                   ),
-                  Container(
-                    width: 40,
-                    child: TextField(
-                      controller: _acabadosController,
-                    ),
+                  DropdownButton(
+                    value: _selectedOneToFive,
+                    items: _oneToFiveMenuItems,
+                    onChanged: _onChangeOneToFive,
                   )
                 ],
               ),
@@ -395,11 +485,10 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
                   SizedBox(
                     width: 30,
                   ),
-                  Container(
-                    width: 40,
-                    child: TextField(
-                      controller: _ruidoController,
-                    ),
+                  DropdownButton(
+                    value: _selectedOneToFive,
+                    items: _oneToFiveMenuItems,
+                    onChanged: _onChangeOneToFive,
                   )
                 ],
               ),
@@ -414,11 +503,10 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
                   SizedBox(
                     width: 30,
                   ),
-                  Container(
-                    width: 40,
-                    child: TextField(
-                      controller: _iluminacionController,
-                    ),
+                  DropdownButton(
+                    value: _selectedOneToFive,
+                    items: _oneToFiveMenuItems,
+                    onChanged: _onChangeOneToFive,
                   )
                 ],
               ),
@@ -433,11 +521,10 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
                   SizedBox(
                     width: 30,
                   ),
-                  Container(
-                    width: 40,
-                    child: TextField(
-                      controller: _ventilacionController,
-                    ),
+                  DropdownButton(
+                    value: _selectedOneToFive,
+                    items: _oneToFiveMenuItems,
+                    onChanged: _onChangeOneToFive,
                   )
                 ],
               ),
@@ -718,6 +805,7 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
     );
   }
 
+
   void _submit(){
 
     setState(() {
@@ -776,8 +864,39 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
   @override
   void initState() {
     super.initState();
-
     _isButtonEnabled = true;
+
+    _kindOfPropertyTypes = <String> [
+      'Apartamento',
+      'Casa',
+      'Loft'
+    ];
+
+    _oneToFiveTypes = <String> [
+      '1',
+      '2',
+      '3',
+      '4',
+      '5'
+    ];
+
+    _dropdownMenuItems = buildDropdownMenuItems(_kindOfPropertyTypes);
+    _oneToFiveMenuItems = buildDropdownMenuItems(_oneToFiveTypes);
+    _selectedKindOfProperty = _dropdownMenuItems[0].value;
+  }
+
+  List<DropdownMenuItem<String>> buildDropdownMenuItems(List strings) {
+    List<DropdownMenuItem<String>> items = List();
+    for(String string in strings) {
+      items.add(DropdownMenuItem(
+        value: string,
+        child: Text(
+          string
+        ),
+      ));
+    }
+
+    return items;
   }
 
   @override
