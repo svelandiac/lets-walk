@@ -37,6 +37,7 @@ class Property{
   bool arriendoAmoblado;
   String costoAdministracion;
   bool abiertoContratoMandato;
+  bool comparteComision;
 
   String currentState;
 

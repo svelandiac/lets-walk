@@ -502,7 +502,7 @@ class _ListPageState extends State<ListPage>
 
       var item = propertiesList.elementAt(index);
 
-      Widget isContacted() {
+      /* Widget isContacted() {
         Widget result;
 
         switch (item.currentState) {
@@ -557,7 +557,7 @@ class _ListPageState extends State<ListPage>
         }
 
         return result;
-      }
+      } */
 
       return Padding(
           padding: const EdgeInsets.all(8.0),
@@ -565,8 +565,8 @@ class _ListPageState extends State<ListPage>
             title: Row(
               children: <Widget>[
                 Text(item.address, style: TextStyle(fontSize: 20.0)),
-                Spacer(),
-                isContacted()
+                /* Spacer(),
+                isContacted() */
               ],
             ),
             onExpansionChanged: (expanded) {
@@ -603,21 +603,21 @@ class _ListPageState extends State<ListPage>
                           fontWeight: FontWeight.bold, fontSize: 18.0),
                     ),
                     Flexible(
-                      child: (item.currentState == 'noContacted')
-                          ? Text(
-                              'No contactado',
-                              style: TextStyle(
-                                  fontSize: 16.0,
-                                  color: Colors.red,
-                                  fontWeight: FontWeight.bold),
-                            )
-                          : Text(
-                              'Contactado',
-                              style: TextStyle(
-                                  fontSize: 16.0,
-                                  color: Colors.green,
-                                  fontWeight: FontWeight.bold),
-                            ),
+                      child: (item.currentState == 'ocupado')
+                      ? Text(
+                          'Ocupado',
+                          style: TextStyle(
+                              fontSize: 16.0,
+                              color: Colors.red,
+                              fontWeight: FontWeight.bold),
+                        )
+                      : Text(
+                          'Disponible',
+                          style: TextStyle(
+                              fontSize: 16.0,
+                              color: Colors.green,
+                              fontWeight: FontWeight.bold),
+                        ),
                     )
                   ],
                 ),
@@ -669,7 +669,7 @@ class _ListPageState extends State<ListPage>
                       },
                     ),
                     RoundedOutlinedButton(
-                      text: 'Editar detalles',
+                      text: 'Ver detalles',
                       width: 140,
                       onPressed: () {
                         Navigator.pushNamed(context, '/EditPropertyScreen');

@@ -40,6 +40,7 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
   
   bool _arriendoAmoblado;
   bool _abiertoContratoMandato;
+  bool comparteComision = false;
   
   String _available;
 
@@ -56,15 +57,18 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
   List<String> _tipoDeApartamentoTypes;
   List<String> _tipoDePisoTypes;
   List<String> _puntoDeContactoTypes;
+  List<String> _estadoActualTypes;
   List<DropdownMenuItem<String>> _dropdownMenuItems;
   List<DropdownMenuItem<String>> _oneToFiveMenuItems;
   List<DropdownMenuItem<String>> _tipoDeApartamentoMenuItems;
   List<DropdownMenuItem<String>> _tipoDePisoMenuItems;
   List<DropdownMenuItem<String>> _puntoDeContactoMenuItems;
+  List<DropdownMenuItem<String>> _estadoActualMenuItems;
   String _selectedKindOfProperty;
   String _tipoDeApartamento;
   String _tipoDePiso;
   String _puntoDeContacto;
+  String _estadoActual;
 
   String oneToFiveHabitacionesValue;
   String oneToFiveBanosValue;
@@ -79,6 +83,19 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
   TextEditingController _comentarioBanosController = TextEditingController();
   TextEditingController _comentarioGarajesController = TextEditingController();
 
+  TextEditingController _comentarioSeguridadController = TextEditingController();
+  TextEditingController _comentarioPiscinaController = TextEditingController();
+  TextEditingController _comentarioGimnasioController = TextEditingController();
+  TextEditingController _comentarioZonaBBQController = TextEditingController();
+  TextEditingController _comentarioSalaCineController = TextEditingController();
+  TextEditingController _comentarioSalaJuntasController = TextEditingController();
+  TextEditingController _comentarioParqueInfantilController = TextEditingController();
+  TextEditingController _comentarioParqueaderoVisitantesController = TextEditingController();
+  TextEditingController _comentarioPlantaElectricaController = TextEditingController();
+  TextEditingController _comentarioParquesCercanosController = TextEditingController();
+  TextEditingController _comentarioViasAccesoController = TextEditingController();
+  TextEditingController _comentarioTransportePublicoController = TextEditingController();
+
   bool chimenea = false;
   bool balcon = false;
   bool terraza = false;
@@ -87,6 +104,20 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
   bool deposito = false;
   bool silencioso = false;
   bool iluminado = false;
+
+  bool seguridad = false;
+  bool piscina = false;
+  bool gimnasio = false;
+  bool zonaBBQ = false;
+  bool salaCine = false;
+  bool salaJuntas = false;
+  bool parqueInfantil = false;
+  bool parqueaderoVisitantes = false;
+  bool plantaElectrica = false;
+
+  bool parquesCercanos = false;
+  bool viasAcceso = false;
+  bool transportePublico = false;
 
   final uploadingSnackBar = SnackBar(
     content: Text('Editando el inmueble...'),
@@ -167,6 +198,12 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
   puntoDeContactoChanged(String value) {
     setState(() {
       _puntoDeContacto = value;
+    });
+  }
+
+  estadoActualChanged(String value) {
+    setState(() {
+      _estadoActual = value;
     });
   }
 
@@ -810,10 +847,10 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
                   ),
                   SizedBox(width: 25,),
                   Switch(
-                    value: (this.chimenea),
+                    value: (this.seguridad),
                     onChanged: (newValue){
                       setState(() {
-                        chimenea = newValue;
+                        seguridad = newValue;
                       });
                     },
                     activeColor: Colors.green,
@@ -834,7 +871,7 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
                   SizedBox(width: 15.0,),
                   Expanded(
                     child: TextField(
-                      controller: _comentarioGarajesController,      
+                      controller: _comentarioSeguridadController,      
                     ),
                   ),
                 ],
@@ -852,10 +889,10 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
                   ),
                   SizedBox(width: 25,),
                   Switch(
-                    value: (this.chimenea),
+                    value: (this.piscina),
                     onChanged: (newValue){
                       setState(() {
-                        chimenea = newValue;
+                        piscina = newValue;
                       });
                     },
                     activeColor: Colors.green,
@@ -876,7 +913,7 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
                   SizedBox(width: 15.0,),
                   Expanded(
                     child: TextField(
-                      controller: _comentarioGarajesController,      
+                      controller: _comentarioPiscinaController,      
                     ),
                   ),
                 ],
@@ -894,10 +931,10 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
                   ),
                   SizedBox(width: 25,),
                   Switch(
-                    value: (this.chimenea),
+                    value: (this.gimnasio),
                     onChanged: (newValue){
                       setState(() {
-                        chimenea = newValue;
+                        gimnasio = newValue;
                       });
                     },
                     activeColor: Colors.green,
@@ -918,7 +955,7 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
                   SizedBox(width: 15.0,),
                   Expanded(
                     child: TextField(
-                      controller: _comentarioGarajesController,      
+                      controller: _comentarioGimnasioController,      
                     ),
                   ),
                 ],
@@ -936,10 +973,10 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
                   ),
                   SizedBox(width: 25,),
                   Switch(
-                    value: (this.chimenea),
+                    value: (this.zonaBBQ),
                     onChanged: (newValue){
                       setState(() {
-                        chimenea = newValue;
+                        zonaBBQ = newValue;
                       });
                     },
                     activeColor: Colors.green,
@@ -960,7 +997,7 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
                   SizedBox(width: 15.0,),
                   Expanded(
                     child: TextField(
-                      controller: _comentarioGarajesController,      
+                      controller: _comentarioZonaBBQController,      
                     ),
                   ),
                 ],
@@ -978,10 +1015,10 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
                   ),
                   SizedBox(width: 25,),
                   Switch(
-                    value: (this.chimenea),
+                    value: (this.salaCine),
                     onChanged: (newValue){
                       setState(() {
-                        chimenea = newValue;
+                        salaCine = newValue;
                       });
                     },
                     activeColor: Colors.green,
@@ -1002,7 +1039,7 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
                   SizedBox(width: 15.0,),
                   Expanded(
                     child: TextField(
-                      controller: _comentarioGarajesController,      
+                      controller: _comentarioSalaCineController,      
                     ),
                   ),
                 ],
@@ -1020,10 +1057,10 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
                   ),
                   SizedBox(width: 25,),
                   Switch(
-                    value: (this.chimenea),
+                    value: (this.salaJuntas),
                     onChanged: (newValue){
                       setState(() {
-                        chimenea = newValue;
+                        salaJuntas = newValue;
                       });
                     },
                     activeColor: Colors.green,
@@ -1044,7 +1081,7 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
                   SizedBox(width: 15.0,),
                   Expanded(
                     child: TextField(
-                      controller: _comentarioGarajesController,      
+                      controller: _comentarioSalaJuntasController,      
                     ),
                   ),
                 ],
@@ -1062,10 +1099,10 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
                   ),
                   SizedBox(width: 25,),
                   Switch(
-                    value: (this.chimenea),
+                    value: (this.parqueInfantil),
                     onChanged: (newValue){
                       setState(() {
-                        chimenea = newValue;
+                        parqueInfantil = newValue;
                       });
                     },
                     activeColor: Colors.green,
@@ -1086,7 +1123,7 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
                   SizedBox(width: 15.0,),
                   Expanded(
                     child: TextField(
-                      controller: _comentarioGarajesController,      
+                      controller: _comentarioParqueInfantilController,      
                     ),
                   ),
                 ],
@@ -1104,10 +1141,10 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
                   ),
                   SizedBox(width: 25,),
                   Switch(
-                    value: (this.chimenea),
+                    value: (this.parqueaderoVisitantes),
                     onChanged: (newValue){
                       setState(() {
-                        chimenea = newValue;
+                        parqueaderoVisitantes = newValue;
                       });
                     },
                     activeColor: Colors.green,
@@ -1128,7 +1165,7 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
                   SizedBox(width: 15.0,),
                   Expanded(
                     child: TextField(
-                      controller: _comentarioGarajesController,      
+                      controller: _comentarioParqueaderoVisitantesController,      
                     ),
                   ),
                 ],
@@ -1146,10 +1183,10 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
                   ),
                   SizedBox(width: 25,),
                   Switch(
-                    value: (this.chimenea),
+                    value: (this.plantaElectrica),
                     onChanged: (newValue){
                       setState(() {
-                        chimenea = newValue;
+                        plantaElectrica = newValue;
                       });
                     },
                     activeColor: Colors.green,
@@ -1170,7 +1207,7 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
                   SizedBox(width: 15.0,),
                   Expanded(
                     child: TextField(
-                      controller: _comentarioGarajesController,      
+                      controller: _comentarioPlantaElectricaController,      
                     ),
                   ),
                 ],
@@ -1201,10 +1238,10 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
                   ),
                   SizedBox(width: 25,),
                   Switch(
-                    value: (this.chimenea),
+                    value: (this.parquesCercanos),
                     onChanged: (newValue){
                       setState(() {
-                        chimenea = newValue;
+                        parquesCercanos = newValue;
                       });
                     },
                     activeColor: Colors.green,
@@ -1225,7 +1262,7 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
                   SizedBox(width: 15.0,),
                   Expanded(
                     child: TextField(
-                      controller: _comentarioGarajesController,      
+                      controller: _comentarioParquesCercanosController,      
                     ),
                   ),
                 ],
@@ -1243,10 +1280,10 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
                   ),
                   SizedBox(width: 25,),
                   Switch(
-                    value: (this.chimenea),
+                    value: (this.viasAcceso),
                     onChanged: (newValue){
                       setState(() {
-                        chimenea = newValue;
+                        viasAcceso = newValue;
                       });
                     },
                     activeColor: Colors.green,
@@ -1267,7 +1304,7 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
                   SizedBox(width: 15.0,),
                   Expanded(
                     child: TextField(
-                      controller: _comentarioGarajesController,      
+                      controller: _comentarioViasAccesoController,      
                     ),
                   ),
                 ],
@@ -1285,10 +1322,10 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
                   ),
                   SizedBox(width: 25,),
                   Switch(
-                    value: (this.chimenea),
+                    value: (this.transportePublico),
                     onChanged: (newValue){
                       setState(() {
-                        chimenea = newValue;
+                        transportePublico = newValue;
                       });
                     },
                     activeColor: Colors.green,
@@ -1309,7 +1346,7 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
                   SizedBox(width: 15.0,),
                   Expanded(
                     child: TextField(
-                      controller: _comentarioGarajesController,      
+                      controller: _comentarioTransportePublicoController,      
                     ),
                   ),
                 ],
@@ -1555,10 +1592,10 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
                   ),
                   Spacer(),
                   Switch(
-                    value: (this._abiertoContratoMandato),
+                    value: (this.comparteComision),
                     onChanged: (newValue){
                       setState(() {
-                        _abiertoContratoMandato = newValue;
+                        comparteComision = newValue;
                       });
                     },
                     activeColor: Colors.green,
@@ -1600,93 +1637,25 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
               alignment: Alignment.centerLeft,
               child: Padding(
                 padding: EdgeInsets.only(left: 18.0, right: 18.0, top: 40.0),
-                child: Text(
-                  'Estado actual:',
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.bold
-                  ),
+                child: Row(
+                  children: <Widget>[
+                    Text(
+                      'Estado actual:',
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.bold
+                      ),
+                    ),
+                    SizedBox(width: 50,),
+                    DropdownButton(
+                      value: _estadoActual,
+                      items: _estadoActualMenuItems,
+                      onChanged: estadoActualChanged,
+                    )
+                  ],
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 60.0, right: 0.0, top: 20.0),
-              child: Row(
-                children: <Widget>[
-                  Text(
-                    'Disponible:'
-                  ),
-                  Spacer(),
-                  Switch(
-                    value: (_available == 'disponible'),
-                    onChanged: (newValue){
-                      setState(() {
-                        if(newValue)
-                          _available = 'disponible';
-                      });
-                    },
-                    activeColor: Colors.green,
-                    inactiveThumbColor: Colors.red,
-                    inactiveTrackColor: Colors.red,
-                  ),
-                  SizedBox(
-                    width: 40,
-                  )
-                ],
-              ),
-            ),     
-            Padding(
-              padding: const EdgeInsets.only(left: 60.0, right: 0.0, top: 20.0),
-              child: Row(
-                children: <Widget>[
-                  Text(
-                    'Ocupado:'
-                  ),
-                  Spacer(),
-                  Switch(
-                    value: (_available == 'ocupado'),
-                    onChanged: (newValue){
-                      setState(() {
-                        if(newValue)
-                          _available = 'ocupado';
-                      });
-                    },
-                    activeColor: Colors.green,
-                    inactiveThumbColor: Colors.red,
-                    inactiveTrackColor: Colors.red,
-                  ),
-                  SizedBox(
-                    width: 40,
-                  )
-                ],
-              ),
-            ),     
-            Padding(
-              padding: const EdgeInsets.only(left: 60.0, right: 0.0, top: 20.0),
-              child: Row(
-                children: <Widget>[
-                  Text(
-                    'No sabemos:'
-                  ),
-                  Spacer(),
-                  Switch(
-                    value: (_available == 'noSabemos'),
-                    onChanged: (newValue){
-                      setState(() {
-                        if(newValue)
-                          _available = 'noSabemos';
-                      });
-                    },
-                    activeColor: Colors.green,
-                    inactiveThumbColor: Colors.red,
-                    inactiveTrackColor: Colors.red,
-                  ),
-                  SizedBox(
-                    width: 40,
-                  )
-                ],
-              ),
-            ), 
             Padding(
               padding: const EdgeInsets.only(left: 18.0, right: 0.0, top: 20.0),
               child: Row(
@@ -1815,6 +1784,12 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
       'Broker'
     ];
 
+    _estadoActualTypes = <String> [
+      'Disponible',
+      'Ocupado',
+      'No sabemos'
+    ];
+
     _oneToFiveTypes = <String> [
       '1',
       '2',
@@ -1828,6 +1803,7 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
     _tipoDeApartamentoMenuItems = buildDropdownMenuItems(_tipoDeApartamentoTypes);
     _tipoDePisoMenuItems = buildDropdownMenuItems(_tipoDePisoTypes);
     _puntoDeContactoMenuItems = buildDropdownMenuItems(_puntoDeContactoTypes);
+    _estadoActualMenuItems = buildDropdownMenuItems(_estadoActualTypes);
     _selectedKindOfProperty = _dropdownMenuItems[0].value;
   }
 

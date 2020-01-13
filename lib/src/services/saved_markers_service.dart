@@ -50,96 +50,98 @@ class SavedMarkersService {
 
   void _updateMarkers() {
     
-    var userQuery = _firestore.collection('locations').orderBy("details.address");
+    var userQuery = _firestore.collection('propiedades');
     
     userQuery.snapshots().listen((data){
       var documentList = data.documents;
       locations.clearProperties();
+      print(documentList.length);
       documentList.forEach((DocumentSnapshot document) {
 
-        if(document.data['position']!=null){
-          Property newProperty = Property();
+        Property newProperty = Property();
 
-          //Document ID
-          if(document.documentID!=null)
-            newProperty.documentID = document.documentID;
+        //Document ID
+        if(document.documentID!=null)
+          newProperty.documentID = document.documentID;
 
-          //document.details
-          if(document.data['details']['address']!=null)
-            newProperty.address = document.data['details']['address'];
-          if(document.data['details']['description']!=null)
-            newProperty.description = document.data['details']['description'];
-          if(document.data['details']['contactNumber']!=null)
-            newProperty.contactNumber = document.data['details']['contactNumber'];
-          if(document.data['details']['zone']!=null)
-            newProperty.zone = document.data['details']['zone'];
-          
-          //document.pictures
-          if(document.data['pictures']['0']!=null){
-            List<String> images = List();
-            Map<String, dynamic> picturesMap = Map<String, dynamic>.from(document.data['pictures']);
-            for(var imageURL in picturesMap.entries){
-              images.add(imageURL.value);
-            }
-            newProperty.photos = images;
-          }
+        print(document.data['informacionPropiedad']['direccion']);
 
-          //document.position
-          GeoPoint position = document.data['position']['geopoint'];
-          newProperty.location = position;
-
-          //document.geohash
-          newProperty.geohash = document.data['position']['geohash'];
-
-          //Show property
-          newProperty.show = true;
-
-          //document.currentState
-          if(document.data['currentState'] == null)
-            newProperty.currentState = 'disponible';
-          else 
-            newProperty.currentState = document.data['currentState'];
-
-          //document.modifications
-          if(document.data['modifications'] != null){
-            newProperty.kindOfProperty = document.data['modifications']['kindOfProperty'];
-            newProperty.numberOfBaths = document.data['modifications']['numberOfBaths'];
-            newProperty.numberOfParking = document.data['modifications']['numberOfParking'];
-            newProperty.numberOfRooms = document.data['modifications']['numberOfRooms'];
-            newProperty.pets = document.data['modifications']['pets'];
-            newProperty.remaked = document.data['modifications']['remaked'];
-            newProperty.size = document.data['modifications']['size'];
-            newProperty.stratum = document.data['modifications']['stratum'];
-            newProperty.yearsOld = document.data['modifications']['yearsOld'];
-          }
-
-          //document.ownerInfo
-          if(document.data['ownerInfo'] != null) {
-            newProperty.abiertoContratoMandato = document.data['ownerInfo']['abiertoContratoMandato'];
-            newProperty.arriendoAmoblado = document.data['ownerInfo']['amoblado'];
-            newProperty.costoAdministracion = document.data['ownerInfo']['costoAdministracion'];
-            newProperty.nombrePropietario = document.data['ownerInfo']['nombre'];
-            newProperty.numeroPropietario = document.data['ownerInfo']['numero'];
-            newProperty.precioArriendoEsperado = document.data['ownerInfo']['precio'];
-          }
-          
-
-          //document.status
-          if(document.data['propertyStatus'] != null) {
-            newProperty.acabados = document.data['propertyStatus']['acabados'];
-            newProperty.fallas = document.data['propertyStatus']['fallas'];
-            newProperty.iluminacion = document.data['propertyStatus']['iluminacion'];
-            newProperty.ruido = document.data['propertyStatus']['ruido'];
-            newProperty.ventilacion = document.data['propertyStatus']['ventilacion'];
-          }
-          
-
-          //document.visited
-          if(document.data['visited'] != null)
-            newProperty.visited = document.data['visited'];
-
-          locations.addNewProperty(newProperty);
+        //document.details
+        if(document.data['informacionPropiedad']['direccion']!=null)
+          newProperty.address = document.data['informacionPropiedad']['direccion'];
+        if(document.data['informacionPropiedad']['descripcion']!=null)
+          newProperty.description = document.data['informacionPropiedad']['descripcion'];
+        if(document.data['informacionDueno']['numero']!=null)
+          newProperty.contactNumber = document.data['informacionDueno']['numero'];
+        if(document.data['informacionPropiedad']['zona']!=null)
+          newProperty.zone = document.data['informacionPropiedad']['zona'];
+        
+        //document.pictures
+        if(document.data['fotos'][0]!=null){
+          newProperty.photos = document.data['fotos'];
         }
+
+        //document.position
+        GeoPoint position = document.data['posicion']['puntoGeografico'];
+        newProperty.location = position;
+
+        //document.geohash
+        newProperty.geohash = document.data['posicion']['geohash'];
+
+        //Show property
+        newProperty.show = true;
+
+        //document.currentState
+        if(document.data['estaDisponible'] == null)
+          newProperty.currentState = 'disponible';
+        else 
+          newProperty.currentState = document.data['estaDisponible'];
+
+        //document.modifications
+        if(document.data['informacionPropiedad'] != null){
+          newProperty.kindOfProperty = document.data['informacionPropiedad']['tipoPropiedad'];
+          newProperty.numberOfBaths = document.data['informacionPropiedad']['numeroDeBanos']['numero'];
+          newProperty.numberOfParking = document.data['informacionPropiedad']['numeroDeGarajes']['numero'];
+          newProperty.numberOfRooms = document.data['informacionPropiedad']['numeroDeHabitaciones']['numero'];
+          newProperty.pets = document.data['informacionPropiedad']['mascotas'];
+          newProperty.remaked = document.data['informacionPropiedad']['remodelado'];
+          newProperty.size = document.data['informacionPropiedad']['tamano'];
+          newProperty.stratum = document.data['informacionPropiedad']['estrato'];
+          newProperty.yearsOld = document.data['informacionPropiedad']['antiguedad'];
+          newProperty.costoAdministracion = document.data['informacionPropiedad']['costoAdministracion'];
+          newProperty.precioArriendoEsperado = document.data['informacionPropiedad']['precio'];
+        }
+
+        //document.ownerInfo
+        if(document.data['informacionDueno'] != null) {
+          newProperty.abiertoContratoMandato = document.data['informacionDueno']['abiertoContratoMandato'];
+          newProperty.arriendoAmoblado = document.data['informacionDueno']['amoblado'];
+          newProperty.comparteComision = document.data['informacionDueno']['comparteComision'];
+          newProperty.nombrePropietario = document.data['informacionDueno']['nombre'];
+          newProperty.numeroPropietario = document.data['informacionDueno']['numero'];
+          
+        }
+        
+
+        //document.status
+        if(document.data['estadoDeLaPropiedad'] != null) {
+          newProperty.acabados = document.data['estadoDeLaPropiedad']['acabados'];
+          newProperty.fallas = document.data['estadoDeLaPropiedad']['fallas'];
+          newProperty.iluminacion = document.data['estadoDeLaPropiedad']['iluminacion'];
+          newProperty.ruido = document.data['estadoDeLaPropiedad']['ruido'];
+          newProperty.ventilacion = document.data['estadoDeLaPropiedad']['ventilacion'];
+        }
+        
+
+        //document.visited
+        if(document.data['yaVisitado'] != null)
+          newProperty.visited = document.data['yaVisitado'];
+
+        if(document.data['yaVisitado'] != null)
+          newProperty.visited = document.data['yaVisitado'];
+
+        locations.addNewProperty(newProperty);
+        
       });
     });
   }
