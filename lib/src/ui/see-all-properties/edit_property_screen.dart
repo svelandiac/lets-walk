@@ -16,8 +16,6 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
   ModifyPropertiesService modifyPropertiesService;
   Property property;
 
-  GZXDropdownMenuController _dropdownMenuController = GZXDropdownMenuController();
-
   //TextFields controllers
   TextEditingController _addressController = TextEditingController();
   TextEditingController _contactNumberController = TextEditingController();
