@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gzx_dropdown_menu/gzx_dropdown_menu.dart';
 import 'package:lets_walk/src/models/property.dart';
 import 'package:lets_walk/src/services/modify_properties_service.dart';
 import 'package:lets_walk/src/ui/common-widgets/rounded_outlined_button.dart';
@@ -54,10 +53,40 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
 
   List<String> _kindOfPropertyTypes;
   List<String> _oneToFiveTypes;
+  List<String> _tipoDeApartamentoTypes;
+  List<String> _tipoDePisoTypes;
+  List<String> _puntoDeContactoTypes;
   List<DropdownMenuItem<String>> _dropdownMenuItems;
   List<DropdownMenuItem<String>> _oneToFiveMenuItems;
+  List<DropdownMenuItem<String>> _tipoDeApartamentoMenuItems;
+  List<DropdownMenuItem<String>> _tipoDePisoMenuItems;
+  List<DropdownMenuItem<String>> _puntoDeContactoMenuItems;
   String _selectedKindOfProperty;
-  String _selectedOneToFive;
+  String _tipoDeApartamento;
+  String _tipoDePiso;
+  String _puntoDeContacto;
+
+  String oneToFiveHabitacionesValue;
+  String oneToFiveBanosValue;
+  String oneToFiveGarajesValue;
+  String oneToFiveEstratoValue;
+  String oneToFiveAcabadosValue;
+  String oneToFiveRuidoValue;
+  String oneToFiveIluminacionValue;
+  String oneToFiveVentilacionValue;
+
+  TextEditingController _comentarioHabitacionesController = TextEditingController();
+  TextEditingController _comentarioBanosController = TextEditingController();
+  TextEditingController _comentarioGarajesController = TextEditingController();
+
+  bool chimenea = false;
+  bool balcon = false;
+  bool terraza = false;
+  bool cocinaIntegral = false;
+  bool cocinaAmericana = false;
+  bool deposito = false;
+  bool silencioso = false;
+  bool iluminado = false;
 
   final uploadingSnackBar = SnackBar(
     content: Text('Editando el inmueble...'),
@@ -75,9 +104,69 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
     });
   }
 
-  _onChangeOneToFive(String value) {
+  _onChangeTipoDeApartamentoMenu(String value) {
     setState(() {
-      _selectedOneToFive = value;
+      _tipoDeApartamento = value;
+    });
+  }
+
+  oneToFiveHabitaciones(String value) {
+    setState(() {
+      oneToFiveHabitacionesValue = value;
+    });
+  }
+
+  oneToFiveBanos(String value) {
+    setState(() {
+      oneToFiveBanosValue = value;
+    });
+  }
+  
+  oneToFiveGarajes(String value) {
+    setState(() {
+      oneToFiveGarajesValue = value;
+    });
+  }
+
+  oneToFiveEstrato(String value) {
+    setState(() {
+      oneToFiveEstratoValue = value;
+    });
+  }
+
+  oneToFiveAcabados(String value) {
+    setState(() {
+      oneToFiveAcabadosValue = value;
+    });
+  }
+
+  oneToFiveRuido(String value) {
+    setState(() {
+      oneToFiveRuidoValue = value;
+    });
+  }
+
+  oneToFiveIluminacion(String value) {
+    setState(() {
+      oneToFiveIluminacionValue = value;
+    });
+  }
+
+  oneToFiveVentilacion(String value) {
+    setState(() {
+      oneToFiveVentilacionValue = value;
+    });
+  }
+
+  tipoDePisoChanged(String value) {
+    setState(() {
+      _tipoDePiso = value;
+    });
+  }
+
+  puntoDeContactoChanged(String value) {
+    setState(() {
+      _puntoDeContacto = value;
     });
   }
 
@@ -192,6 +281,50 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
                 ],
               ),
             ),
+            (_selectedKindOfProperty == 'Apartamento') ?
+            Padding(
+              padding: const EdgeInsets.only(left: 18.0, right: 18.0, top: 15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    'Tipo de apartamento:',
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold
+                    ),
+                  ),
+                  SizedBox(width: 15.0,),
+                  DropdownButton(
+                    value: _tipoDeApartamento,
+                    items: _tipoDeApartamentoMenuItems,
+                    onChanged: _onChangeTipoDeApartamentoMenu,
+                  )
+                ],
+              ),
+            ): 
+            Container(),
+            Padding(
+              padding: const EdgeInsets.only(left: 18.0, right: 18.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    'Tipo de piso:',
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold
+                    ),
+                  ),
+                  SizedBox(width: 15.0,),
+                  DropdownButton(
+                    value: _tipoDePiso,
+                    items: _tipoDePisoMenuItems,
+                    onChanged: tipoDePisoChanged,
+                  )
+                ],
+              ),
+            ),
             SizedBox(height: 30,),
             Padding(
               padding: const EdgeInsets.only(left: 18.0, right: 18.0),
@@ -207,9 +340,9 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
                   ),
                   SizedBox(width: 15.0,),
                   DropdownButton(
-                    value: _selectedOneToFive,
+                    value: oneToFiveHabitacionesValue,
                     items: _oneToFiveMenuItems,
-                    onChanged: _onChangeOneToFive,
+                    onChanged: oneToFiveHabitaciones,
                   )
                 ],
               ),
@@ -229,7 +362,7 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
                   SizedBox(width: 15.0,),
                   Expanded(
                     child: TextField(
-                      controller: _numberOfRoomsController,      
+                      controller: _comentarioHabitacionesController,      
                     ),
                   ),
                 ],
@@ -250,9 +383,9 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
                   ),
                   SizedBox(width: 15.0,),
                   DropdownButton(
-                    value: _selectedOneToFive,
+                    value: oneToFiveBanosValue,
                     items: _oneToFiveMenuItems,
-                    onChanged: _onChangeOneToFive,
+                    onChanged: oneToFiveBanos,
                   )
                 ],
               ),
@@ -272,7 +405,7 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
                   SizedBox(width: 15.0,),
                   Expanded(
                     child: TextField(
-                      controller: _numberOfRoomsController,      
+                      controller: _comentarioBanosController,      
                     ),
                   ),
                 ],
@@ -336,9 +469,9 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
                   ),
                   SizedBox(width: 15.0,),
                   DropdownButton(
-                    value: _selectedOneToFive,
+                    value: oneToFiveGarajesValue,
                     items: _oneToFiveMenuItems,
-                    onChanged: _onChangeOneToFive,
+                    onChanged: oneToFiveGarajes,
                   )
                 ],
               ),
@@ -358,7 +491,7 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
                   SizedBox(width: 15.0,),
                   Expanded(
                     child: TextField(
-                      controller: _numberOfRoomsController,      
+                      controller: _comentarioGarajesController,      
                     ),
                   ),
                 ],
@@ -379,9 +512,9 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
                   ),
                   SizedBox(width: 15.0,),
                   DropdownButton(
-                    value: _selectedOneToFive,
+                    value: oneToFiveEstratoValue,
                     items: _oneToFiveMenuItems,
-                    onChanged: _onChangeOneToFive,
+                    onChanged: oneToFiveEstrato,
                   )
                 ],
               ),
@@ -406,7 +539,9 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
                         _petsController = newValue;
                       });
                     },
-                    activeColor: Colors.black,
+                    activeColor: Colors.green,
+                    inactiveThumbColor: Colors.red,
+                    inactiveTrackColor: Colors.red,
                   ),
                   SizedBox(
                     width: 40,
@@ -434,11 +569,749 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
                         _remakedController = newValue;
                       });
                     },
-                    activeColor: Colors.black,
+                    activeColor: Colors.green,
+                    inactiveThumbColor: Colors.red,
+                    inactiveTrackColor: Colors.red,
                   ),
                   SizedBox(
                     width: 40,
                   )
+                ],
+              ),
+            ),
+            Container(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: EdgeInsets.only(left: 18.0, right: 18.0, top: 40.0),
+                child: Text(
+                  'Añadidos',
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.bold
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 15,),
+            Padding(
+              padding: const EdgeInsets.only(left: 18.0, right: 18.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  SizedBox(width: 25,),
+                  Text(
+                    'Chimenea',
+                  ),
+                  SizedBox(width: 25,),
+                  Switch(
+                    value: (this.chimenea),
+                    onChanged: (newValue){
+                      setState(() {
+                        chimenea = newValue;
+                      });
+                    },
+                    activeColor: Colors.green,
+                    inactiveThumbColor: Colors.red,
+                    inactiveTrackColor: Colors.red,
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 18.0, right: 18.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  SizedBox(width: 25,),
+                  Text(
+                    'Balcón',
+                  ),
+                  SizedBox(width: 25,),
+                  Switch(
+                    value: (this.balcon),
+                    onChanged: (newValue){
+                      setState(() {
+                        balcon = newValue;
+                      });
+                    },
+                    activeColor: Colors.green,
+                    inactiveThumbColor: Colors.red,
+                    inactiveTrackColor: Colors.red,
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 18.0, right: 18.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  SizedBox(width: 25,),
+                  Text(
+                    'Terraza',
+                  ),
+                  SizedBox(width: 25,),
+                  Switch(
+                    value: (this.terraza),
+                    onChanged: (newValue){
+                      setState(() {
+                        terraza = newValue;
+                      });
+                    },
+                    activeColor: Colors.green,
+                    inactiveThumbColor: Colors.red,
+                    inactiveTrackColor: Colors.red,
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 18.0, right: 18.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  SizedBox(width: 25,),
+                  Text(
+                    'Cocina Integral',
+                  ),
+                  SizedBox(width: 25,),
+                  Switch(
+                    value: (this.cocinaIntegral),
+                    onChanged: (newValue){
+                      setState(() {
+                        cocinaIntegral = newValue;
+                      });
+                    },
+                    activeColor: Colors.green,
+                    inactiveThumbColor: Colors.red,
+                    inactiveTrackColor: Colors.red,
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 18.0, right: 18.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  SizedBox(width: 25,),
+                  Text(
+                    'Cocina Americana',
+                  ),
+                  SizedBox(width: 25,),
+                  Switch(
+                    value: (this.cocinaAmericana),
+                    onChanged: (newValue){
+                      setState(() {
+                        cocinaAmericana = newValue;
+                      });
+                    },
+                    activeColor: Colors.green,
+                    inactiveThumbColor: Colors.red,
+                    inactiveTrackColor: Colors.red,
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 18.0, right: 18.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  SizedBox(width: 25,),
+                  Text(
+                    'Depósito',
+                  ),
+                  SizedBox(width: 25,),
+                  Switch(
+                    value: (this.deposito),
+                    onChanged: (newValue){
+                      setState(() {
+                        deposito = newValue;
+                      });
+                    },
+                    activeColor: Colors.green,
+                    inactiveThumbColor: Colors.red,
+                    inactiveTrackColor: Colors.red,
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 18.0, right: 18.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  SizedBox(width: 25,),
+                  Text(
+                    'Silencioso',
+                  ),
+                  SizedBox(width: 25,),
+                  Switch(
+                    value: (this.silencioso),
+                    onChanged: (newValue){
+                      setState(() {
+                        silencioso = newValue;
+                      });
+                    },
+                    activeColor: Colors.green,
+                    inactiveThumbColor: Colors.red,
+                    inactiveTrackColor: Colors.red,
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 18.0, right: 18.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  SizedBox(width: 25,),
+                  Text(
+                    'Iluminado',
+                  ),
+                  SizedBox(width: 25,),
+                  Switch(
+                    value: (this.iluminado),
+                    onChanged: (newValue){
+                      setState(() {
+                        iluminado = newValue;
+                      });
+                    },
+                    activeColor: Colors.green,
+                    inactiveThumbColor: Colors.red,
+                    inactiveTrackColor: Colors.red,
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: EdgeInsets.only(left: 18.0, right: 18.0, top: 40.0),
+                child: Text(
+                  'Características de edificio y zona',
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.bold
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 15,),
+            Padding(
+              padding: const EdgeInsets.only(left: 18.0, right: 18.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  SizedBox(width: 25,),
+                  Text(
+                    'Seguridad Privada 24 horas',
+                  ),
+                  SizedBox(width: 25,),
+                  Switch(
+                    value: (this.chimenea),
+                    onChanged: (newValue){
+                      setState(() {
+                        chimenea = newValue;
+                      });
+                    },
+                    activeColor: Colors.green,
+                    inactiveThumbColor: Colors.red,
+                    inactiveTrackColor: Colors.red,
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 43.0, right: 43.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    'Comentarios:',
+                  ),
+                  SizedBox(width: 15.0,),
+                  Expanded(
+                    child: TextField(
+                      controller: _comentarioGarajesController,      
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 15,),
+            Padding(
+              padding: const EdgeInsets.only(left: 18.0, right: 18.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  SizedBox(width: 25,),
+                  Text(
+                    'Piscina',
+                  ),
+                  SizedBox(width: 25,),
+                  Switch(
+                    value: (this.chimenea),
+                    onChanged: (newValue){
+                      setState(() {
+                        chimenea = newValue;
+                      });
+                    },
+                    activeColor: Colors.green,
+                    inactiveThumbColor: Colors.red,
+                    inactiveTrackColor: Colors.red,
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 43.0, right: 43.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    'Comentarios:',
+                  ),
+                  SizedBox(width: 15.0,),
+                  Expanded(
+                    child: TextField(
+                      controller: _comentarioGarajesController,      
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 15,),
+            Padding(
+              padding: const EdgeInsets.only(left: 18.0, right: 18.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  SizedBox(width: 25,),
+                  Text(
+                    'Gimnasio',
+                  ),
+                  SizedBox(width: 25,),
+                  Switch(
+                    value: (this.chimenea),
+                    onChanged: (newValue){
+                      setState(() {
+                        chimenea = newValue;
+                      });
+                    },
+                    activeColor: Colors.green,
+                    inactiveThumbColor: Colors.red,
+                    inactiveTrackColor: Colors.red,
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 43.0, right: 43.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    'Comentarios:',
+                  ),
+                  SizedBox(width: 15.0,),
+                  Expanded(
+                    child: TextField(
+                      controller: _comentarioGarajesController,      
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 15,),
+            Padding(
+              padding: const EdgeInsets.only(left: 18.0, right: 18.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  SizedBox(width: 25,),
+                  Text(
+                    'Zona BBQ',
+                  ),
+                  SizedBox(width: 25,),
+                  Switch(
+                    value: (this.chimenea),
+                    onChanged: (newValue){
+                      setState(() {
+                        chimenea = newValue;
+                      });
+                    },
+                    activeColor: Colors.green,
+                    inactiveThumbColor: Colors.red,
+                    inactiveTrackColor: Colors.red,
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 43.0, right: 43.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    'Comentarios:',
+                  ),
+                  SizedBox(width: 15.0,),
+                  Expanded(
+                    child: TextField(
+                      controller: _comentarioGarajesController,      
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 15,),
+            Padding(
+              padding: const EdgeInsets.only(left: 18.0, right: 18.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  SizedBox(width: 25,),
+                  Text(
+                    'Sala de cine',
+                  ),
+                  SizedBox(width: 25,),
+                  Switch(
+                    value: (this.chimenea),
+                    onChanged: (newValue){
+                      setState(() {
+                        chimenea = newValue;
+                      });
+                    },
+                    activeColor: Colors.green,
+                    inactiveThumbColor: Colors.red,
+                    inactiveTrackColor: Colors.red,
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 43.0, right: 43.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    'Comentarios:',
+                  ),
+                  SizedBox(width: 15.0,),
+                  Expanded(
+                    child: TextField(
+                      controller: _comentarioGarajesController,      
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 15,),
+            Padding(
+              padding: const EdgeInsets.only(left: 18.0, right: 18.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  SizedBox(width: 25,),
+                  Text(
+                    'Sala de juntas',
+                  ),
+                  SizedBox(width: 25,),
+                  Switch(
+                    value: (this.chimenea),
+                    onChanged: (newValue){
+                      setState(() {
+                        chimenea = newValue;
+                      });
+                    },
+                    activeColor: Colors.green,
+                    inactiveThumbColor: Colors.red,
+                    inactiveTrackColor: Colors.red,
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 43.0, right: 43.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    'Comentarios:',
+                  ),
+                  SizedBox(width: 15.0,),
+                  Expanded(
+                    child: TextField(
+                      controller: _comentarioGarajesController,      
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 15,),
+            Padding(
+              padding: const EdgeInsets.only(left: 18.0, right: 18.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  SizedBox(width: 25,),
+                  Text(
+                    'Parque infantil',
+                  ),
+                  SizedBox(width: 25,),
+                  Switch(
+                    value: (this.chimenea),
+                    onChanged: (newValue){
+                      setState(() {
+                        chimenea = newValue;
+                      });
+                    },
+                    activeColor: Colors.green,
+                    inactiveThumbColor: Colors.red,
+                    inactiveTrackColor: Colors.red,
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 43.0, right: 43.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    'Comentarios:',
+                  ),
+                  SizedBox(width: 15.0,),
+                  Expanded(
+                    child: TextField(
+                      controller: _comentarioGarajesController,      
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 15,),
+            Padding(
+              padding: const EdgeInsets.only(left: 18.0, right: 18.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  SizedBox(width: 25,),
+                  Text(
+                    'Parqueadero visitantes',
+                  ),
+                  SizedBox(width: 25,),
+                  Switch(
+                    value: (this.chimenea),
+                    onChanged: (newValue){
+                      setState(() {
+                        chimenea = newValue;
+                      });
+                    },
+                    activeColor: Colors.green,
+                    inactiveThumbColor: Colors.red,
+                    inactiveTrackColor: Colors.red,
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 43.0, right: 43.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    'Comentarios:',
+                  ),
+                  SizedBox(width: 15.0,),
+                  Expanded(
+                    child: TextField(
+                      controller: _comentarioGarajesController,      
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 15,),
+            Padding(
+              padding: const EdgeInsets.only(left: 18.0, right: 18.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  SizedBox(width: 25,),
+                  Text(
+                    'Planta eléctrica',
+                  ),
+                  SizedBox(width: 25,),
+                  Switch(
+                    value: (this.chimenea),
+                    onChanged: (newValue){
+                      setState(() {
+                        chimenea = newValue;
+                      });
+                    },
+                    activeColor: Colors.green,
+                    inactiveThumbColor: Colors.red,
+                    inactiveTrackColor: Colors.red,
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 43.0, right: 43.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    'Comentarios:',
+                  ),
+                  SizedBox(width: 15.0,),
+                  Expanded(
+                    child: TextField(
+                      controller: _comentarioGarajesController,      
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: EdgeInsets.only(left: 18.0, right: 18.0, top: 40.0),
+                child: Text(
+                  'Características de edificio y zona',
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.bold
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 15,),
+            Padding(
+              padding: const EdgeInsets.only(left: 18.0, right: 18.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  SizedBox(width: 25,),
+                  Text(
+                    'Parques cercanos',
+                  ),
+                  SizedBox(width: 25,),
+                  Switch(
+                    value: (this.chimenea),
+                    onChanged: (newValue){
+                      setState(() {
+                        chimenea = newValue;
+                      });
+                    },
+                    activeColor: Colors.green,
+                    inactiveThumbColor: Colors.red,
+                    inactiveTrackColor: Colors.red,
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 43.0, right: 43.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    'Comentarios:',
+                  ),
+                  SizedBox(width: 15.0,),
+                  Expanded(
+                    child: TextField(
+                      controller: _comentarioGarajesController,      
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 15,),
+            Padding(
+              padding: const EdgeInsets.only(left: 18.0, right: 18.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  SizedBox(width: 25,),
+                  Text(
+                    'Vías de acceso cercanas',
+                  ),
+                  SizedBox(width: 25,),
+                  Switch(
+                    value: (this.chimenea),
+                    onChanged: (newValue){
+                      setState(() {
+                        chimenea = newValue;
+                      });
+                    },
+                    activeColor: Colors.green,
+                    inactiveThumbColor: Colors.red,
+                    inactiveTrackColor: Colors.red,
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 43.0, right: 43.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    'Comentarios:',
+                  ),
+                  SizedBox(width: 15.0,),
+                  Expanded(
+                    child: TextField(
+                      controller: _comentarioGarajesController,      
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 15,),
+            Padding(
+              padding: const EdgeInsets.only(left: 18.0, right: 18.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  SizedBox(width: 25,),
+                  Text(
+                    'Transporte público cercano',
+                  ),
+                  SizedBox(width: 25,),
+                  Switch(
+                    value: (this.chimenea),
+                    onChanged: (newValue){
+                      setState(() {
+                        chimenea = newValue;
+                      });
+                    },
+                    activeColor: Colors.green,
+                    inactiveThumbColor: Colors.red,
+                    inactiveTrackColor: Colors.red,
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 43.0, right: 43.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    'Comentarios:',
+                  ),
+                  SizedBox(width: 15.0,),
+                  Expanded(
+                    child: TextField(
+                      controller: _comentarioGarajesController,      
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -466,9 +1339,9 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
                     width: 30,
                   ),
                   DropdownButton(
-                    value: _selectedOneToFive,
+                    value: oneToFiveAcabadosValue,
                     items: _oneToFiveMenuItems,
-                    onChanged: _onChangeOneToFive,
+                    onChanged: oneToFiveAcabados,
                   )
                 ],
               ),
@@ -484,9 +1357,9 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
                     width: 30,
                   ),
                   DropdownButton(
-                    value: _selectedOneToFive,
+                    value: oneToFiveRuidoValue,
                     items: _oneToFiveMenuItems,
-                    onChanged: _onChangeOneToFive,
+                    onChanged: oneToFiveRuido,
                   )
                 ],
               ),
@@ -502,9 +1375,9 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
                     width: 30,
                   ),
                   DropdownButton(
-                    value: _selectedOneToFive,
+                    value: oneToFiveIluminacionValue,
                     items: _oneToFiveMenuItems,
-                    onChanged: _onChangeOneToFive,
+                    onChanged: oneToFiveIluminacion,
                   )
                 ],
               ),
@@ -520,9 +1393,9 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
                     width: 30,
                   ),
                   DropdownButton(
-                    value: _selectedOneToFive,
+                    value: oneToFiveVentilacionValue,
                     items: _oneToFiveMenuItems,
-                    onChanged: _onChangeOneToFive,
+                    onChanged: oneToFiveVentilacion,
                   )
                 ],
               ),
@@ -594,6 +1467,24 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
                 ],
               ),
             ),
+            SizedBox(height: 15,),
+            Padding(
+              padding: const EdgeInsets.only(left: 60.0, right: 18.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    'Punto de contacto:',
+                  ),
+                  SizedBox(width: 15.0,),
+                  DropdownButton(
+                    value: _puntoDeContacto,
+                    items: _puntoDeContactoMenuItems,
+                    onChanged: puntoDeContactoChanged,
+                  )
+                ],
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.only(left: 60.0, right: 40.0, top: 20.0),
               child: Row(
@@ -627,7 +1518,9 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
                         _arriendoAmoblado = newValue;
                       });
                     },
-                    activeColor: Colors.black,
+                    activeColor: Colors.green,
+                    inactiveThumbColor: Colors.red,
+                    inactiveTrackColor: Colors.red,
                   ),
                   SizedBox(
                     width: 40,
@@ -652,6 +1545,31 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
                   )
                 ],
               ),
+            ), 
+            Padding(
+              padding: const EdgeInsets.only(left: 60.0, right: 0.0, top: 20.0),
+              child: Row(
+                children: <Widget>[
+                  Text(
+                    'Comparte comisión:'
+                  ),
+                  Spacer(),
+                  Switch(
+                    value: (this._abiertoContratoMandato),
+                    onChanged: (newValue){
+                      setState(() {
+                        _abiertoContratoMandato = newValue;
+                      });
+                    },
+                    activeColor: Colors.green,
+                    inactiveThumbColor: Colors.red,
+                    inactiveTrackColor: Colors.red,
+                  ),
+                  SizedBox(
+                    width: 40,
+                  )
+                ],
+              ),
             ),   
             Padding(
               padding: const EdgeInsets.only(left: 60.0, right: 0.0, top: 20.0),
@@ -668,7 +1586,9 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
                         _abiertoContratoMandato = newValue;
                       });
                     },
-                    activeColor: Colors.black,
+                    activeColor: Colors.green,
+                    inactiveThumbColor: Colors.red,
+                    inactiveTrackColor: Colors.red,
                   ),
                   SizedBox(
                     width: 40,
@@ -705,7 +1625,9 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
                           _available = 'disponible';
                       });
                     },
-                    activeColor: Colors.black,
+                    activeColor: Colors.green,
+                    inactiveThumbColor: Colors.red,
+                    inactiveTrackColor: Colors.red,
                   ),
                   SizedBox(
                     width: 40,
@@ -729,7 +1651,9 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
                           _available = 'ocupado';
                       });
                     },
-                    activeColor: Colors.black,
+                    activeColor: Colors.green,
+                    inactiveThumbColor: Colors.red,
+                    inactiveTrackColor: Colors.red,
                   ),
                   SizedBox(
                     width: 40,
@@ -753,7 +1677,9 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
                           _available = 'noSabemos';
                       });
                     },
-                    activeColor: Colors.black,
+                    activeColor: Colors.green,
+                    inactiveThumbColor: Colors.red,
+                    inactiveTrackColor: Colors.red,
                   ),
                   SizedBox(
                     width: 40,
@@ -780,7 +1706,9 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
                         _visited = newValue;
                       });
                     },
-                    activeColor: Colors.black,
+                    activeColor: Colors.green,
+                    inactiveThumbColor: Colors.red,
+                    inactiveTrackColor: Colors.red,
                   ),
                   SizedBox(
                     width: 40,
@@ -870,6 +1798,23 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
       'Loft'
     ];
 
+    _tipoDeApartamentoTypes = <String> [
+      'Interior',
+      'Exterior',
+    ];
+
+    _tipoDePisoTypes = <String> [
+      'Madera',
+      'Cerámica',
+      'Alfombra'
+    ];
+
+    _puntoDeContactoTypes = <String> [
+      'Inmobiliarias',
+      'Directo',
+      'Broker'
+    ];
+
     _oneToFiveTypes = <String> [
       '1',
       '2',
@@ -880,6 +1825,9 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
 
     _dropdownMenuItems = buildDropdownMenuItems(_kindOfPropertyTypes);
     _oneToFiveMenuItems = buildDropdownMenuItems(_oneToFiveTypes);
+    _tipoDeApartamentoMenuItems = buildDropdownMenuItems(_tipoDeApartamentoTypes);
+    _tipoDePisoMenuItems = buildDropdownMenuItems(_tipoDePisoTypes);
+    _puntoDeContactoMenuItems = buildDropdownMenuItems(_puntoDeContactoTypes);
     _selectedKindOfProperty = _dropdownMenuItems[0].value;
   }
 
@@ -902,7 +1850,7 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
 
     if(modifyPropertiesService==null){
 
-      
+
       _petsController = false;
       _remakedController = false;
       _arriendoAmoblado = false;
