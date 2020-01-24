@@ -18,7 +18,6 @@ class _AddPropertyUser01ScreenState extends State<AddPropertyUser01Screen> {
   TextEditingController _descriptionController = TextEditingController();
   TextEditingController _zoneController = TextEditingController();
 
-
   PropertyToDatabaseService propertyToDatabaseService;
 
   bool _isButtonEnabled;
@@ -28,6 +27,10 @@ class _AddPropertyUser01ScreenState extends State<AddPropertyUser01Screen> {
   var _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   Property newProperty = Property();
+
+  List<String> _zonasTypes;
+  List<DropdownMenuItem<String>> _zonasMenuItems;
+  String _zonaSeleccionada;
 
   Future<void> changeUser(int value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

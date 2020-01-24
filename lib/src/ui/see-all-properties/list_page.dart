@@ -104,7 +104,6 @@ class _ListPageState extends State<ListPage>
                             if(_distanceNearbyPropertiesController.text.length > 0){
                               _distance = int.parse(_distanceNearbyPropertiesController.text);
                             }
-                            print('Looking for properties $_distance meters nearby');
                             filterByNearbyProperties(_propertyToCompare);
                             Navigator.of(context).pop();
                           } catch (e) {
@@ -347,8 +346,8 @@ class _ListPageState extends State<ListPage>
       }
 
       if (choice == state) {
-        propertiesToShow.sort((a, b) {
-        });
+        /* propertiesToShow.sort((a, b) {
+        }); */
       }
     });
   }
@@ -425,8 +424,6 @@ class _ListPageState extends State<ListPage>
 
         if(distance > maximum)
           maximum = distance;
-
-        print(distance.toString() + ' / ' + (_distance/1000).toString());
 
         if(distance < (_distance/1000)) {
           _property.show = true;

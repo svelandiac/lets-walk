@@ -2,7 +2,7 @@ class Property{
 
   String documentID;
 
-  bool show;
+  bool show = true;
 
   bool gimnasioTiene;
   String gimnasioComentario;
