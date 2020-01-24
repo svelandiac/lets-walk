@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lets_walk/src/models/property.dart';
-import 'package:lets_walk/src/services/saved_markers_service.dart';
+import 'package:lets_walk/src/services/property_to_database_service.dart';
 import 'package:lets_walk/src/ui/common-widgets/rounded_outlined_button.dart';
 
 class AddPropertyUser02Screen extends StatefulWidget {
@@ -13,9 +13,9 @@ class _AddPropertyUser02ScreenState extends State<AddPropertyUser02Screen> {
   TextEditingController _addressController = TextEditingController();
   TextEditingController _contactNumberController = TextEditingController();
   TextEditingController _descriptionController = TextEditingController();
-  TextEditingController _neighborhoodController = TextEditingController();
+  TextEditingController _zoneController = TextEditingController();
 
-  SavedMarkersService markersService;
+  PropertyToDatabaseService propertyToDatabaseService;
 
   bool _isButtonEnabled;
 
@@ -47,24 +47,25 @@ class _AddPropertyUser02ScreenState extends State<AddPropertyUser02Screen> {
     var image = await ImagePicker.pickImage(source: source, imageQuality: 35);
 
     setState(() {
-      if (image != null) newProperty.photos.add(image);
+      if (image != null) newProperty.fotos.add(image);
     });
     Navigator.of(context).pop();
   }
 
   void _submit() {
-    if (newProperty.photos.isNotEmpty) {
+    if (newProperty.fotos.isNotEmpty) {
       _scaffoldKey.currentState.showSnackBar(uploadingSnackBar);
 
       setState(() {
         this._isButtonEnabled = false;
       });
 
-      newProperty.address = _addressController.text;
-      newProperty.contactNumber = _contactNumberController.text;
-      newProperty.description = _descriptionController.text;
+      newProperty.direccion = _addressController.text;
+      newProperty.numero = _contactNumberController.text;
+      newProperty.descripcion = _descriptionController.text;
+      newProperty.zona = _zoneController.text;
 
-      markersService.addGeoPoint(newProperty).then((onValue) {
+      propertyToDatabaseService.addNewProperty(newProperty).then((onValue) {
         setState(() {
           this._isButtonEnabled = true;
           _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -91,7 +92,7 @@ class _AddPropertyUser02ScreenState extends State<AddPropertyUser02Screen> {
 
   @override
   Widget build(BuildContext context) {
-    markersService = SavedMarkersService(context);
+    propertyToDatabaseService = PropertyToDatabaseService(context);
 
     void _showCameraOptions() {
       showDialog(
@@ -183,6 +184,16 @@ class _AddPropertyUser02ScreenState extends State<AddPropertyUser02Screen> {
                   ),
                 ),
                 Padding(
+                  padding:
+                      const EdgeInsets.only(right: 25.0, left: 25.0, top: 10.0),
+                  child: TextField(
+                    controller: _zoneController,
+                    decoration: InputDecoration(
+                        hintText: 'Chapinero, Bosa, etc.',
+                        labelText: 'Zona'),
+                  ),
+                ),
+                Padding(
                   padding: const EdgeInsets.only(top: 30.0),
                   child: RoundedOutlinedButton(
                     text: 'Agregar el inmueble',
@@ -214,7 +225,7 @@ class _AddPropertyUser02ScreenState extends State<AddPropertyUser02Screen> {
                       crossAxisSpacing: 20.0),
                   itemCount: 8,
                   itemBuilder: (context, index) {
-                    if (newProperty.photos.length < index + 1)
+                    if (newProperty.fotos.length < index + 1)
                       return GestureDetector(
                         child: _noPhoto(index),
                         onTap: () {
@@ -223,7 +234,7 @@ class _AddPropertyUser02ScreenState extends State<AddPropertyUser02Screen> {
                       );
                     else
                       return Container(
-                        child: Image.file(newProperty.photos.elementAt(index),
+                        child: Image.file(newProperty.fotos.elementAt(index),
                             fit: BoxFit.cover),
                         decoration: BoxDecoration(
                             border: Border.all(color: Colors.black)),

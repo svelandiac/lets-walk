@@ -1708,19 +1708,19 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
     });
     _scaffoldKey.currentState.showSnackBar(uploadingSnackBar);
 
-    property.address = _addressController.text;
-    property.contactNumber = _contactNumberController.text;
-    property.description = _descriptionController.text;
+    property.direccion = _addressController.text;
+    property.numero = _contactNumberController.text;
+    property.descripcion = _descriptionController.text;
 
-    property.kindOfProperty = _kindOfPropertyController.text;
-    property.numberOfBaths = int.parse(_numberOfBathsController.text);
-    property.numberOfRooms = int.parse(_numberOfRoomsController.text);
-    property.size = double.parse(_sizeController.text);
-    property.yearsOld = int.parse(_yearsOldController.text);
-    property.numberOfParking = int.parse(_numberOfParkingController.text);
-    property.pets = _petsController;
-    property.remaked = _remakedController;
-    property.stratum = int.parse(_stratumController.text);
+    property.tipoDePropiedad = _kindOfPropertyController.text;
+    property.numeroDeBanos = int.parse(_numberOfBathsController.text);
+    property.numeroDeHabitaciones = int.parse(_numberOfRoomsController.text);
+    property.tamano = int.parse(_sizeController.text);
+    property.antiguedad = int.parse(_yearsOldController.text);
+    property.numeroDeGarajes = int.parse(_numberOfParkingController.text);
+    property.mascotas = _petsController;
+    property.remodelado = _remakedController;
+    property.estrato = int.parse(_stratumController.text);
     
     property.acabados = int.parse(_acabadosController.text);
     property.ruido = int.parse(_ruidoController.text);
@@ -1728,15 +1728,15 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
     property.ventilacion = int.parse(_ventilacionController.text);
     property.fallas = _fallasController.text;
 
-    property.currentState = _available;
+    property.estaDisponible = _available;
     property.abiertoContratoMandato = _abiertoContratoMandato;
-    property.arriendoAmoblado = _arriendoAmoblado;
+    property.amoblado = _arriendoAmoblado;
     property.costoAdministracion = _costoAdministracionController.text;
-    property.nombrePropietario = _nombrePropietarioController.text;
-    property.numeroPropietario = _numeroController.text;
-    property.precioArriendoEsperado = _precioArriendoController.text;
+    property.nombre = _nombrePropietarioController.text;
+    property.numero = _numeroController.text;
+    property.precio = _precioArriendoController.text;
 
-    property.visited = _visited;
+    property.yaVisitado = _visited;
 
     modifyPropertiesService.property = property;
     modifyPropertiesService.editProperty().then((onValue){
@@ -1836,22 +1836,22 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
 
       modifyPropertiesService  = Provider.of<ModifyPropertiesService>(context);
       property = modifyPropertiesService.property;
-      _addressController.text = property.address; 
-      _contactNumberController.text = property.contactNumber;
-      _descriptionController.text = property.description;
+      _addressController.text = property.direccion; 
+      _contactNumberController.text = property.numero;
+      _descriptionController.text = property.descripcion;
 
-      _kindOfPropertyController.text = avoidNullValue(property.kindOfProperty);
-      _numberOfBathsController.text = avoidNullValue(property.numberOfBaths);
-      _numberOfRoomsController.text = avoidNullValue(property.numberOfRooms);
-      _sizeController.text = avoidNullValue(property.size);
-      _yearsOldController.text = avoidNullValue(property.yearsOld);
-      _numberOfParkingController.text = avoidNullValue(property.numberOfParking);
-      _stratumController.text = avoidNullValue(property.stratum);
+      _kindOfPropertyController.text = avoidNullValue(property.tipoDePropiedad);
+      _numberOfBathsController.text = avoidNullValue(property.numeroDeBanos);
+      _numberOfRoomsController.text = avoidNullValue(property.numeroDeHabitaciones);
+      _sizeController.text = avoidNullValue(property.tamano);
+      _yearsOldController.text = avoidNullValue(property.antiguedad);
+      _numberOfParkingController.text = avoidNullValue(property.numeroDeGarajes);
+      _stratumController.text = avoidNullValue(property.estrato);
 
-      if(property.pets != null)
-        _petsController = property.pets;
-      if(property.remaked != null)
-      _remakedController = property.remaked;
+      if(property.mascotas != null)
+        _petsController = property.mascotas;
+      if(property.remodelado != null)
+      _remakedController = property.remodelado;
 
       _acabadosController.text = avoidNullValue(property.acabados);
       _ruidoController.text = avoidNullValue(property.ruido);
@@ -1859,20 +1859,20 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
       _ventilacionController.text = avoidNullValue(property.ventilacion);
       _fallasController.text = avoidNullValue(property.fallas);
       
-      _nombrePropietarioController.text = avoidNullValue(property.nombrePropietario);
-      _numeroController.text = avoidNullValue(property.numeroPropietario);
-      _precioArriendoController.text = avoidNullValue(property.precioArriendoEsperado);
-      if(property.arriendoAmoblado != null)
-        _arriendoAmoblado = property.arriendoAmoblado;
+      _nombrePropietarioController.text = avoidNullValue(property.nombre);
+      _numeroController.text = avoidNullValue(property.numero);
+      _precioArriendoController.text = avoidNullValue(property.precio);
+      if(property.amoblado != null)
+        _arriendoAmoblado = property.amoblado;
       _costoAdministracionController.text = avoidNullValue(property.costoAdministracion);
 
       if(property.abiertoContratoMandato != null)
         _abiertoContratoMandato = property.abiertoContratoMandato;
 
-      _available = avoidNullValue(property.currentState);
+      _available = avoidNullValue(property.estaDisponible);
 
-      if(property.visited != null)
-        _visited = property.visited;
+      if(property.yaVisitado != null)
+        _visited = property.yaVisitado;
     }
   
    return Scaffold(

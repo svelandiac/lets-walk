@@ -19,12 +19,7 @@ class ModifyPropertiesService with ChangeNotifier {
     var propertyReference = _firestore.collection('locations').document(_propertyToModify.documentID);
 
     return propertyReference.setData({
-      'details': _propertyToModify.details,
-      'modifications' : _propertyToModify.modifications,
-      'propertyStatus' : _propertyToModify.propertyStatus,
-      'ownerInfo' : _propertyToModify.ownerInfo,
-      'currentState': _propertyToModify.currentState,
-      'visited': _propertyToModify.visited
+      
     }, merge: true);
   } 
 }

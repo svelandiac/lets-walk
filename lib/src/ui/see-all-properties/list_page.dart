@@ -330,19 +330,19 @@ class _ListPageState extends State<ListPage>
     setState(() {
       if (choice == address) {
         propertiesToShow.sort((a, b) {
-          return a.address
+          return a.direccion
               .toLowerCase()
               .trim()
-              .compareTo(b.address.toLowerCase().trim());
+              .compareTo(b.direccion.toLowerCase().trim());
         });
       }
 
       if (choice == description) {
         propertiesToShow.sort((a, b) {
-          return a.description
+          return a.descripcion
               .toLowerCase()
               .trim()
-              .compareTo(b.description.toLowerCase().trim());
+              .compareTo(b.descripcion.toLowerCase().trim());
         });
       }
 
@@ -418,8 +418,8 @@ class _ListPageState extends State<ListPage>
       propertiesToShow.forEach((Property _property) {
         _property.show = false;
 
-        var firstPoint = geo.point(latitude: _centerProperty.location.latitude, longitude: _centerProperty.location.longitude);
-        var secondPoint = geo.point(latitude: _property.location.latitude, longitude: _property.location.longitude);
+        var firstPoint = geo.point(latitude: _centerProperty.puntoGeografico.elementAt(0), longitude: _centerProperty.puntoGeografico.elementAt(1));
+        var secondPoint = geo.point(latitude: _property.puntoGeografico.elementAt(0), longitude: _property.puntoGeografico.elementAt(1));
 
         var distance = firstPoint.distance(lat: secondPoint.coords.latitude, lng: secondPoint.coords.longitude);
 
@@ -449,7 +449,7 @@ class _ListPageState extends State<ListPage>
         updateList();
         propertiesToShow.forEach((Property _property) {
           if (_property.show) {
-            if (_property.address
+            if (_property.direccion
                 .toLowerCase()
                 .trim()
                 .startsWith(searchText.toLowerCase().trim())) {
@@ -564,7 +564,7 @@ class _ListPageState extends State<ListPage>
           child: ExpansionTile(
             title: Row(
               children: <Widget>[
-                Text(item.address, style: TextStyle(fontSize: 20.0)),
+                Text(item.direccion, style: TextStyle(fontSize: 20.0)),
                 /* Spacer(),
                 isContacted() */
               ],
@@ -584,7 +584,7 @@ class _ListPageState extends State<ListPage>
                     ),
                     Flexible(
                       child: Text(
-                        item.contactNumber,
+                        item.numero,
                         style: TextStyle(fontSize: 16.0),
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -603,7 +603,7 @@ class _ListPageState extends State<ListPage>
                           fontWeight: FontWeight.bold, fontSize: 18.0),
                     ),
                     Flexible(
-                      child: (item.currentState == 'ocupado')
+                      child: (item.estaDisponible == 'ocupado')
                       ? Text(
                           'Ocupado',
                           style: TextStyle(
@@ -633,9 +633,9 @@ class _ListPageState extends State<ListPage>
                     ),
                     Flexible(
                       child: Text(
-                        (item.photos.length == 1)
-                            ? '${item.photos.length} imagen'
-                            : '${item.photos.length} imágenes',
+                        (item.fotos.length == 1)
+                            ? '${item.fotos.length} imagen'
+                            : '${item.fotos.length} imágenes',
                         style: TextStyle(fontSize: 16.0),
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -645,12 +645,12 @@ class _ListPageState extends State<ListPage>
               ),
               Container(
                 height: 300.0,
-                child: (item.photos.isNotEmpty)
+                child: (item.fotos.isNotEmpty)
                     ? Padding(
                         padding: EdgeInsets.all(8.0),
                         child: FadeInImage.assetNetwork(
                           placeholder: 'assets/Silver-Balls-Swinging.gif',
-                          image: item.photos.first,
+                          image: item.fotos.first,
                         ),
                       )
                     : Container(),
@@ -664,7 +664,7 @@ class _ListPageState extends State<ListPage>
                       text: 'Ver en mapa',
                       width: 140,
                       onPressed: () {
-                        GeoPoint point = item.location;
+                        GeoPoint point = GeoPoint(item.puntoGeografico.elementAt(0), item.puntoGeografico.elementAt(1));
                         this.widget.animateToSpecificPoint(point);
                       },
                     ),

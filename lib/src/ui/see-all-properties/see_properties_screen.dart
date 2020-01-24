@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:lets_walk/src/models/locations.dart';
-import 'package:lets_walk/src/services/saved_markers_service.dart';
+import 'package:lets_walk/src/services/property_to_database_service.dart';
 import 'package:lets_walk/src/ui/callbacks/callback_container.dart';
 import 'package:lets_walk/src/ui/see-all-properties/list_page.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +20,7 @@ class _SeePropertiesScreenState extends State<SeePropertiesScreen> {
   static PageController _pageController;
   static CallbackContainer callbackContainer = CallbackContainer();
 
-  SavedMarkersService markersService;
+  PropertyToDatabaseService propertyToDatabaseService;
 
   static Map mapWidget = Map(callbackContainer: callbackContainer,);
   static ListPage listWidget;
@@ -62,11 +62,11 @@ class _SeePropertiesScreenState extends State<SeePropertiesScreen> {
   @override
   Widget build(BuildContext context) {
 
-    if(locations == null && markersService == null){
+    if(locations == null && propertyToDatabaseService == null){
       locations = Provider.of<Locations>(context);
       locations.changeToList = changeToList;
-      markersService = SavedMarkersService(context);
-      markersService.startQuery();
+      propertyToDatabaseService = PropertyToDatabaseService(context);
+      propertyToDatabaseService.startQuery();
     }
     
     return Scaffold(

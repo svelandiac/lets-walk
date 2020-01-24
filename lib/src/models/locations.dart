@@ -33,14 +33,14 @@ class Locations with ChangeNotifier {
       markerId: MarkerId(property.documentID),
       icon: BitmapDescriptor.defaultMarker,
       infoWindow: InfoWindow(
-        title: property.address,
-        snippet: 'Contacto: ${property.contactNumber}',
+        title: property.direccion,
+        snippet: 'Contacto: ${property.numero}',
         onTap: () {
           changeToList();
-          callbackContainer.callbackObject.callBackFunction(property.address);
+          callbackContainer.callbackObject.callBackFunction(property.direccion);
         }
       ),
-      position: LatLng(property.location.latitude, property.location.longitude),
+      position: LatLng(property.puntoGeografico.elementAt(0), property.puntoGeografico.elementAt(1)),
     );  
     this._markers.add(newMarker);
     notifyListeners();
