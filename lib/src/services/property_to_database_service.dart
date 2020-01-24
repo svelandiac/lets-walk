@@ -80,8 +80,6 @@ class PropertyToDatabaseService {
       var documentList = data.documents;
       locations.clearProperties();
 
-      print('There are ${documentList.length} properties in database');
-
       documentList.forEach((DocumentSnapshot document) {
 
         try {

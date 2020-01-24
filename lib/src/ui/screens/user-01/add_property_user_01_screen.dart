@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lets_walk/src/models/property.dart';
 import 'package:lets_walk/src/models/type_of_user.dart';
+import 'package:lets_walk/src/models/zonas.dart';
 import 'package:lets_walk/src/services/property_to_database_service.dart';
 import 'package:lets_walk/src/ui/common-widgets/rounded_outlined_button.dart';
 import 'package:provider/provider.dart';
@@ -16,7 +17,6 @@ class _AddPropertyUser01ScreenState extends State<AddPropertyUser01Screen> {
   TextEditingController _addressController = TextEditingController();
   TextEditingController _contactNumberController = TextEditingController();
   TextEditingController _descriptionController = TextEditingController();
-  TextEditingController _zoneController = TextEditingController();
 
   PropertyToDatabaseService propertyToDatabaseService;
 
@@ -31,6 +31,15 @@ class _AddPropertyUser01ScreenState extends State<AddPropertyUser01Screen> {
   List<String> _zonasTypes;
   List<DropdownMenuItem<String>> _zonasMenuItems;
   String _zonaSeleccionada;
+
+  Zonas zonas;
+
+  void getZones() async {
+
+    zonas.zonas = await propertyToDatabaseService.getZonas();
+
+    return;
+  }
 
   Future<void> changeUser(int value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -68,6 +77,12 @@ class _AddPropertyUser01ScreenState extends State<AddPropertyUser01Screen> {
     Navigator.of(context).pop();
   }
 
+  _onChangeZona(String value) {
+    setState(() {
+      _zonaSeleccionada = value;
+    });
+  }
+
   void _submit() {
 
     if (newProperty.fotos.isNotEmpty) {
@@ -81,7 +96,7 @@ class _AddPropertyUser01ScreenState extends State<AddPropertyUser01Screen> {
       newProperty.direccion = _addressController.text;
       newProperty.numero = _contactNumberController.text;
       newProperty.descripcion = _descriptionController.text;
-      newProperty.zona = _zoneController.text;
+      newProperty.zona = _zonaSeleccionada;
 
       propertyToDatabaseService.addNewProperty(newProperty).then((onValue) {
         setState(() {
@@ -108,11 +123,39 @@ class _AddPropertyUser01ScreenState extends State<AddPropertyUser01Screen> {
     this._isButtonEnabled = true;
   }
 
+  List<DropdownMenuItem<String>> buildDropdownMenuItems(List strings) {
+    List<DropdownMenuItem<String>> items = List();
+    for(String string in strings) {
+      items.add(DropdownMenuItem(
+        value: string,
+        child: Text(
+          string
+        ),
+      ));
+    }
+
+    return items;
+  }
+
   @override
   Widget build(BuildContext context) {
 
     propertyToDatabaseService = PropertyToDatabaseService(context);
     typeOfUser = Provider.of<TypeOfUser>(context);
+    zonas = Provider.of<Zonas>(context);
+
+    getZones();
+
+    if(zonas.zonas != null) {
+
+      _zonasTypes = zonas.zonas;
+
+      _zonasMenuItems = buildDropdownMenuItems(_zonasTypes);
+
+      if(_zonaSeleccionada == null)
+        _zonaSeleccionada = _zonasMenuItems[0].value;
+
+    } 
 
     void _showCameraOptions() {
       showDialog(
@@ -222,12 +265,21 @@ class _AddPropertyUser01ScreenState extends State<AddPropertyUser01Screen> {
                 ),
                 Padding(
                   padding:
-                      const EdgeInsets.only(right: 25.0, left: 25.0, top: 10.0),
-                  child: TextField(
-                    controller: _zoneController,
-                    decoration: InputDecoration(
-                        hintText: 'Chapinero, Bosa, etc.',
-                        labelText: 'Zona'),
+                      const EdgeInsets.only(right: 25.0, left: 25.0, top: 20.0),
+                  child: Row(
+                    children: <Widget>[
+                      Text(
+                        'Zona:'
+                      ),
+                      SizedBox(width: 40,),
+                      (zonas.zonas != null) ?
+                      DropdownButton(
+                        value: _zonaSeleccionada,
+                        items: _zonasMenuItems,
+                        onChanged: _onChangeZona,
+                      ) :
+                      Text('Cargando zonas...')
+                    ],
                   ),
                 ),
                 Padding(

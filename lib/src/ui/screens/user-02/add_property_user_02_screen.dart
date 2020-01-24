@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lets_walk/src/models/property.dart';
+import 'package:lets_walk/src/models/zonas.dart';
 import 'package:lets_walk/src/services/property_to_database_service.dart';
 import 'package:lets_walk/src/ui/common-widgets/rounded_outlined_button.dart';
+import 'package:provider/provider.dart';
 
 class AddPropertyUser02Screen extends StatefulWidget {
   @override
@@ -22,6 +24,25 @@ class _AddPropertyUser02ScreenState extends State<AddPropertyUser02Screen> {
   var _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   Property newProperty = Property();
+
+  List<String> _zonasTypes;
+  List<DropdownMenuItem<String>> _zonasMenuItems;
+  String _zonaSeleccionada;
+
+  Zonas zonas;
+
+  void getZones() async {
+
+    zonas.zonas = await propertyToDatabaseService.getZonas();
+
+    return;
+  }
+
+  _onChangeZona(String value) {
+    setState(() {
+      _zonaSeleccionada = value;
+    });
+  }
 
   final uploadingSnackBar = SnackBar(
     content: Text('Añadiendo el inmueble...'),
@@ -90,9 +111,37 @@ class _AddPropertyUser02ScreenState extends State<AddPropertyUser02Screen> {
     this._isButtonEnabled = true;
   }
 
+  List<DropdownMenuItem<String>> buildDropdownMenuItems(List strings) {
+    List<DropdownMenuItem<String>> items = List();
+    for(String string in strings) {
+      items.add(DropdownMenuItem(
+        value: string,
+        child: Text(
+          string
+        ),
+      ));
+    }
+
+    return items;
+  }
+
   @override
   Widget build(BuildContext context) {
     propertyToDatabaseService = PropertyToDatabaseService(context);
+    zonas = Provider.of<Zonas>(context);
+
+    getZones();
+
+    if(zonas.zonas != null) {
+
+      _zonasTypes = zonas.zonas;
+
+      _zonasMenuItems = buildDropdownMenuItems(_zonasTypes);
+
+      if(_zonaSeleccionada == null)
+        _zonaSeleccionada = _zonasMenuItems[0].value;
+
+    }
 
     void _showCameraOptions() {
       showDialog(
@@ -185,12 +234,21 @@ class _AddPropertyUser02ScreenState extends State<AddPropertyUser02Screen> {
                 ),
                 Padding(
                   padding:
-                      const EdgeInsets.only(right: 25.0, left: 25.0, top: 10.0),
-                  child: TextField(
-                    controller: _zoneController,
-                    decoration: InputDecoration(
-                        hintText: 'Chapinero, Bosa, etc.',
-                        labelText: 'Zona'),
+                      const EdgeInsets.only(right: 25.0, left: 25.0, top: 20.0),
+                  child: Row(
+                    children: <Widget>[
+                      Text(
+                        'Zona:'
+                      ),
+                      SizedBox(width: 40,),
+                      (zonas.zonas != null) ?
+                      DropdownButton(
+                        value: _zonaSeleccionada,
+                        items: _zonasMenuItems,
+                        onChanged: _onChangeZona,
+                      ) :
+                      Text('Cargando zonas...')
+                    ],
                   ),
                 ),
                 Padding(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lets_walk/settings/project_config.dart';
 import 'package:lets_walk/src/models/locations.dart';
 import 'package:lets_walk/src/models/type_of_user.dart';
+import 'package:lets_walk/src/models/zonas.dart';
 import 'package:lets_walk/src/services/firebase_auth_service.dart';
 import 'package:lets_walk/src/services/modify_properties_service.dart';
 import 'package:lets_walk/src/ui/screens/select_user_screen.dart';
@@ -30,6 +31,7 @@ class _LetsWalkAppState extends State<LetsWalkApp> {
         ChangeNotifierProvider(builder: (context)=>Locations(),),
         ChangeNotifierProvider(builder: (context)=>ModifyPropertiesService(),),
         ChangeNotifierProvider(builder: (context)=>TypeOfUser(),),
+        ChangeNotifierProvider(builder: (context)=>Zonas(),),
       ],
       child: MaterialApp(
         title: "Platz Admin",
