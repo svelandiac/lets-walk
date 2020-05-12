@@ -1748,14 +1748,6 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
     });
   }
 
-  String avoidNullValue(value) {
-
-    if(value == null)
-      return '';
-    else
-      return value.toString();
-  }
-
   @override
   void initState() {
     super.initState();
@@ -1826,53 +1818,81 @@ class _EditPropertyScreenState extends State<EditPropertyScreen> {
 
     if(modifyPropertiesService==null){
 
-
-      _petsController = false;
-      _remakedController = false;
-      _arriendoAmoblado = false;
-      _abiertoContratoMandato = false;
-      _available = 'disponible';
-      _visited = false;
-
       modifyPropertiesService  = Provider.of<ModifyPropertiesService>(context);
       property = modifyPropertiesService.property;
-      _addressController.text = property.direccion; 
-      _contactNumberController.text = property.numero;
-      _descriptionController.text = property.descripcion;
 
-      _kindOfPropertyController.text = avoidNullValue(property.tipoDePropiedad);
-      _numberOfBathsController.text = avoidNullValue(property.numeroDeBanos);
-      _numberOfRoomsController.text = avoidNullValue(property.numeroDeHabitaciones);
-      _sizeController.text = avoidNullValue(property.tamano);
-      _yearsOldController.text = avoidNullValue(property.antiguedad);
-      _numberOfParkingController.text = avoidNullValue(property.numeroDeGarajes);
-      _stratumController.text = avoidNullValue(property.estrato);
+      gimnasio = property.gimnasioTiene;
+      _comentarioGimnasioController.text = property.gimnasioComentario;
 
-      if(property.mascotas != null)
-        _petsController = property.mascotas;
-      if(property.remodelado != null)
-      _remakedController = property.remodelado;
+      parqueInfantil = property.parqueInfantilTiene;
+      _comentarioParqueInfantilController.text = property.parqueInfantilComentario;
 
-      _acabadosController.text = avoidNullValue(property.acabados);
-      _ruidoController.text = avoidNullValue(property.ruido);
-      _iluminacionController.text = avoidNullValue(property.iluminacion);
-      _ventilacionController.text = avoidNullValue(property.ventilacion);
-      _fallasController.text = avoidNullValue(property.fallas);
+      parqueaderoVisitantes = property.parqueaderoVisitantesTiene;
+      _comentarioParqueaderoVisitantesController.text = property.parqueaderoVisitantesComentario;
+
+      piscina = property.piscinaTiene;
+      _comentarioPiscinaController.text = property.piscinaComentario;
+
+      plantaElectrica = property.plantaElectricaTiene;
+      _comentarioPlantaElectricaController.text = property.plantaElectricaComentario;
+
+      salaCine = property.salaCineTiene;
+      _comentarioSalaCineController.text = property.salaCineComentario;
+
+      salaJuntas = property.salaJuntasTiene;
+      _comentarioSalaJuntasController.text = property.salaJuntasComentario;
+
+      seguridad = property.seguridadTiene;
+      _comentarioSeguridadController.text = property.seguridadComentario;
+
+      zonaBBQ = property.zonaBBQTiene;
+      _comentarioZonaBBQController.text = property.zonaBBQComentario;
+
+      parquesCercanos = property.parquesCercanosTiene;
+      _comentarioParquesCercanosController.text = property.parquesCercanosComentario;
+
+      transportePublico = property.transportePublicoTiene;
+      _comentarioTransportePublicoController.text = property.transportePublicoComentario;
+
+      viasAcceso = property.viasAccesoTiene;
+      _comentarioViasAccesoController.text = property.viasAccesoComentario;
+
+      _estadoActual = property.estaDisponible;
+
+      oneToFiveAcabadosValue = property.acabados.toString();
+      oneToFiveIluminacionValue = property.iluminacion.toString();
+      oneToFiveRuidoValue = property.ruido.toString();
+      oneToFiveVentilacionValue = property.ventilacion.toString();
+
+      _abiertoContratoMandato = property.abiertoContratoMandato;
+      _arriendoAmoblado = property.amoblado;
+      comparteComision = property.comparteComision;
+      _nombrePropietarioController.text = property.nombre;
+      _numeroController.text = property.numero;
       
-      _nombrePropietarioController.text = avoidNullValue(property.nombre);
-      _numeroController.text = avoidNullValue(property.numero);
-      _precioArriendoController.text = avoidNullValue(property.precio);
-      if(property.amoblado != null)
-        _arriendoAmoblado = property.amoblado;
-      _costoAdministracionController.text = avoidNullValue(property.costoAdministracion);
+      _yearsOldController.text = property.antiguedad.toString();
+      _costoAdministracionController.text = property.costoAdministracion;
+      _descriptionController.text = property.descripcion;
+      _addressController.text = property.direccion;
+      oneToFiveEstratoValue = property.estrato.toString();
+      _petsController = property.mascotas;
 
-      if(property.abiertoContratoMandato != null)
-        _abiertoContratoMandato = property.abiertoContratoMandato;
+      oneToFiveBanosValue = property.numeroDeBanos.toString();
+      _comentarioBanosController.text = property.numeroDeBanosComentario;
 
-      _available = avoidNullValue(property.estaDisponible);
+      oneToFiveGarajesValue = property.numeroDeGarajes.toString();
+      _comentarioGarajesController.text = property.numeroDeGarajesComentario;
 
-      if(property.yaVisitado != null)
-        _visited = property.yaVisitado;
+      oneToFiveHabitacionesValue = property.numeroDeHabitaciones.toString();
+      _comentarioHabitacionesController.text = property.numeroDeHabitacionesComentario;
+
+      _precioArriendoController.text = property.precio;
+      _puntoDeContacto = property.puntoDeContactoPropiedad;
+
+      _remakedController = property.remodelado;
+      
+
+      
     }
   
    return Scaffold(

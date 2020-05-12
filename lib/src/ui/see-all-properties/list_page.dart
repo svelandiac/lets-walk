@@ -668,9 +668,9 @@ class _ListPageState extends State<ListPage>
                     RoundedOutlinedButton(
                       text: 'Ver detalles',
                       width: 140,
-                      onPressed: () {
+                      onPressed: null /* () {
                         Navigator.pushNamed(context, '/EditPropertyScreen');
-                      },
+                      } */,
                     ),
                   ],
                 ),
@@ -679,9 +679,9 @@ class _ListPageState extends State<ListPage>
                 child: RoundedOutlinedButton(
                   text: 'Encontrar inmuebles cercanos',
                   width: 260,
-                  onPressed: () {
+                  onPressed: null/* () {
                     _showNearbyPropertiesOptions(item);
-                  },
+                  } */,
                 ),
               ),
               SizedBox(height: 10.0,)

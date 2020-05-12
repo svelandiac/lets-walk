@@ -15,7 +15,6 @@ class _AddPropertyUser02ScreenState extends State<AddPropertyUser02Screen> {
   TextEditingController _addressController = TextEditingController();
   TextEditingController _contactNumberController = TextEditingController();
   TextEditingController _descriptionController = TextEditingController();
-  TextEditingController _zoneController = TextEditingController();
 
   PropertyToDatabaseService propertyToDatabaseService;
 
@@ -84,7 +83,7 @@ class _AddPropertyUser02ScreenState extends State<AddPropertyUser02Screen> {
       newProperty.direccion = _addressController.text;
       newProperty.numero = _contactNumberController.text;
       newProperty.descripcion = _descriptionController.text;
-      newProperty.zona = _zoneController.text;
+      newProperty.zona = _zonaSeleccionada;
 
       propertyToDatabaseService.addNewProperty(newProperty).then((onValue) {
         setState(() {
